@@ -6,7 +6,12 @@ type PostListItemProps = {
     post: Post;
 }
 
-function FooterButton({ text, icon }) {
+type FooterButtonProps = {
+    text: string;
+    icon: React.ComponentProps<typeof FontAwesome>['name'];
+  };
+  
+function FooterButton({ text, icon }: FooterButtonProps) {
     return (
         <View style={{flexDirection: 'row'}}>
             <FontAwesome name={icon} size={16} color='gray'/>
