@@ -5,6 +5,30 @@
   "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png",
   "backImage": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg",
   "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley",
+  
+  "scores": {
+    "gpa": "3.8",
+    "weightedGPA": "4.3",
+    "satScore": "1400",
+    "apScores": [
+      {
+        "subject": "Physics C: Mechanics",
+        "score": "5",
+        "percentile": 85
+      },
+      {
+        "subject": "Calculus BC",
+        "score": "5",
+        "percentile": 90
+      }
+    ],
+    "percentiles": {
+      "gpa": 75,
+      "weightedGPA": 80,
+      "satScore": 92
+    }
+  },
+  
   "experience": [
     {
       "id": "e1",
@@ -23,7 +47,7 @@
       "id": "e3",
       "title": "Co-Founder & CEO",
       "companyName": "Fitenium",
-       "companyImage": "LinkedIn-Clone/assets/images/favicon.png"
+       "companyImage": "fbla2024App/assets/images/favicon.png"
 
     }
     

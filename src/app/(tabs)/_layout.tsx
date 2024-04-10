@@ -25,7 +25,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home Feed',
+          title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/search" asChild>
@@ -43,7 +43,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="network"
         options={{
           title: 'My Network',
@@ -58,15 +58,23 @@ export default function TabLayout() {
             <TabBarIcon name="plus-square" color={color} />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
-        name="notifications"
+        name="search"
         options={{
-          title: "Notifications",
-          tabBarIcon: ({ color }) => <TabBarIcon name="bell" color={color} />,
+          title: "Search",
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
         }}
       />
+
       <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+        }}
+      />
+      {/* <Tabs.Screen
         name="jobs"
         options={{
           title: "Jobs",
@@ -74,7 +82,9 @@ export default function TabLayout() {
             <TabBarIcon name="briefcase" color={color} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
+
+
 }

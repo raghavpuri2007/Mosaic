@@ -13,9 +13,22 @@ export type User = {
     image?: string;
     backImage?: string;
     about?: string;
+    scores: Score[];
     experience?: Experience[];
 }
 
+export type Score = {
+    gpa: number;
+    weightedGPA: number;
+    satScore: number;
+    apScores: ApScore[];
+}
+
+export type ApScore = {
+    subject: string;
+    score: string;
+    percentile: string;
+}
 export type Experience = {
     id: string;
     title: string;

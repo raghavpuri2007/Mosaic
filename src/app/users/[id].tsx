@@ -3,9 +3,89 @@ import { useLocalSearchParams, useNavigation } from "expo-router"
 import { Text, View, Image, StyleSheet, Pressable, ScrollView } from 'react-native';
 import userJson from '../../../assets/data/user.json';
 import { useLayoutEffect, useState } from "react";
-import { User } from "../../types";
-
+import { User, Score } from "../../types";
+import Speedometer, { Background, Arc, Needle, Progress, Indicator } from 'react-native-cool-speedometer';
 import ExperienceListItem from "../../components/ExperienceListItem";
+
+const ScoresSection = ({ scores }: { scores: any }) => {
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Scores</Text>
+      <View style={styles.scoresContainer}>
+  {/* GPA */}
+  <View style={styles.scoreRow}>
+    <Text style={styles.scoreText}>GPA: {scores.gpa}</Text>
+    <Speedometer
+      value={scores.percentiles.gpa}
+      max={100}
+      angle={180}
+      width={80}
+    >
+      <Background />
+      <Arc />
+      <Needle />
+      <Progress />
+      <Indicator fixValue={true} />
+    </Speedometer>
+  </View>
+
+  {/* Weighted GPA */}
+  <View style={styles.scoreRow}>
+    <Text style={styles.scoreText}>Weighted GPA: {scores.weightedGPA}</Text>
+    <Speedometer
+      value={scores.percentiles.weightedGPA}
+      max={100}
+      angle={180}
+      width={80}
+    >
+      <Background />
+      <Arc />
+      <Needle />
+      <Progress />
+      <Indicator fixValue={true}/>
+    </Speedometer>
+  </View>
+
+  {/* SAT Score */}
+  <View style={styles.scoreRow}>
+    <Text style={styles.scoreText}>SAT Score: {scores.satScore}</Text>
+    <Speedometer
+      value={scores.percentiles.satScore}
+      max={100}
+      angle={180}
+      width={80}
+    >
+      <Background />
+      <Arc />
+      <Needle />
+      <Progress />
+      <Indicator fixValue={true}/>
+    </Speedometer>
+  </View>
+
+  {/* AP Scores */}
+  {scores.apScores.map((apScore, index) => (
+    <View key={index} style={styles.scoreRow}>
+      <Text style={styles.scoreText}>{apScore.subject} AP: {apScore.score}</Text>
+      <Speedometer
+        value={apScore.percentile}
+        max={100}
+        angle={180}
+        width={80}
+      >
+        <Background />
+        <Arc />
+        <Needle />
+        <Progress />
+        <Indicator fixValue={true}/>
+      </Speedometer>
+    </View>
+  ))}
+</View>
+    </View>
+  );
+};
 
 export default function UserProfile() {
     const [user, setUser] = useState<User>(userJson);
@@ -55,6 +135,12 @@ export default function UserProfile() {
                 <Text style={styles.sectionTitle}>About</Text>
                 <Text style={styles.paragraph}>{user.about}</Text>
             </View>
+
+            {/* Scores */}
+            <View style={styles.section}>
+                <ScoresSection scores={user.scores} />
+            </View>
+
             {/* Experience */}
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Experience</Text>
@@ -124,4 +210,25 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
 
+    scoresContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: 10,
+      },
+      scoreItem: {
+        marginVertical: 10,
+      },
+
+      scoreRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+      },
+      scoreText: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        flex: 1, // Ensures the text takes up the space it needs
+      },
 });
