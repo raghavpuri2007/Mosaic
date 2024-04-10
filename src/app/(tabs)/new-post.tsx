@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { Pressable, StyleSheet, TextInput, Image } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation, useRouter } from 'expo-router';
 import { useLayoutEffect, useState } from 'react';
@@ -19,7 +19,9 @@ export default function NewPostScreen() {
 
     router.push('/(tabs)/')
     setContent('');
+    setImage(null);
   }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'New Post',
@@ -56,9 +58,21 @@ export default function NewPostScreen() {
       style={styles.input}
       multiline
       />
+      {image && <Image source={{uri: image}} style={styles.image} />}
 
       <View style={styles.footer}>
-        <FontAwesome name='image' size={24} color='gray' style={styles.iconButton} onPress={pickImage}/>
+        <Pressable style={styles.iconButton} onPress={pickImage}>
+          <FontAwesome name='image' size={24} color='black' />
+        </Pressable>
+
+        <Pressable style={styles.iconButton}>
+          <FontAwesome name='camera' size={24} color='black' />
+        </Pressable>
+
+        <Pressable style={styles.iconButton}>
+          <FontAwesome name='glass' size={24} color='black' />
+        </Pressable>
+
       </View>
     </View>
   );
@@ -93,11 +107,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+    marginTop: 'auto',
+  } ,
+
   footer: {
     marginTop: 'auto',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 
   iconButton: {
-    backgroundColor: 'gainsboro'
+    backgroundColor: 'gainsboro',
+    padding: 20,
+    borderRadius: 100,
   }
 });
