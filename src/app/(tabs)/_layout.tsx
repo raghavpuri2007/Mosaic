@@ -49,7 +49,7 @@ export default function TabLayout() {
           title: 'My Network',
           tabBarIcon: ({ color }) => <TabBarIcon name="group" color={color} />,
         }}
-      />
+      />*/}
       <Tabs.Screen
         name="new-post"
         options={{
@@ -58,14 +58,15 @@ export default function TabLayout() {
             <TabBarIcon name="plus-square" color={color} />
           ),
         }}
-      /> */}
+      /> 
       <Tabs.Screen
-        name="search"
+        name="messages"
         options={{
-          title: "Search",
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          title: "Messages",
+          tabBarIcon: ({ color }) => <TabBarIcon name="commenting" color={color} />,
         }}
       />
+
 
       <Tabs.Screen
         name="profile"
