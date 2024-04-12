@@ -5,7 +5,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, useNavigation } from "expo-router"; // Import useNavigation hook
 import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import Login from "../components/Login";
@@ -51,50 +51,42 @@ export default function RootLayout() {
 }
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation(); // Get the navigation object
+
   const [loggedIn, setLoggedIn] = useState(false);
-  const [creatingAccount, setCreatingAccount] = useState(false);
-  const handleLogin = () => {
-    // Your login logic here, e.g., check credentials
-    // If login successful, setLoggedIn to true
-    setLoggedIn(true);
-  };
-  const handleCreate = () => {
-    // Your login logic here, e.g., check credentials
-    // If login successful, setLoggedIn to true
-    setLoggedIn(true);
-  };
+  console.log(loggedIn);
   useEffect(() => {
     // Check if user is already signed in
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("hey");
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
       }
     });
 
+    // No dependency array [], so it runs on every render
+
     return () => {
       unsubscribe(); // Unsubscribe the listener when component unmounts
     };
   }, []);
-  if (!loggedIn) {
-    return (
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        {creatingAccount ? (
-          <CreateProfile
-            onCreate={handleCreate}
-            isCreatingAccount={setCreatingAccount}
-          />
-        ) : (
-          <Login onLogin={handleLogin} isCreatingAccount={setCreatingAccount} />
-        )}
-        {/* Render your custom login component */}
-      </ThemeProvider>
-    );
-  }
+
+  useEffect(() => {
+    if (loggedIn) {
+      // Navigate to a specific screen when user is logged in
+      navigation.navigate("(tabs)");
+    } else {
+      // Navigate to another screen when user is not logged in
+      navigation.navigate("(create)");
+    }
+  }, [loggedIn, navigation]);
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack initialRouteName={loggedIn ? "(tabs)" : "(create)"}>
+        <Stack.Screen name="(create)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />

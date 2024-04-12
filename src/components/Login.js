@@ -21,7 +21,7 @@ export default function Login({isCreatingAccount}) {
       })
       .catch((err) => {
         setLoading(false); // Set loading to false after failed sign-in
-        console.log(err.message);
+        console.log(err.message); 
       });
   };
 
