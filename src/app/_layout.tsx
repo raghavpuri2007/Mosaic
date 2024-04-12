@@ -30,9 +30,10 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
+    if (error) {
+      throw error; // Throw error if font loading fails
+    }
   }, [error]);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) {
-    return null;
+    return null; // Return null if fonts are not loaded yet
   }
 
   return <RootLayoutNav />;
@@ -69,6 +70,8 @@ function RootLayoutNav() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
     });
 
