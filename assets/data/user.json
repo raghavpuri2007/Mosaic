@@ -4,12 +4,12 @@
   "position": "Founder at notJust.dev",
   "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png",
   "backImage": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg",
+  "coverImage": "http://localhost:8000/Bart-Cover.png",
   "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley",
   
   "scores": {
-    "gpa": "3.8",
-    "weightedGPA": "4.3",
     "satScore": "1400",
+    "actScore": "35",
     "apScores": [
       {
         "subject": "Physics C: Mechanics",
@@ -25,31 +25,86 @@
     "percentiles": {
       "gpa": 75,
       "weightedGPA": 80,
-      "satScore": 92
+      "satScore": 92,
+      "actScore": 97
     }
   },
   
-  "experience": [
+  "grades": {
+    "gpa": 3.85,
+    "weightedGPA": 4.2,
+    "gpaPercentile": 81,
+    "weightedGPAPercentile": 89,
+    "transcript": [
+      {
+        "startYear": "2016",
+        "endYear": "2017",
+        "courses": [
+          {"course": "English I", "grade": "A-", "AP": false, "Period": 1},
+          {"course": "Algebra I", "grade": "B+", "AP": false, "Period": 2},
+          {"course": "Biology", "grade": "A", "AP": false, "Period": 3},
+          {"course": "World History", "grade": "A-", "AP": false, "Period": 4},
+          {"course": "Spanish I", "grade": "B", "AP": false, "Period": 5},
+          {"course": "Art I", "grade": "B+", "AP": false, "Period": 6},
+          {"course": "Physical Education", "grade": "A", "AP": false, "Period": 7}
+        ]
+      },
+      {
+        "startYear": "2017",
+        "endYear": "2018",
+        "courses": [
+          {"course": "English II", "grade": "B+", "AP": false, "Period": 1},
+          {"course": "Geometry", "grade": "A-", "AP": false, "Period": 2},
+          {"course": "Chemistry", "grade": "B+", "AP": false, "Period": 3},
+          {"course": "AP World History", "grade": "A-", "AP": true, "Period": 4},
+          {"course": "Spanish II", "grade": "B+", "AP": false, "Period": 5},
+          {"course": "Music Theory", "grade": "A", "AP": false, "Period": 6},
+          {"course": "Health Education", "grade": "A-", "AP": false, "Period": 7}
+        ]
+      },
+      {
+        "startYear": "2018",
+        "endYear": "2019",
+        "courses": [
+          {"course": "AP English Language and Composition", "grade": "A-", "AP": true, "Period": 1},
+          {"course": "Free Period", "grade": "N/A", "AP": false, "Period": 2},
+          {"course": "AP Calculus AB", "grade": "A", "AP": true, "Period": 3},
+          {"course": "AP US History", "grade": "B+", "AP": true, "Period": 4},
+          {"course": "Physics", "grade": "B", "AP": false, "Period": 5},
+          {"course": "Spanish III", "grade": "A-", "AP": false, "Period": 6},
+          {"course": "AP Biology", "grade": "B+", "AP": true, "Period": 7}
+        ]
+      },
+      {
+        "startYear": "2019",
+        "endYear": "2020",
+        "courses": [
+          {"course": "AP English Literature", "grade": "A", "AP": true, "Period": 1},
+          {"course": "AP Calculus BC", "grade": "A-", "AP": true, "Period": 2},
+          {"course": "AP Chemistry", "grade": "A-", "AP": true, "Period": 3},
+          {"course": "AP Government and Politics", "grade": "B+", "AP": true, "Period": 4},
+          {"course": "AP Physics C: Mechanics", "grade": "B", "AP": true, "Period": 5},
+          {"course": "Spanish IV", "grade": "B+", "AP": false, "Period": 6},
+          {"course": "AP Studio Art: Drawing", "grade": "A-", "AP": true, "Period": 7}
+        ]
+      }
+    ]
+  },
+  
+  "projects": [
     {
-      "id": "e1",
-      "title": "Founder",
-      "companyName": "notJust.dev",
-      "companyImage": "https://media.licdn.com/dms/image/C4E0BAQGmtxs_h3L1fg/company-logo_100_100/0/1646644437762?e=1697673600&v=beta&t=krLyDvQnoEVEBn1MlGrFEM8cpt5Y24XvXJV7RjXyGsc"
+        "id": "1",
+        "title": "YouTube",
+        "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
+        "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
+        "projectImage": "http://localhost:8000/yt-banner.png"
     },
     {
-      "id": "e2",
-      "title": "Co-Founder & CTO",
-      "companyName": "Fitenium",
-      "companyImage": "https://media.licdn.com/dms/image/C4D0BAQHg4ra02yFrcw/company-logo_200_200/0/1573813337379?e=1697673600&v=beta&t=3wUnjLtfkYpIMJg4ZP2qq7Vj0rvU7aUOVrkffLabTuQ"
-    },
-
-    {
-      "id": "e3",
-      "title": "Co-Founder & CEO",
-      "companyName": "Fitenium",
-       "companyImage": "fbla2024App/assets/images/favicon.png"
-
+        "id": "2",
+        "title": "Chat GPT",
+        "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
+        "skills": ["React Native", "Python", "Machine Learning", "API Development"],
+        "projectImage": "http://localhost:8000/chatgpt-banner.webp"
     }
-    
-  ]
+]
 }

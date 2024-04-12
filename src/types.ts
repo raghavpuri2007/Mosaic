@@ -12,15 +12,16 @@ export type User = {
     position: string;
     image?: string;
     backImage?: string;
+    coverImage?: string; 
     about?: string;
     scores: Score[];
-    experience?: Experience[];
+    grades: grades;
+    projects?: Project[];
 }
 
 export type Score = {
-    gpa: number;
-    weightedGPA: number;
     satScore: number;
+    actScore: number;
     apScores: ApScore[];
 }
 
@@ -29,9 +30,32 @@ export type ApScore = {
     score: string;
     percentile: string;
 }
-export type Experience = {
+
+export type Project = {
     id: string;
     title: string;
-    companyName: string;
-    companyImage?: string;
+    description: string;
+    skills: string[];
+    projectImage: string;
+}
+
+export type grades = {
+    gpa: number;
+    weightedGPA: number;
+    gpaPercentile: number;
+    weightedGPAPercentile: number;
+    transcript: transcript[];
+}
+
+export type transcript = {
+    startYear: string;
+    endYear: string;
+    courses: courseGrade[];
+}
+
+export type courseGrade = {
+    course: string;
+    grade: string;
+    AP: boolean;
+    Period: number;
 }
