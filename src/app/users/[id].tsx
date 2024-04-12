@@ -15,6 +15,7 @@ import ProjectListItem from "../../components/ProjectListItem";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Table, Row, Rows } from "react-native-table-component";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const ScoresSection = ({ scores }) => {
   return (
@@ -233,7 +234,7 @@ export default function UserProfile() {
   const snapPoints = useMemo(() => ["90%", "70%"], []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <Image source={{ uri: user.coverImage }} style={styles.fullScreenImage} />
       <BottomSheet
         ref={bottomSheetRef}
@@ -245,7 +246,7 @@ export default function UserProfile() {
       >
         {renderContent()}
       </BottomSheet>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
@@ -331,7 +332,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: "#333",
-    textIndent: -10,
     paddingLeft: 10,
   },
 
