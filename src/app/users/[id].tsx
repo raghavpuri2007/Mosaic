@@ -197,6 +197,7 @@ export default function UserProfile() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
+        height: '100%',
     },
     header: {
         marginBottom: 5,
