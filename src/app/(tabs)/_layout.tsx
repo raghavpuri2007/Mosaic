@@ -1,14 +1,14 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Link, Tabs } from "expo-router";
+import { Pressable, useColorScheme } from "react-native";
 
-import Colors from '../../constants/Colors';
+import Colors from "../../constants/Colors";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />;
@@ -20,12 +20,13 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#191919',
-      }}>
+        tabBarActiveTintColor: "#191919",
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/search" asChild>
@@ -49,7 +50,7 @@ export default function TabLayout() {
           title: 'My Network',
           tabBarIcon: ({ color }) => <TabBarIcon name="group" color={color} />,
         }}
-      />
+      />*/}
       <Tabs.Screen
         name="new-post"
         options={{
@@ -58,12 +59,14 @@ export default function TabLayout() {
             <TabBarIcon name="plus-square" color={color} />
           ),
         }}
-      /> */}
+      />
       <Tabs.Screen
-        name="search"
+        name="messages"
         options={{
-          title: "Search",
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          title: "Messages",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="commenting" color={color} />
+          ),
         }}
       />
 
@@ -85,6 +88,4 @@ export default function TabLayout() {
       /> */}
     </Tabs>
   );
-
-
 }
