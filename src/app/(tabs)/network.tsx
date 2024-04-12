@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '../../components/Themed';
 
-export default function ProfileScreen() {
+export default function NetworkScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile Screen</Text>
+      <Text style={styles.title}>Network</Text>
     </View>
   );
 }

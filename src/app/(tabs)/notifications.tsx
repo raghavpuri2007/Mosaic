@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '../../components/Themed';
 
-export default function MessagesScreen() {
+export default function NotificationsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Messages Screen</Text>
+      <Text style={styles.title}>Notifications Screen</Text>
     </View>
   );
 }
