@@ -94,9 +94,10 @@
       "name": "FBLA",
       "logo": "fbla_logo",
       "images": ["fbla1", "fbla2"],
-      "events": [
+      "roles": [
         {
-          "time": "2017 - 2019",
+          "startYear": "2017",
+          "endYear": "2019",
           "title": "Member",
           "description": "1st place at nationals for Mobile App Development in 2018."
         }
@@ -107,21 +108,24 @@
       "name": "Bart Club",
       "logo": "bart_club_logo",
       "images": ["bart_club1", "bart_club2", "bart_club3"],
-      "events": [
+      "roles": [
         {
-          "time": "2018 - 2019",
+          "startYear": "2018",
+          "endYear": "2019",
           "title": "President",
           "description": "The biggest of brothas."
         },
 
         {
-          "time": "2017 - 2018",
+          "startYear": "2017",
+          "endYear": "2018",
           "title": "Vice President",
           "description": "During my time as VP, I launched the Bart newsletter and associated social media campaign, which directly correlated with a 297% year-on-year increase in club membership."
         },
-        
+
         {
-          "time": "2016 - 2019",
+          "startYear": "2016",
+          "endYear": "2019",
           "title": "Member",
           "description": "Bart."
         }

@@ -66,17 +66,12 @@ export type Club = {
   name: string;
   logo: string;
   images: string[];
-  events: ClubEvent[];
-};
-
-export type ClubEvent = {
-  time: string; // e.g., '2015-2019'
-  title: string;
-  description: string;
-  roles?: ClubRole[];
+  roles: ClubRole[];
 };
 
 export type ClubRole = {
-  role: string;
+  startYear: number;
+  endYear: number;
+  title: string;
   description: string;
 };

@@ -1,12 +1,14 @@
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Project } from "../types";
+import { FontAwesome } from '@expo/vector-icons'; 
 
 type ProjectListItemProps = {
   project: Project;
+  image: any;
 };
 
-export default function ProjectListItem({ project }: ProjectListItemProps) {
+export default function ProjectListItem({ project, image }: ProjectListItemProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -17,16 +19,16 @@ export default function ProjectListItem({ project }: ProjectListItemProps) {
       >
         <Text style={styles.title}>{project.title}</Text>
         {/* Icon placeholder, replace with actual icon */}
-        <Text>{expanded ? "↑" : "↓"}</Text>
+        <FontAwesome name={expanded ? 'angle-up' : 'angle-down'} size={24} color="black" style={styles.icon} />
       </TouchableOpacity>
       {expanded && (
         <View style={styles.expandedSection}>
           <Text style={styles.description}>{project.description}</Text>
-          <Text style={styles.skills}>Skills: {project.skills.join(", ")}</Text>
-          <Image
-            source={{ uri: project.projectImage }}
-            style={styles.projectImage}
+          <Image 
+            source={image} 
+            style={styles.projectImage} 
           />
+
         </View>
       )}
     </View>

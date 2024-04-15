@@ -17,6 +17,7 @@ export {
 } from "expo-router";
 import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
@@ -48,7 +49,11 @@ export default function RootLayout() {
     return null; // Return null if fonts are not loaded yet
   }
 
-  return <RootLayoutNav />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <RootLayoutNav />
+    </GestureHandlerRootView>
+  );
 }
 function RootLayoutNav() {
   const colorScheme = useColorScheme();

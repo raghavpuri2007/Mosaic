@@ -17,6 +17,7 @@ import { Table, Row, Rows } from "react-native-table-component";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ClubListItem from "../../components/ClubListItem";
 
 const images = {
   bart_pfp: require("../../../assets/images/Bart-Profile.png"),
@@ -247,12 +248,19 @@ export default function UserProfile() {
       <View style={styles.section}>
         <ScoresSection scores={user.scores} />
       </View>
+      {/* Clubs */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Clubs</Text>
+        {user.clubs?.map((club) => (
+          <ClubListItem key={club.id} club={club} images={images} />
+        ))}
+      </View>
 
       {/* Projects */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Projects</Text>
         {user.projects?.map((project) => (
-          <ProjectListItem key={project.id} project={project} />
+          <ProjectListItem key={project.id} project={project} image={images[project.projectImage]}/>
         ))}
       </View>
     </ScrollView>
@@ -316,7 +324,7 @@ const styles = StyleSheet.create({
   },
   buttonLarge: {
     backgroundColor: "black",
-    width: '70%',
+    width: '84.2%',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
