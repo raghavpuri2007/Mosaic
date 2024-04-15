@@ -1,15 +1,14 @@
 {
   "id": "u2",
-  "name": "Vadim Savin",
-  "position": "Founder at notJust.dev",
-  "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png",
-  "backImage": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg",
-  "coverImage": "http://localhost:8000/Bart-Cover.png",
-  "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley",
-  
+  "name": "Bart Simpson",
+  "position": "The biggest of brothas",
+  "image": "bart_pfp",
+  "backImage": "bart_banner",
+  "coverImage": "bart_cover",
+  "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
   "scores": {
-    "satScore": "1400",
-    "actScore": "35",
+    "satScore": 1400,
+    "actScore": 35,
     "apScores": [
       {
         "subject": "Physics C: Mechanics",
@@ -23,13 +22,12 @@
       }
     ],
     "percentiles": {
-      "gpa": 75,
-      "weightedGPA": 80,
       "satScore": 92,
-      "actScore": 97
+      "actScore": 97,
+      "gpa": 75,
+      "weightedGPA": 80
     }
   },
-  
   "grades": {
     "gpa": 3.85,
     "weightedGPA": 4.2,
@@ -90,21 +88,60 @@
       }
     ]
   },
-  
-  "projects": [
+  "clubs": [
     {
-        "id": "1",
-        "title": "YouTube",
-        "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
-        "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
-        "projectImage": "http://localhost:8000/yt-banner.png"
+      "id": "c1",
+      "name": "FBLA",
+      "logo": "fbla_logo",
+      "images": ["fbla1", "fbla2"],
+      "events": [
+        {
+          "time": "2017 - 2019",
+          "title": "Member",
+          "description": "1st place at nationals for Mobile App Development in 2018."
+        }
+      ]
     },
     {
-        "id": "2",
-        "title": "Chat GPT",
-        "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
-        "skills": ["React Native", "Python", "Machine Learning", "API Development"],
-        "projectImage": "http://localhost:8000/chatgpt-banner.webp"
+      "id": "c2",
+      "name": "Bart Club",
+      "logo": "bart_club_logo",
+      "images": ["bart_club1", "bart_club2", "bart_club3"],
+      "events": [
+        {
+          "time": "2018 - 2019",
+          "title": "President",
+          "description": "The biggest of brothas."
+        },
+
+        {
+          "time": "2017 - 2018",
+          "title": "Vice President",
+          "description": "During my time as VP, I launched the Bart newsletter and associated social media campaign, which directly correlated with a 297% year-on-year increase in club membership."
+        },
+        
+        {
+          "time": "2016 - 2019",
+          "title": "Member",
+          "description": "Bart."
+        }
+      ]
     }
-]
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "title": "YouTube",
+      "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
+      "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
+      "projectImage": "yt_banner"
+  },
+  {
+      "id": "2",
+      "title": "Chat GPT",
+      "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
+      "skills": ["React Native", "Python", "Machine Learning", "API Development"],
+      "projectImage": "gpt_banner"
+  }
+  ]
 }

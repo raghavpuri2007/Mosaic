@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack, useNavigation } from "expo-router"; // Import useNavigation hook
 import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import Login from "../components/Login";
 import CreateProfile from "../components/CreateProfile";
 export {
@@ -53,6 +54,15 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation(); // Get the navigation object
 
+
+  const customHeaderBackButton = () => (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.backButtonStyle}
+    >
+      <FontAwesome name="arrow-left" size={20} color="#fff" />
+    </TouchableOpacity>
+  );
   const [loggedIn, setLoggedIn] = useState(false);
   console.log(loggedIn);
   useEffect(() => {
@@ -90,7 +100,27 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
+        <Stack.Screen 
+          name="users/[id]" 
+          options={{
+            headerTransparent: true,
+            headerTitle: '',
+            headerLeft: customHeaderBackButton,
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  backButtonStyle: {
+    marginLeft: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent black
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

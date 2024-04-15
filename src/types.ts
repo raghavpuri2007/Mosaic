@@ -17,6 +17,7 @@ export type User = {
   scores: Score[];
   grades: grades;
   projects?: Project[];
+  clubs?: Club[];
 };
 
 export type Score = {
@@ -58,4 +59,24 @@ export type courseGrade = {
   grade: string;
   AP: boolean;
   Period: number;
+};
+
+export type Club = {
+  id: string;
+  name: string;
+  logo: string;
+  images: string[];
+  events: ClubEvent[];
+};
+
+export type ClubEvent = {
+  time: string; // e.g., '2015-2019'
+  title: string;
+  description: string;
+  roles?: ClubRole[];
+};
+
+export type ClubRole = {
+  role: string;
+  description: string;
 };
