@@ -16,8 +16,6 @@ export default function ClubListItem({ club, images }: ClubListItemProps) {
         setIsOpen(!isOpen);
     };
     
-
-
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
@@ -27,30 +25,57 @@ export default function ClubListItem({ club, images }: ClubListItemProps) {
             </TouchableOpacity>
             {isOpen && (
                 <ScrollView style={styles.details}>
-                <Carousel
-                    loop
-                    autoPlay
-                    data={club.images}
-                    autoPlayInterval={2500}
-                    renderItem={({ item }) => (
-                        <Image source={ images[item] } style={styles.clubImage} />
+                    {club.description && (
+                        <>
+                            <Text style={styles.sectionTitle}>Description</Text>
+                            <Text style={styles.clubDescription}>{club.description}</Text>
+                        </>
                     )}
-                    width={0.87 * Dimensions.get('window').width}
-                    height={0.6 * Dimensions.get('window').width}
-                />
-                <View style={styles.timeline}>
-                    {club.roles.map((role, index) => (
-                        <View key={index} style={styles.timelineItem}>
-                            <View style={styles.timelineDot}></View>
-                            <View style={styles.timelineContent}>
-                                <Text style={styles.roleTitle}>{role.title}</Text>
-                                <Text style={styles.roleYears}>{role.startYear} - {role.endYear}</Text>
-                                <Text style={styles.roleDescription}>{role.description}</Text>
+
+                    <Text style={[styles.sectionTitle]}>Images</Text>
+
+                    <Carousel
+                        loop
+                        autoPlay
+                        data={club.images}
+                        autoPlayInterval={2500}
+                        renderItem={({ item }) => (
+                            <Image source={images[item]} style={styles.clubImage} />
+                        )}
+                        width={0.87 * Dimensions.get('window').width}
+                        height={0.6 * Dimensions.get('window').width}
+                    />
+
+                    <Text style={styles.sectionTitle}>Roles</Text>
+                    <View style={styles.timeline}>
+                        <View style={styles.timelineLine}></View>
+                        {club.roles.map((role, index) => (
+                            <View key={index} style={styles.timelineItem}>
+                                <View style={styles.timelineDot}></View>
+                                <View style={styles.timelineContent}>
+                                    <Text style={styles.roleTitle}>{role.title}</Text>
+                                    <Text style={styles.roleYears}>{role.startYear} - {role.endYear}</Text>
+                                    <Text style={styles.roleDescription}>{role.description}</Text>
+                                </View>
                             </View>
+                        ))}
+                    </View>
+
+                    {club.awards && club.awards.length > 0 && (
+                        <View style={styles.awardsContainer}>
+                            <Text style={styles.sectionTitle}>Awards</Text>
+                            {club.awards.map((award, index) => (
+                                <View key={index} style={styles.awardItem}>
+                                    <Image source={images[award.image]} style={styles.awardImage} />
+                                    <View style={styles.awardTextContainer}>
+                                        <Text style={styles.awardTitle}>{award.title}</Text>
+                                        <Text style={styles.awardDescription}>{award.description}</Text>
+                                    </View>
+                                </View>
+                            ))}
                         </View>
-                    ))}
-                </View>
-            </ScrollView>
+                    )}
+                </ScrollView>
             )}
         </View>
     );
@@ -93,36 +118,33 @@ const styles = StyleSheet.create({
     },
     timeline: {
         position: 'relative',
-        paddingLeft: 30, // Increase padding to ensure space for line and dot
-        paddingTop: 10, // Space at the top for the line to start correctly
-        paddingBottom: 10, // Space at the bottom for the line to end correctly
+        paddingLeft: 30, // Enough space for the line and dot
+        paddingTop: 10,
+        paddingBottom: 10,
     },
     timelineItem: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginBottom: 20,
     },
     timelineDot: {
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: 'lightgrey',
+        backgroundColor: 'black',
         position: 'absolute',
         left: 0,
-        top: '50%',
-        marginTop: -6,
+        top: 4,
         zIndex: 1,
     },
     timelineContent: {
         flex: 1,
-        padding: 10,
-        backgroundColor: '#f0f0f0',
-        borderRadius: 5,
-        marginLeft: 20, // Space from dot to the content
+        paddingLeft: 20, // Space from dot to the content
     },
     roleTitle: {
         fontSize: 16,
         fontWeight: 'bold',
+        marginBottom: 4,
     },
     roleYears: {
         fontSize: 14,
@@ -134,10 +156,48 @@ const styles = StyleSheet.create({
     },
     timelineLine: {
         position: 'absolute',
+        left: 35, 
+        top: 15,
+        bottom: 20, 
         width: 2,
         backgroundColor: 'lightgrey',
-        left: 6, // Center of the dot
-        top: 0,
-        bottom: 0,
+        zIndex: 0,
+    },
+
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: "600",
+        marginBottom: 5,
+        marginTop: 10
+      },
+
+      clubDescription: {
+        fontSize: 14,
+        marginBottom: 10,
+        fontStyle: 'italic',
+    },
+    awardsContainer: {
+        marginTop: 0,
+    },
+    awardItem: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginBottom: 10,
+    },
+    awardImage: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
+    },
+    awardTextContainer: {
+        flex: 1,
+    },
+    awardTitle: {
+        fontWeight: 'bold',
+    },
+    awardDescription: {
+        fontSize: 14, // Make sure the description is clearly readable
     },
 });
+
+

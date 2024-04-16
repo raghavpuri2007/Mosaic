@@ -18,6 +18,8 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ClubListItem from "../../components/ClubListItem";
+import { DefaultTheme } from "@react-navigation/native";
+import AthleticsListItem from "../../components/AthleticsListItem";
 
 const images = {
   bart_pfp: require("../../../assets/images/Bart-Profile.png"),
@@ -31,13 +33,36 @@ const images = {
   fbla2: require("../../../assets/images/fbla2.png"),
   bart_club1: require("../../../assets/images/bart_club1.png"),
   bart_club2: require("../../../assets/images/bart_club2.png"),
-  bart_club3: require("../../../assets/images/bart_club3.png")
+  bart_club3: require("../../../assets/images/bart_club3.png"),
+  badge1: require("../../../assets/images/award1.jpeg"),
+  badge2: require("../../../assets/images/award2.jpeg"),
+  badge3: require("../../../assets/images/award3.jpeg"),
+  badge4: require("../../../assets/images/award4.jpeg"),
+  badge5: require("../../../assets/images/award5.png"),
+  badge6: require("../../../assets/images/award6.jpeg"),
+  badge7: require("../../../assets/images/award7.jpeg"),
+  badge8: require("../../../assets/images/award8.jpeg"),
+  default: require("../../../assets/images/default_award.jpeg"),
+  soccer: require("../../../assets/images/soccer_logo.jpg"),
+  basketball: require("../../../assets/images/basketball_logo.jpg"),
+  soccer1: require("../../../assets/images/soccer1.png"),
+  soccer2: require("../../../assets/images/soccer2.jpeg"),
+  basketball1: require("../../../assets/images/basketball1.jpeg"),
+  basketball2: require("../../../assets/images/basketball2.jpeg")
 };
+  
+
+const videos = {
+  clip1: require("../../../assets/videos/clip1.mp4"),
+  clip2: require("../../../assets/videos/clip2.mp4"),
+  clip3: require("../../../assets/videos/clip3.mp4"),
+};
+
 
 
 const ScoresSection = ({ scores }) => {
   return (
-    <View style={styles.section}>
+    <View>
       <Text style={styles.sectionTitle}>Scores</Text>
       <ScoreRow
         label="SAT Score"
@@ -99,7 +124,7 @@ const GradesSection = ({ grades }) => {
   const widthArr = [70, 210, 70];
 
   return (
-    <View style={styles.section}>
+    <View>
       <Text style={styles.sectionTitle}>Grades</Text>
       <ScoreRow
         label="GPA"
@@ -256,6 +281,14 @@ export default function UserProfile() {
         ))}
       </View>
 
+      {/* Athletics */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Athletics</Text>
+        {user.athletics?.map((athletic) => (
+          <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} />
+        ))}
+      </View>
+
       {/* Projects */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Projects</Text>
@@ -263,6 +296,20 @@ export default function UserProfile() {
           <ProjectListItem key={project.id} project={project} image={images[project.projectImage]}/>
         ))}
       </View>
+
+      {/* Accolades */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Accolades</Text>
+          {user.accolades?.map((accolade, index) => (
+            <View key={index} style={styles.awardItem}>
+              <Image source={images[accolade.image]} style={styles.awardImage} />
+              <View style={styles.awardTextContainer}>
+                <Text style={styles.awardTitle}>{accolade.title}:</Text>
+                <Text style={styles.awardDescription}>{accolade.description}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
     </ScrollView>
   );
 
@@ -348,7 +395,31 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: "white",
     padding: 10,
-    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+
+  awardItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+    paddingLeft: 10,
+  },
+  awardImage: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  awardTextContainer: {
+    flex: 1,
+    flexDirection: 'column', 
+  },
+  
+  awardTitle: {
+    fontWeight: 'bold',
+  },
+  awardDescription: {
+    fontSize: 14,
   },
 
   sectionTitle: {

@@ -18,6 +18,8 @@ export type User = {
   grades: grades;
   projects?: Project[];
   clubs?: Club[];
+  accolades?: Award[];
+  athletics?: Athletic[];
 };
 
 export type Score = {
@@ -67,6 +69,8 @@ export type Club = {
   logo: string;
   images: string[];
   roles: ClubRole[];
+  description?: string; 
+  awards: Award[]; 
 };
 
 export type ClubRole = {
@@ -74,4 +78,21 @@ export type ClubRole = {
   endYear: number;
   title: string;
   description: string;
+};
+
+
+export type Award = {
+  title: string; 
+  description: string; 
+  image: string;
+};
+
+export type Athletic = {
+  id: string;
+  name: string;
+  logo: string;
+  description?: string;
+  highlights: string[]; 
+  images: string[]; 
+  awards: Award[]; 
 };
