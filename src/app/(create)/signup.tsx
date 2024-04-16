@@ -10,27 +10,34 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "../../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function Login() {
+export default function CreateProfile() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onHandlePress = () => {
+  const onCreateProfile = () => {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
     setLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((cred) => {
-        setEmail("");
-        setPassword("");
-        setLoading(false);
-        console.log("User logged in:", cred.user);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("User created:", user.uid);
+        router.push("/create1");
       })
-      .catch((err) => {
+      .catch((error) => {
+        const errorMessage = error.message;
+        Alert.alert("Error", errorMessage);
+        console.error("Signup Error:", errorMessage);
         setLoading(false);
-        Alert.alert("Error", err.message);
-        console.log(err.message);
       });
   };
 
@@ -38,7 +45,7 @@ export default function Login() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Welcome back!</Text>
+          <Text style={styles.title}>Create Profile</Text>
         </View>
         <View style={styles.form}>
           <TextInput
@@ -56,18 +63,29 @@ export default function Login() {
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableOpacity style={styles.loginButton} onPress={onHandlePress}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#888"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+          <TouchableOpacity
+            style={styles.createProfileButton}
+            onPress={onCreateProfile}
+          >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
-              <Text style={styles.buttonText}>Login</Text>
+              <Text style={styles.buttonText}>Create Profile</Text>
             )}
           </TouchableOpacity>
         </View>
-        <View style={styles.createAccountContainer}>
-          <Text style={styles.createAccountText}>Don't have an account?</Text>
-          <Link href="signup" style={styles.createAccountLink}>
-            <Text style={styles.createAccountLinkText}>Create Account</Text>
+        <View style={styles.loginTextContainer}>
+          <Text style={styles.loginText}>Already have an account?</Text>
+          <Link href="login" style={styles.loginLink}>
+            <Text style={styles.loginLinkText}>Login</Text>
           </Link>
         </View>
       </View>
@@ -106,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  loginButton: {
+  createProfileButton: {
     backgroundColor: "#ffd700",
     borderRadius: 25,
     paddingVertical: 15,
@@ -117,20 +135,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  createAccountContainer: {
+  loginTextContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
-  createAccountText: {
+  loginText: {
     color: "#fff",
     fontSize: 16,
     marginRight: 5,
   },
-  createAccountLink: {
+  loginLink: {
     marginLeft: 5,
   },
-  createAccountLinkText: {
+  loginLinkText: {
     color: "#ffd700",
     fontSize: 16,
     textDecorationLine: "underline",
