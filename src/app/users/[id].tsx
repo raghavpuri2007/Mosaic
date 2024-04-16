@@ -16,11 +16,59 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import { Table, Row, Rows } from "react-native-table-component";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ClubListItem from "../../components/ClubListItem";
+import { DefaultTheme } from "@react-navigation/native";
+import AthleticsListItem from "../../components/AthleticsListItem";
+import PerformingArtsListItem from "../../components/PerformingArtsListItem";
+import VolunteeringListItem from "../../components/VolunteeringListItem";
+import CollapsibleSection from "../../components/CollapsibleSection";
+
+const images = {
+  bart_pfp: require("../../../assets/images/Bart-Profile.png"),
+  bart_banner: require("../../../assets/images/Bart-Banner.png"),
+  bart_cover: require("../../../assets/images/Bart-Cover.png"),
+  yt_banner: require("../../../assets/images/yt-banner.png"),
+  gpt_banner: require("../../../assets/images/chatgpt-banner.webp"),
+  fbla_logo: require("../../../assets/images/fbla_logo.png"),
+  bart_club_logo: require("../../../assets/images/Bart-Profile.png"),
+  fbla1: require("../../../assets/images/fbla1.png"),
+  fbla2: require("../../../assets/images/fbla2.png"),
+  bart_club1: require("../../../assets/images/bart_club1.png"),
+  bart_club2: require("../../../assets/images/bart_club2.png"),
+  bart_club3: require("../../../assets/images/bart_club3.png"),
+  badge1: require("../../../assets/images/award1.jpeg"),
+  badge2: require("../../../assets/images/award2.jpeg"),
+  badge3: require("../../../assets/images/award3.jpeg"),
+  badge4: require("../../../assets/images/award4.jpeg"),
+  badge5: require("../../../assets/images/award5.png"),
+  badge6: require("../../../assets/images/award6.jpeg"),
+  badge7: require("../../../assets/images/award7.jpeg"),
+  badge8: require("../../../assets/images/award8.jpeg"),
+  default: require("../../../assets/images/default_award.jpeg"),
+  soccer: require("../../../assets/images/soccer_logo.jpg"),
+  basketball: require("../../../assets/images/basketball_logo.jpg"),
+  soccer1: require("../../../assets/images/soccer1.png"),
+  soccer2: require("../../../assets/images/soccer2.jpeg"),
+  basketball1: require("../../../assets/images/basketball1.jpeg"),
+  basketball2: require("../../../assets/images/basketball2.jpeg"),
+  piano: require("../../../assets/images/piano.jpeg"),
+  ballet: require("../../../assets/images/ballet.png")
+};
+  
+
+const videos = {
+  clip1: require("../../../assets/videos/clip1.mp4"),
+  clip2: require("../../../assets/videos/clip2.mp4"),
+  clip3: require("../../../assets/videos/clip3.mp4"),
+  piano_clip: require("../../../assets/videos/piano_clip.mp4"),
+};
+
+
 
 const ScoresSection = ({ scores }) => {
   return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Scores</Text>
+    <View>
       <ScoreRow
         label="SAT Score"
         score={scores.satScore}
@@ -81,8 +129,7 @@ const GradesSection = ({ grades }) => {
   const widthArr = [70, 210, 70];
 
   return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Grades</Text>
+    <View>
       <ScoreRow
         label="GPA"
         score={grades.gpa}
@@ -173,6 +220,11 @@ export default function UserProfile() {
     console.warn("Connect");
   };
 
+  const onMessage = () => {
+    console.warn("Message");
+    navigation.navigate("messages"); 
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({ title: user.name });
 
@@ -188,20 +240,25 @@ export default function UserProfile() {
       {/*Header*/}
       <View style={styles.header}>
         {/* BG Image */}
-        <Image source={{ uri: user.backImage }} style={styles.bgImage} />
+        <Image source={ images[user.backImage] } style={styles.bgImage} />
 
         <View style={styles.headerContent}>
           {/* Profile image */}
-          <Image source={{ uri: user.image }} style={styles.image} />
+          <Image source={ images[user.image] } style={styles.image} />
 
           {/* Name and Position */}
           <Text style={styles.name}>{user.name}</Text>
           <Text>{user.position}</Text>
 
-          {/*Connect button*/}
-          <Pressable onPress={onConnect} style={styles.button}>
-            <Text style={styles.buttonText}>Connect</Text>
-          </Pressable>
+          {/*Connect & Message buttons*/}
+          <View style={styles.buttonContainer}>
+            <Pressable onPress={onConnect} style={styles.buttonLarge}>
+              <Text style={styles.buttonText}>Connect</Text>
+            </Pressable>
+            <Pressable onPress={onMessage} style={styles.buttonSmall}>
+              <FontAwesome name="comment" size={20} color="white" />
+            </Pressable>
+          </View>
         </View>
       </View>
 
@@ -212,30 +269,73 @@ export default function UserProfile() {
       </View>
 
       {/* Grades */}
-      <View style={styles.section}>
+      <CollapsibleSection title="Grades">
         <GradesSection grades={user.grades} />
-      </View>
+      </CollapsibleSection>
+
 
       {/* Scores */}
-      <View style={styles.section}>
+      <CollapsibleSection title="Scores">
         <ScoresSection scores={user.scores} />
-      </View>
+      </CollapsibleSection>
+
+
+      {/* Clubs */}
+      <CollapsibleSection title="Clubs">
+        {user.clubs?.map((club) => (
+          <ClubListItem key={club.id} club={club} images={images} />
+        ))}
+      </CollapsibleSection>
+
+      {/* Athletics */}
+      <CollapsibleSection title="Athletics">
+        {user.athletics?.map((athletic) => (
+          <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} />
+        ))}
+      </CollapsibleSection>
+
+      {/* Performing Arts */}
+      <CollapsibleSection title="Performing Arts">
+        {user.performingArts?.map((art) => (
+          <PerformingArtsListItem key={art.id} performingArt={art} images={images} videos={videos} />
+        ))}
+      </CollapsibleSection>
+
+      {/* Volunteering */}
+      <CollapsibleSection title="Volunteering">
+        {user.volunteering?.map((volunteering) => (
+          <VolunteeringListItem key={volunteering.id} volunteering={volunteering} images={images} />
+        ))}
+      </CollapsibleSection>
 
       {/* Projects */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Projects</Text>
+      <CollapsibleSection title="Projects">
         {user.projects?.map((project) => (
-          <ProjectListItem key={project.id} project={project} />
+          <ProjectListItem key={project.id} project={project} image={images[project.projectImage]}/>
         ))}
-      </View>
+      </CollapsibleSection>
+
+      {/* Accolades */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Accolades</Text>
+          {user.accolades?.map((accolade, index) => (
+            <View key={index} style={styles.awardItem}>
+              <Image source={images[accolade.image]} style={styles.awardImage} />
+              <View style={styles.awardTextContainer}>
+                <Text style={styles.awardTitle}>{accolade.title}:</Text>
+                <Text style={styles.awardDescription}>{accolade.description}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
     </ScrollView>
   );
 
-  const snapPoints = useMemo(() => ["90%", "70%"], []);
+  const snapPoints = useMemo(() => ["10%", "20%", "30%", "50%", "60%", "70%", "90%"], []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Image source={{ uri: user.coverImage }} style={styles.fullScreenImage} />
+      <Image source={ images[user.coverImage] } style={styles.fullScreenImage} />
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
@@ -270,6 +370,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 100,
+    height: 100,
     aspectRatio: 1,
     borderRadius: 50,
     borderWidth: 3,
@@ -282,23 +383,60 @@ const styles = StyleSheet.create({
 
   //Button
 
-  button: {
-    backgroundColor: "royalblue",
-    padding: 10,
-    alignItems: "center",
-    borderRadius: 50,
-    marginVertical: 10,
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 10
   },
-
+  buttonLarge: {
+    backgroundColor: "black",
+    width: '84.2%',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    alignItems: "center"
+  },
   buttonText: {
     color: "white",
     fontWeight: "600",
+    fontSize: 16
+  },
+  buttonSmall: {
+    backgroundColor: "royalblue",
+    width: '15%',
+    padding: 10,
+    borderRadius: 20,
+    marginHorizontal: 2,
+    alignItems: "center",
+    justifyContent: 'center'
   },
 
   section: {
     backgroundColor: "white",
     padding: 10,
-    marginVertical: 5,
+
+  },
+
+  awardItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+    paddingLeft: 10,
+  },
+  awardImage: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  awardTextContainer: {
+    flex: 1,
+    flexDirection: 'column', 
+  },
+  
+  awardTitle: {
+    fontWeight: 'bold',
+  },
+  awardDescription: {
+    fontSize: 14,
   },
 
   sectionTitle: {

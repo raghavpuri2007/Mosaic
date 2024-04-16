@@ -1,15 +1,14 @@
 {
   "id": "u2",
-  "name": "Vadim Savin",
-  "position": "Founder at notJust.dev",
-  "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png",
-  "backImage": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg",
-  "coverImage": "http://localhost:8000/Bart-Cover.png",
-  "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley",
-  
+  "name": "Bart Simpson",
+  "position": "The biggest of brothas",
+  "image": "bart_pfp",
+  "backImage": "bart_banner",
+  "coverImage": "bart_cover",
+  "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
   "scores": {
-    "satScore": "1400",
-    "actScore": "35",
+    "satScore": 1400,
+    "actScore": 35,
     "apScores": [
       {
         "subject": "Physics C: Mechanics",
@@ -23,13 +22,12 @@
       }
     ],
     "percentiles": {
-      "gpa": 75,
-      "weightedGPA": 80,
       "satScore": 92,
-      "actScore": 97
+      "actScore": 97,
+      "gpa": 75,
+      "weightedGPA": 80
     }
   },
-  
   "grades": {
     "gpa": 3.85,
     "weightedGPA": 4.2,
@@ -90,21 +88,329 @@
       }
     ]
   },
-  
-  "projects": [
+  "clubs": [
     {
-        "id": "1",
-        "title": "YouTube",
-        "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
-        "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
-        "projectImage": "http://localhost:8000/yt-banner.png"
+      "id": "c1",
+      "name": "FBLA",
+      "logo": "fbla_logo",
+      "description": "My time in the Future Business Leaders of America club was a transformative experience that allowed me to develop my leadership and business skills. I was able to apply my technical knowledge to real-world scenarios, culminating in a 1st place finish at the 2018 National Leadership Conference for Mobile App Development.",
+      "images": [{"key": "fbla1", "caption": "FBLA on gang."},
+                 {"key": "fbla2", "caption": "Group picture from the 2018 National Leadership Conference."}
+                ],
+      "roles": [
+        {
+          "startYear": "2017",
+          "endYear": "2019",
+          "title": "Member",
+          "description": "1st place at nationals for Mobile App Development in 2018."
+        }
+
+      ],
+
+      "awards": [
+        {
+          "title": "1st Place - Mobile App Development - 2018 National Leadership Conference",
+          "description": "Developed a mobile application that revolutionized the way users interact with social media platforms, resulting in all of the brothas' phones being confiscated by the school administration.",
+          "image": "badge1"
+        },
+
+        {
+          "title": "1st Place - Coding & Programming - 2019 National Leadership Conference",
+          "description": "Developed a custom algorithm that optimized the efficiency of a local business's supply chain, resulting in a 30% increase in profits.",
+          "image": "default"
+        }
+      ]
     },
     {
-        "id": "2",
-        "title": "Chat GPT",
-        "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
-        "skills": ["React Native", "Python", "Machine Learning", "API Development"],
-        "projectImage": "http://localhost:8000/chatgpt-banner.webp"
+      "id": "c2",
+      "name": "Bart Club",
+      "logo": "bart_club_logo",
+      "description": "The Bart Club is a prestigious organization dedicated to the celebration of all things Bart. As a founding member, I have been instrumental in shaping the club's culture and activities, including the annual Bart Day parade and Bart-themed charity events.",
+      "images":  [{"key": "bart_club1", "caption": "Supreme"},
+                  {"key": "bart_club2", "caption": "What a great day!"},
+                  {"key": "bart_club3", "caption": "Picture of a logo we designed to promote Bomboclat Awareness during our 2018 trip to Jamaica."}
+                 ],
+      "roles": [
+        {
+          "startYear": "2018",
+          "endYear": "2019",
+          "title": "President",
+          "description": "The biggest of brothas."
+        },
+
+        {
+          "startYear": "2017",
+          "endYear": "2018",
+          "title": "Vice President",
+          "description": "During my time as VP, I launched the Bart newsletter and associated social media campaign, which directly correlated with a 297% year-on-year increase in club membership."
+        },
+
+        {
+          "startYear": "2016",
+          "endYear": "2019",
+          "title": "Member",
+          "description": "Bart."
+        }
+      ],
+
+      "awards": [
+        {
+          "title": "Bart of the Year - 2019",
+          "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
+          "image": "badge4"
+        },
+
+        {
+          "title": "Bart of the Year - 2018",
+          "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
+          "image": "badge4"
+        },
+
+        {
+          "title": "Most Improved Bart - 2017",
+          "description": "I earned this award by showing the most improvement in my Bart skills over the course of the year.",
+          "image": "badge6"
+        }
+      ]
     }
-]
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "title": "YouTube",
+      "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
+      "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
+      "projectImage": "yt_banner"
+  },
+  {
+      "id": "2",
+      "title": "Chat GPT",
+      "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
+      "skills": ["React Native", "Python", "Machine Learning", "API Development"],
+      "projectImage": "gpt_banner"
+  }
+  ],
+
+  "accolades": [
+    {
+      "title": "Valadictorian",
+      "description": "I had the highest GPA in the class of 2019, earning the title of Valadictorian.",
+      "image": "badge4"
+    },
+
+    {
+      "title": "AP Scholar with Distinction",
+      "description": "I earned this award by achieving a score of 3 or higher on five or more AP exams.",
+      "image": "badge4"
+    },
+
+    {
+      "title": "Nobel Peace Prize",
+      "description": "I won the Nobel Peace Prize for my work in promoting world peace and understanding.",
+      "image": "badge4"
+    }
+  ],
+
+  "athletics": [
+    {
+      "id": "a1",
+      "name": "Varsity Soccer",
+      "logo": "soccer",
+      "description": "As a leading striker, I contributed to our team reaching the state finals three consecutive years, showcasing dedication and strategic play.",
+      "highlights": [{"key": "clip1", "caption": "In this clip, I kick a soccer ball really really far."},
+                     {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                     {"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."}
+                    ],
+      "images": [{"key": "soccer1", "caption": "I play soccer."},
+                {"key": "soccer2", "caption": "I'm a soccer player."}
+               ],
+        "awards": [
+        {
+          "title": "Best Forward 2019",
+          "description": "Awarded for leading the league in goals and assists during the 2019 season.",
+          "image": "badge4"
+        },
+        {
+          "title": "Team MVP 2020",
+          "description": "Received the MVP award for my crucial plays and consistent performance throughout the season.",
+          "image": "badge4"
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "name": "Basketball Team Captain",
+      "logo": "basketball",
+      "description": "I captained the school basketball team, leading to a regional championship and fostering a strong team spirit.",
+      "highlights": [{"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."},
+                     {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                     
+                    ],
+      "images": [{"key": "basketball1", "caption": "I'm a basketball player."},
+                {"key": "basketball2", "caption": "I play basketball."}
+               ],
+      "awards": [
+        {
+          "title": "Best Defensive Player 2018",
+          "description": "Recognized for exceptional defensive skills and leading the team's defense to the lowest points-against average.",
+          "image": "badge4"
+        },
+        {
+          "title": "Conference All-Star 2019",
+          "description": "Selected for the All-Star game due to outstanding performance throughout the season.",
+          "image": "badge4"
+        }
+      ]
+    }
+  ],
+
+  "performingArts": [
+    {
+      "id": "p1",
+      "name": "Piano Prodigy",
+      "logo": "piano",
+      "description": "As a classical pianist, I have performed in various national and international competitions, securing multiple awards for my performances of complex pieces from composers such as Chopin and Beethoven.",
+      "videos": [
+        {
+          "key": "piano_clip",
+          "caption": "Performing Beethoven's Moonlight Sonata at the city concert hall."
+        },
+        {
+          "key": "clip2",
+          "caption": "A recital of Chopin's Nocturnes during the national music festival."
+        },
+        {
+          "key": "clip3",
+          "caption": "This clip features my performance at the International Young Pianists' Showcase."
+        }
+      ],
+      "images": [
+        { 
+          "key": "bart_club3",
+          "caption": "Receiving the first prize at the Regional Piano Competition."
+        },
+        {
+          "key": "piano",
+          "caption": "A moment captured during my practice session."
+        }
+      ],
+      "awards": [
+        {
+          "title": "First Place - Regional Piano Competition",
+          "description": "Awarded the top prize for an outstanding performance of complex classical pieces.",
+          "image": "badge4"
+        },
+        {
+          "title": "Audience Favorite Award - International Young Pianists' Showcase",
+          "description": "Received for the most applauded performance at the showcase.",
+          "image": "badge4"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "Classical Ballet Star",
+      "logo": "ballet",
+      "description": "As the lead dancer in our academy's productions, I have been pivotal in choreographing and performing ballets that have received acclaim for their creativity and emotional depth.",
+      "videos": [
+        {
+          "key": "clip1",
+          "caption": "Lead performance in The Nutcracker, captured during our winter season."
+        },
+        {
+          "key": "clip2",
+          "caption": "A behind-the-scenes look at the preparations for Swan Lake."
+        }
+      ],
+      "images": [
+        {
+          "key": "ballet",
+          "caption": "During a standing ovation after a performance of Giselle."
+        },
+        {
+          "key": "bart_club3",
+          "caption": "Rehearsing on stage before the grand premiere."
+        }
+      ],
+
+
+      "awards": [
+        {
+          "title": "Best Choreography - National Dance Awards",
+          "description": "Awarded for innovative choreography in our latest production of Swan Lake.",
+          "image": "badge4"
+        },
+        {
+          "title": "Dancer of the Year - Ballet Magazine",
+          "description": "Honored for exceptional contributions to classical ballet performances throughout the year.",
+          "image": "badge4"
+        }
+      ]
+    }
+  ],
+
+  "volunteering": [
+    {
+      "id": "v1",
+      "name": "National Honor Society",
+      "logo": "piano",
+      "impact": "As a member of the National Honor Society, I participated in various community service projects that aimed to improve education and literacy in underprivileged areas.",
+      "images": [
+        {
+          "key": "bart_banner",
+          "caption": "Organizing books during our annual book drive."
+        },
+        {
+          "key": "bart_profile",
+          "caption": "Tutoring students at a local middle school."
+        }
+      ],
+      "events": [
+        {
+          "title": "Book Drive Coordinator",
+          "startYear": 2018,
+          "endYear": 2020,
+          "description": "Led a team that collected over 5,000 books to help start local libraries in rural communities."
+        },
+        {
+          "title": "Weekly Tutoring",
+          "startYear": 2017,
+          "endYear": 2020,
+          "description": "Provided weekly tutoring sessions in math and science to students at under-resourced schools."
+        }
+      ]
+    },
+    {
+      "id": "v2",
+      "name": "Red Cross",
+      "logo": "piano",
+      "impact": "Volunteered with the Red Cross to assist in disaster response efforts, providing aid and support to affected communities.",
+      "images": [
+        {
+          "key": "fbla2",
+          "caption": "Helping rebuild homes after the floods."
+        },
+        {
+          "key": "piano",
+          "caption": "Distributing emergency supplies to disaster victims."
+        }
+      ],
+      "events": [
+        {
+          "title": "Disaster Response Volunteer",
+          "startYear": 2019,
+          "endYear": 2020,
+          "description": "Worked on the ground to provide immediate relief in the aftermath of natural disasters."
+        },
+        {
+          "title": "Fundraising Ambassador",
+          "startYear": 2018,
+          "endYear": 2020,
+          "description": "Raised over $20,000 for disaster relief efforts through various fundraising activities."
+        }
+      ]
+    }
+  ]
+  
+  
 }
