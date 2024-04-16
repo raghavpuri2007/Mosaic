@@ -20,6 +20,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ClubListItem from "../../components/ClubListItem";
 import { DefaultTheme } from "@react-navigation/native";
 import AthleticsListItem from "../../components/AthleticsListItem";
+import PerformingArtsListItem from "../../components/PerformingArtsListItem";
+import VolunteeringListItem from "../../components/VolunteeringListItem";
+import CollapsibleSection from "../../components/CollapsibleSection";
 
 const images = {
   bart_pfp: require("../../../assets/images/Bart-Profile.png"),
@@ -48,7 +51,9 @@ const images = {
   soccer1: require("../../../assets/images/soccer1.png"),
   soccer2: require("../../../assets/images/soccer2.jpeg"),
   basketball1: require("../../../assets/images/basketball1.jpeg"),
-  basketball2: require("../../../assets/images/basketball2.jpeg")
+  basketball2: require("../../../assets/images/basketball2.jpeg"),
+  piano: require("../../../assets/images/piano.jpeg"),
+  ballet: require("../../../assets/images/ballet.png")
 };
   
 
@@ -56,6 +61,7 @@ const videos = {
   clip1: require("../../../assets/videos/clip1.mp4"),
   clip2: require("../../../assets/videos/clip2.mp4"),
   clip3: require("../../../assets/videos/clip3.mp4"),
+  piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
 
@@ -63,7 +69,6 @@ const videos = {
 const ScoresSection = ({ scores }) => {
   return (
     <View>
-      <Text style={styles.sectionTitle}>Scores</Text>
       <ScoreRow
         label="SAT Score"
         score={scores.satScore}
@@ -125,7 +130,6 @@ const GradesSection = ({ grades }) => {
 
   return (
     <View>
-      <Text style={styles.sectionTitle}>Grades</Text>
       <ScoreRow
         label="GPA"
         score={grades.gpa}
@@ -265,37 +269,51 @@ export default function UserProfile() {
       </View>
 
       {/* Grades */}
-      <View style={styles.section}>
+      <CollapsibleSection title="Grades">
         <GradesSection grades={user.grades} />
-      </View>
+      </CollapsibleSection>
+
 
       {/* Scores */}
-      <View style={styles.section}>
+      <CollapsibleSection title="Scores">
         <ScoresSection scores={user.scores} />
-      </View>
+      </CollapsibleSection>
+
+
       {/* Clubs */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Clubs</Text>
+      <CollapsibleSection title="Clubs">
         {user.clubs?.map((club) => (
           <ClubListItem key={club.id} club={club} images={images} />
         ))}
-      </View>
+      </CollapsibleSection>
 
       {/* Athletics */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Athletics</Text>
+      <CollapsibleSection title="Athletics">
         {user.athletics?.map((athletic) => (
           <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} />
         ))}
-      </View>
+      </CollapsibleSection>
+
+      {/* Performing Arts */}
+      <CollapsibleSection title="Performing Arts">
+        {user.performingArts?.map((art) => (
+          <PerformingArtsListItem key={art.id} performingArt={art} images={images} videos={videos} />
+        ))}
+      </CollapsibleSection>
+
+      {/* Volunteering */}
+      <CollapsibleSection title="Volunteering">
+        {user.volunteering?.map((volunteering) => (
+          <VolunteeringListItem key={volunteering.id} volunteering={volunteering} images={images} />
+        ))}
+      </CollapsibleSection>
 
       {/* Projects */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Projects</Text>
+      <CollapsibleSection title="Projects">
         {user.projects?.map((project) => (
           <ProjectListItem key={project.id} project={project} image={images[project.projectImage]}/>
         ))}
-      </View>
+      </CollapsibleSection>
 
       {/* Accolades */}
         <View style={styles.section}>
@@ -395,8 +413,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: "white",
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
+
   },
 
   awardItem: {

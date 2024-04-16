@@ -20,6 +20,8 @@ export type User = {
   clubs?: Club[];
   accolades?: Award[];
   athletics?: Athletic[];
+  performingArts?: PerformingArt[];
+  volunteering?: Volunteering[];
 };
 
 export type Score = {
@@ -67,7 +69,7 @@ export type Club = {
   id: string;
   name: string;
   logo: string;
-  images: string[];
+  images: Array<{ key: string, caption: string }>;
   roles: ClubRole[];
   description?: string; 
   awards: Award[]; 
@@ -92,7 +94,31 @@ export type Athletic = {
   name: string;
   logo: string;
   description?: string;
-  highlights: string[]; 
-  images: string[]; 
+  highlights: Array<{ key: string, caption: string }>;
+  images: Array<{ key: string, caption: string }>;
   awards: Award[]; 
+};
+
+export type PerformingArt = {
+  id: string;
+  name: string;
+  logo: string;
+  description?: string;
+  videos: Array<{ key: string, caption: string }>; 
+  images: Array<{ key: string, caption: string }>;
+  awards: Award[];
+};
+
+export type Volunteering = {
+  id: string;
+  name: string;
+  logo: string;
+  impact?: string;
+  images: Array<{ key: string, caption: string }>;
+  events: Array<{
+    title: string;
+    startYear: number;
+    endYear: number;
+    description: string;
+  }>;
 };

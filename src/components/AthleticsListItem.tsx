@@ -41,16 +41,19 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
                         data={athletics.highlights}
                         autoPlayInterval={6000}
                         renderItem={({ item }) => (
-                            <Video
-                                source={ videos[item] } 
-                                rate={1.0}
-                                volume={1.0}
-                                isMuted={false}
-                                resizeMode={ResizeMode.COVER} 
-                                shouldPlay
-                                isLooping
-                                style={styles.highlightVideo}
-                            />
+                            <View style={styles.mediaContainer}>
+                                <Video
+                                    source={videos[item.key]} 
+                                    rate={1.0}
+                                    volume={1.0}
+                                    isMuted={false}
+                                    resizeMode={ResizeMode.COVER} 
+                                    shouldPlay
+                                    isLooping
+                                    style={styles.highlightVideo}
+                                />
+                                <Text style={styles.caption}>{item.caption}</Text>
+                            </View>
                         )}
                         width={0.87 * Dimensions.get('window').width} 
                         height={0.6 * Dimensions.get('window').width}
@@ -64,8 +67,10 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
                         data={athletics.images}
                         autoPlayInterval={2500}
                         renderItem={({ item }) => (
-                            <Image source={images[item]} style={styles.clubImage} />
-                        )}
+                            <View style={styles.mediaContainer}>
+                                <Image source={images[item.key]} style={styles.sportsImage} />
+                                <Text style={styles.caption}>{item.caption}</Text>
+                            </View>                        )}
                         width={0.87 * Dimensions.get('window').width}
                         height={0.6 * Dimensions.get('window').width}
                     />
@@ -121,16 +126,35 @@ const styles = StyleSheet.create({
     details: {
         marginTop: 10,
     },
-    clubImage: {
+    
+    mediaContainer: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+        borderRadius: 10, 
+        overflow: 'hidden', 
+        borderWidth: 1,
+        borderColor: '#ddd', 
+        backgroundColor: 'rgba(135, 206, 235, 0.3)',
+
+    },
+    
+    highlightVideo: {
+        width: '100%',
+        height: 200, 
+        backgroundColor: 'black',
+    },
+    sportsImage: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
-        marginVertical: 5,
     },
-    highlightVideo: {
-        width: '100%',
-        height: 180, // Adjust based on your design requirements
-        backgroundColor: 'black',
+    caption: {
+        marginTop: 5,
+        fontSize: 12,
+        color: 'gray',
+        textAlign: 'center'
     },
     awardsContainer: {
         marginTop: 10,

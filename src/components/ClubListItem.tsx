@@ -3,6 +3,7 @@ import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, Dimensions
 import { Club } from '@/types';
 import { FontAwesome } from '@expo/vector-icons'; 
 import Carousel from 'react-native-reanimated-carousel';
+import { Animated, Easing } from 'react-native';
 
 type ClubListItemProps = {
     club: Club;
@@ -40,7 +41,11 @@ export default function ClubListItem({ club, images }: ClubListItemProps) {
                         data={club.images}
                         autoPlayInterval={2500}
                         renderItem={({ item }) => (
-                            <Image source={images[item]} style={styles.clubImage} />
+                            <View style={styles.mediaContainer}>
+                                <Image source={images[item.key]} style={styles.clubImage} />
+                                <Text style={styles.caption}>{item.caption}</Text>
+
+                            </View> 
                         )}
                         width={0.87 * Dimensions.get('window').width}
                         height={0.6 * Dimensions.get('window').width}
@@ -110,12 +115,34 @@ const styles = StyleSheet.create({
     details: {
         marginTop: 10,
     },
+
+    mediaContainer: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+        borderRadius: 10, 
+        overflow: 'hidden', 
+        borderWidth: 1,
+        borderColor: '#ddd', 
+        backgroundColor: 'rgba(135, 206, 235, 0.3)',
+
+    },
+     
     clubImage: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
         marginVertical: 5,
     },
+
+    caption: {
+        marginTop: 5,
+        fontSize: 12,
+        color: 'gray',
+        textAlign: 'center'
+    },
+
     timeline: {
         position: 'relative',
         paddingLeft: 30, // Enough space for the line and dot

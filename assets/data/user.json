@@ -94,7 +94,9 @@
       "name": "FBLA",
       "logo": "fbla_logo",
       "description": "My time in the Future Business Leaders of America club was a transformative experience that allowed me to develop my leadership and business skills. I was able to apply my technical knowledge to real-world scenarios, culminating in a 1st place finish at the 2018 National Leadership Conference for Mobile App Development.",
-      "images": ["fbla1", "fbla2"],
+      "images": [{"key": "fbla1", "caption": "FBLA on gang."},
+                 {"key": "fbla2", "caption": "Group picture from the 2018 National Leadership Conference."}
+                ],
       "roles": [
         {
           "startYear": "2017",
@@ -124,7 +126,10 @@
       "name": "Bart Club",
       "logo": "bart_club_logo",
       "description": "The Bart Club is a prestigious organization dedicated to the celebration of all things Bart. As a founding member, I have been instrumental in shaping the club's culture and activities, including the annual Bart Day parade and Bart-themed charity events.",
-      "images": ["bart_club1", "bart_club2", "bart_club3"],
+      "images":  [{"key": "bart_club1", "caption": "Supreme"},
+                  {"key": "bart_club2", "caption": "What a great day!"},
+                  {"key": "bart_club3", "caption": "Picture of a logo we designed to promote Bomboclat Awareness during our 2018 trip to Jamaica."}
+                 ],
       "roles": [
         {
           "startYear": "2018",
@@ -196,13 +201,13 @@
     {
       "title": "AP Scholar with Distinction",
       "description": "I earned this award by achieving a score of 3 or higher on five or more AP exams.",
-      "image": "default"
+      "image": "badge4"
     },
 
     {
       "title": "Nobel Peace Prize",
       "description": "I won the Nobel Peace Prize for my work in promoting world peace and understanding.",
-      "image": "default"
+      "image": "badge4"
     }
   ],
 
@@ -212,18 +217,23 @@
       "name": "Varsity Soccer",
       "logo": "soccer",
       "description": "As a leading striker, I contributed to our team reaching the state finals three consecutive years, showcasing dedication and strategic play.",
-      "highlights": ["clip1", "clip2", "clip3"],
-      "images": ["soccer1", "soccer2", "soccer3"],
-      "awards": [
+      "highlights": [{"key": "clip1", "caption": "In this clip, I kick a soccer ball really really far."},
+                     {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                     {"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."}
+                    ],
+      "images": [{"key": "soccer1", "caption": "I play soccer."},
+                {"key": "soccer2", "caption": "I'm a soccer player."}
+               ],
+        "awards": [
         {
           "title": "Best Forward 2019",
           "description": "Awarded for leading the league in goals and assists during the 2019 season.",
-          "image": "badge5"
+          "image": "badge4"
         },
         {
           "title": "Team MVP 2020",
           "description": "Received the MVP award for my crucial plays and consistent performance throughout the season.",
-          "image": "badge8"
+          "image": "badge4"
         }
       ]
     },
@@ -232,21 +242,175 @@
       "name": "Basketball Team Captain",
       "logo": "basketball",
       "description": "I captained the school basketball team, leading to a regional championship and fostering a strong team spirit.",
-      "highlights": ["clip3", "clip2"],
-      "images": ["basketball1", "basketball2"],
+      "highlights": [{"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."},
+                     {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                     
+                    ],
+      "images": [{"key": "basketball1", "caption": "I'm a basketball player."},
+                {"key": "basketball2", "caption": "I play basketball."}
+               ],
       "awards": [
         {
           "title": "Best Defensive Player 2018",
           "description": "Recognized for exceptional defensive skills and leading the team's defense to the lowest points-against average.",
-          "image": "badge7"
+          "image": "badge4"
         },
         {
           "title": "Conference All-Star 2019",
           "description": "Selected for the All-Star game due to outstanding performance throughout the season.",
-          "image": "badge2"
+          "image": "badge4"
+        }
+      ]
+    }
+  ],
+
+  "performingArts": [
+    {
+      "id": "p1",
+      "name": "Piano Prodigy",
+      "logo": "piano",
+      "description": "As a classical pianist, I have performed in various national and international competitions, securing multiple awards for my performances of complex pieces from composers such as Chopin and Beethoven.",
+      "videos": [
+        {
+          "key": "piano_clip",
+          "caption": "Performing Beethoven's Moonlight Sonata at the city concert hall."
+        },
+        {
+          "key": "clip2",
+          "caption": "A recital of Chopin's Nocturnes during the national music festival."
+        },
+        {
+          "key": "clip3",
+          "caption": "This clip features my performance at the International Young Pianists' Showcase."
+        }
+      ],
+      "images": [
+        { 
+          "key": "bart_club3",
+          "caption": "Receiving the first prize at the Regional Piano Competition."
+        },
+        {
+          "key": "piano",
+          "caption": "A moment captured during my practice session."
+        }
+      ],
+      "awards": [
+        {
+          "title": "First Place - Regional Piano Competition",
+          "description": "Awarded the top prize for an outstanding performance of complex classical pieces.",
+          "image": "badge4"
+        },
+        {
+          "title": "Audience Favorite Award - International Young Pianists' Showcase",
+          "description": "Received for the most applauded performance at the showcase.",
+          "image": "badge4"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "Classical Ballet Star",
+      "logo": "ballet",
+      "description": "As the lead dancer in our academy's productions, I have been pivotal in choreographing and performing ballets that have received acclaim for their creativity and emotional depth.",
+      "videos": [
+        {
+          "key": "clip1",
+          "caption": "Lead performance in The Nutcracker, captured during our winter season."
+        },
+        {
+          "key": "clip2",
+          "caption": "A behind-the-scenes look at the preparations for Swan Lake."
+        }
+      ],
+      "images": [
+        {
+          "key": "ballet",
+          "caption": "During a standing ovation after a performance of Giselle."
+        },
+        {
+          "key": "bart_club3",
+          "caption": "Rehearsing on stage before the grand premiere."
+        }
+      ],
+
+
+      "awards": [
+        {
+          "title": "Best Choreography - National Dance Awards",
+          "description": "Awarded for innovative choreography in our latest production of Swan Lake.",
+          "image": "badge4"
+        },
+        {
+          "title": "Dancer of the Year - Ballet Magazine",
+          "description": "Honored for exceptional contributions to classical ballet performances throughout the year.",
+          "image": "badge4"
+        }
+      ]
+    }
+  ],
+
+  "volunteering": [
+    {
+      "id": "v1",
+      "name": "National Honor Society",
+      "logo": "piano",
+      "impact": "As a member of the National Honor Society, I participated in various community service projects that aimed to improve education and literacy in underprivileged areas.",
+      "images": [
+        {
+          "key": "bart_banner",
+          "caption": "Organizing books during our annual book drive."
+        },
+        {
+          "key": "bart_profile",
+          "caption": "Tutoring students at a local middle school."
+        }
+      ],
+      "events": [
+        {
+          "title": "Book Drive Coordinator",
+          "startYear": 2018,
+          "endYear": 2020,
+          "description": "Led a team that collected over 5,000 books to help start local libraries in rural communities."
+        },
+        {
+          "title": "Weekly Tutoring",
+          "startYear": 2017,
+          "endYear": 2020,
+          "description": "Provided weekly tutoring sessions in math and science to students at under-resourced schools."
+        }
+      ]
+    },
+    {
+      "id": "v2",
+      "name": "Red Cross",
+      "logo": "piano",
+      "impact": "Volunteered with the Red Cross to assist in disaster response efforts, providing aid and support to affected communities.",
+      "images": [
+        {
+          "key": "fbla2",
+          "caption": "Helping rebuild homes after the floods."
+        },
+        {
+          "key": "piano",
+          "caption": "Distributing emergency supplies to disaster victims."
+        }
+      ],
+      "events": [
+        {
+          "title": "Disaster Response Volunteer",
+          "startYear": 2019,
+          "endYear": 2020,
+          "description": "Worked on the ground to provide immediate relief in the aftermath of natural disasters."
+        },
+        {
+          "title": "Fundraising Ambassador",
+          "startYear": 2018,
+          "endYear": 2020,
+          "description": "Raised over $20,000 for disaster relief efforts through various fundraising activities."
         }
       ]
     }
   ]
+  
   
 }
