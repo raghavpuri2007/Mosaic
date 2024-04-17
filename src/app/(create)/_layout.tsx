@@ -3,8 +3,6 @@ import { Link, Stack } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Colors from "../../constants/Colors";
-import Login from "./index";
-import CreateProfile from "./create";
 export default function StackLayout() {
   const colorScheme = useColorScheme();
 

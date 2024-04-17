@@ -8,7 +8,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack, useNavigation } from "expo-router"; // Import useNavigation hook
 import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import Login from "../components/Login";
 import CreateProfile from "../components/CreateProfile";
 export {
@@ -17,7 +17,7 @@ export {
 } from "expo-router";
 import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
@@ -58,7 +58,6 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation(); // Get the navigation object
-
 
   const customHeaderBackButton = () => (
     <TouchableOpacity
@@ -105,11 +104,11 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
-        <Stack.Screen 
-          name="users/[id]" 
+        <Stack.Screen
+          name="users/[id]"
           options={{
             headerTransparent: true,
-            headerTitle: '',
+            headerTitle: "",
             headerLeft: customHeaderBackButton,
           }}
         />
@@ -124,8 +123,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent black
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent black
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
