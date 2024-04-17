@@ -8,24 +8,32 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebaseConfig";
+import * as FileSystem from "expo-file-system";
 
 export default function Create3() {
   const router = useRouter();
-  const [sports, setSports] = useState([{ name: "", levels: [""], years: "" }]);
+  const [sports, setSports] = useState([
+    { name: "", levels: [""], years: "", highlightVideos: [] },
+  ]);
   const [sportsAwards, setSportsAwards] = useState([""]);
   const [performingArts, setPerformingArts] = useState([
-    { name: "", years: "" },
+    { name: "", years: "", images: [] },
   ]);
   const [projects, setProjects] = useState([
-    { name: "", description: "", image: null, link: "" },
+    { name: "", description: "", link: "", skills: [""], image: null },
   ]);
   const [performingArtsAwards, setPerformingArtsAwards] = useState([""]);
-  const [clubs, setClubs] = useState([{ name: "", roles: [""], years: "" }]);
+  const [clubs, setClubs] = useState([
+    { name: "", roles: [""], years: "", images: [] },
+  ]);
   const [clubsAwards, setClubsAwards] = useState([""]);
   const [volunteering, setVolunteering] = useState([{ name: "", hours: "" }]);
   const [volunteeringAwards, setVolunteeringAwards] = useState([""]);
@@ -33,13 +41,19 @@ export default function Create3() {
   const handleAddActivity = (category) => {
     switch (category) {
       case "sports":
-        setSports([...sports, { name: "", levels: [""], years: "" }]);
+        setSports([
+          ...sports,
+          { name: "", levels: [""], years: "", highlightVideos: [] },
+        ]);
         break;
       case "performingArts":
-        setPerformingArts([...performingArts, { name: "", years: "" }]);
+        setPerformingArts([
+          ...performingArts,
+          { name: "", years: "", images: [] },
+        ]);
         break;
       case "clubs":
-        setClubs([...clubs, { name: "", roles: [""], years: "" }]);
+        setClubs([...clubs, { name: "", roles: [""], years: "", images: [] }]);
         break;
       case "volunteering":
         setVolunteering([...volunteering, { name: "", hours: "" }]);
@@ -52,7 +66,7 @@ export default function Create3() {
   const handleAddProject = () => {
     setProjects([
       ...projects,
-      { name: "", description: "", image: null, link: "" },
+      { name: "", description: "", link: "", skills: [""], image: null },
     ]);
   };
   const handleProjectChange = (index, field, value) => {
@@ -100,12 +114,105 @@ export default function Create3() {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.cancelled && result.uri) {
       const updatedProjects = [...projects];
       updatedProjects[index].image = result.uri;
       setProjects(updatedProjects);
     }
   };
+
+  const handleAddHighlightVideo = (sportIndex) => {
+    const updatedSports = [...sports];
+    updatedSports[sportIndex].highlightVideos.push(null);
+    setSports(updatedSports);
+  };
+
+  const handleHighlightVideoChange = async (sportIndex, videoIndex) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to select a video.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled && result.uri) {
+      const updatedSports = [...sports];
+      updatedSports[sportIndex].highlightVideos[videoIndex] = result.uri;
+      setSports(updatedSports);
+    }
+  };
+
+  const handleAddPerformingArtImage = (index) => {
+    const updatedPerformingArts = [...performingArts];
+    updatedPerformingArts[index].images.push(null);
+    setPerformingArts(updatedPerformingArts);
+  };
+
+  const handlePerformingArtImageChange = async (artIndex, imageIndex) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to select an image.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled && result.uri) {
+      const updatedPerformingArts = [...performingArts];
+      updatedPerformingArts[artIndex].images[imageIndex] = result.uri;
+      setPerformingArts(updatedPerformingArts);
+    }
+  };
+
+  const handleAddClubImage = (index) => {
+    const updatedClubs = [...clubs];
+    updatedClubs[index].images.push(null);
+    setClubs(updatedClubs);
+  };
+
+  const handleClubImageChange = async (clubIndex, imageIndex) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to select an image.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled && result.uri) {
+      const updatedClubs = [...clubs];
+      updatedClubs[clubIndex].images[imageIndex] = result.uri;
+      setClubs(updatedClubs);
+    }
+  };
+
+  const handleAddSkill = (index) => {
+    const updatedProjects = [...projects];
+    updatedProjects[index].skills.push("");
+    setProjects(updatedProjects);
+  };
+
+  const handleSkillChange = (projectIndex, skillIndex, value) => {
+    const updatedProjects = [...projects];
+    updatedProjects[projectIndex].skills[skillIndex] = value;
+    setProjects(updatedProjects);
+  };
+
   const handleAddLevel = (index) => {
     const updatedSports = [...sports];
     updatedSports[index].levels.push({ level: "", years: "" });
@@ -176,8 +283,37 @@ export default function Create3() {
     }
   };
 
-  const handleGoBack = () => {
+  const saveDataToFirebase = async () => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+
+      await updateDoc(userRef, {
+        sports,
+        performingArts,
+        projects,
+        clubs,
+        sportsAwards,
+        performingArtsAwards,
+        clubsAwards,
+        volunteering,
+        volunteeringAwards,
+      });
+    }
+  };
+
+  const handleGoBack = async () => {
+    await saveDataToFirebase();
     router.back();
+  };
+
+  const handleNextStep = async () => {
+    await saveDataToFirebase();
+    router.push("create4");
+  };
+
+  const handleSkip = async () => {
+    await saveDataToFirebase();
+    router.push("(tabs)");
   };
 
   return (
@@ -268,6 +404,39 @@ export default function Create3() {
                     )}
                   </View>
                 ))}
+                <View style={styles.highlightVideosSection}>
+                  <Text style={styles.highlightVideosTitle}>
+                    Highlight Videos
+                  </Text>
+                  {sport.highlightVideos.map((video, videoIndex) => (
+                    <TouchableOpacity
+                      style={styles.highlightVideoButton}
+                      onPress={() =>
+                        handleHighlightVideoChange(sportIndex, videoIndex)
+                      }
+                    >
+                      {video ? (
+                        <Video
+                          source={{ uri: video }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons
+                          name="videocam-outline"
+                          size={24}
+                          color="#888"
+                        />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addHighlightVideoButton}
+                    onPress={() => handleAddHighlightVideo(sportIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
                 {sportIndex === sports.length - 1 && (
                   <TouchableOpacity
                     style={[styles.addActivityButton, styles.addSportButton]}
@@ -326,6 +495,33 @@ export default function Create3() {
                     )
                   }
                 />
+                <View style={styles.performingArtImagesSection}>
+                  <Text style={styles.performingArtImagesTitle}>Images</Text>
+                  {art.images.map((image, imageIndex) => (
+                    <TouchableOpacity
+                      style={styles.performingArtImageButton}
+                      onPress={() =>
+                        handlePerformingArtImageChange(index, imageIndex)
+                      }
+                    >
+                      {image ? (
+                        <Image
+                          source={{ uri: image }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons name="image-outline" size={24} color="#888" />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addPerformingArtImageButton}
+                    onPress={() => handleAddPerformingArtImage(index)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
             <TouchableOpacity
@@ -400,6 +596,33 @@ export default function Create3() {
                     )}
                   </View>
                 ))}
+                <View style={styles.clubImagesSection}>
+                  <Text style={styles.clubImagesTitle}>Images</Text>
+                  {club.images.map((image, imageIndex) => (
+                    <TouchableOpacity
+                      style={styles.clubImageButton}
+                      onPress={() =>
+                        handleClubImageChange(clubIndex, imageIndex)
+                      }
+                    >
+                      {image ? (
+                        <Image
+                          source={{ uri: image }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons name="image-outline" size={24} color="#888" />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addClubImageButton}
+                    onPress={() => handleAddClubImage(clubIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
                 {clubIndex === clubs.length - 1 && (
                   <TouchableOpacity
                     style={[styles.addActivityButton, styles.addClubButton]}
@@ -506,21 +729,6 @@ export default function Create3() {
                   handleProjectChange(index, "description", value)
                 }
               />
-              <TouchableOpacity
-                style={styles.projectImageButton}
-                onPress={() => handleImagePicker(index)}
-              >
-                {project.image ? (
-                  <Image
-                    source={{ uri: project.image }}
-                    style={styles.projectImage}
-                  />
-                ) : (
-                  <Text style={styles.projectImageButtonText}>
-                    Select Project Image
-                  </Text>
-                )}
-              </TouchableOpacity>
               <TextInput
                 style={[styles.input, styles.projectLinkInput]}
                 placeholder="Project Link"
@@ -530,6 +738,41 @@ export default function Create3() {
                   handleProjectChange(index, "link", value)
                 }
               />
+              <View style={styles.projectSkillsSection}>
+                <Text style={styles.projectSkillsTitle}>Skills</Text>
+                {project.skills.map((skill, skillIndex) => (
+                  <TextInput
+                    key={skillIndex}
+                    style={[styles.input, styles.projectSkillInput]}
+                    placeholder="Skill"
+                    placeholderTextColor="#888"
+                    value={skill}
+                    onChangeText={(value) =>
+                      handleSkillChange(index, skillIndex, value)
+                    }
+                  />
+                ))}
+                <TouchableOpacity
+                  style={styles.addProjectSkillButton}
+                  onPress={() => handleAddSkill(index)}
+                >
+                  <Ionicons name="add" size={24} color="#fff" />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={styles.projectImageButton}
+                onPress={() => handleImagePicker(index)}
+              >
+                {project.image ? (
+                  <Image
+                    source={{ uri: project.image }}
+                    style={{ width: 50, height: 50 }}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Ionicons name="image-outline" size={24} color="#888" />
+                )}
+              </TouchableOpacity>
             </View>
           ))}
           <TouchableOpacity
@@ -538,16 +781,15 @@ export default function Create3() {
           >
             <Ionicons name="add" size={24} color="#fff" />
           </TouchableOpacity>
-          <Link href="create4" asChild>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>NEXT STEP</Text>
-            </TouchableOpacity>
-          </Link>
-          <Link href="(tabs)" asChild>
-            <TouchableOpacity style={styles.skipButtonContainer}>
-              <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity style={styles.button} onPress={handleNextStep}>
+            <Text style={styles.buttonText}>NEXT STEP</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.skipButtonContainer}
+            onPress={handleSkip}
+          >
+            <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -590,6 +832,26 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 16,
     textAlign: "center",
+  },
+  highlightVideoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  performingArtImageRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  clubImageRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  projectImageRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
   },
   timeline: {
     alignItems: "center",
@@ -771,9 +1033,12 @@ const styles = StyleSheet.create({
   },
   projectImageButton: {
     backgroundColor: "#222",
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
   projectImage: {
@@ -797,5 +1062,135 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#ffd700",
     marginBottom: 20,
+  },
+  highlightVideosSection: {
+    marginTop: 20,
+  },
+  highlightVideosTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  highlightVideoButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  highlightVideoButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  addHighlightVideoButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#ffd700",
+    marginBottom: 20,
+  },
+  performingArtImagesSection: {
+    marginTop: 20,
+  },
+  performingArtImagesTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  performingArtImageButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  performingArtImage: {
+    width: 200,
+    height: 150,
+    resizeMode: "cover",
+    borderRadius: 10,
+  },
+  performingArtImageButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  addPerformingArtImageButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#ffd700",
+    marginBottom: 20,
+  },
+  clubImagesSection: {
+    marginTop: 20,
+  },
+  clubImagesTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  clubImageButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  clubImage: {
+    width: 200,
+    height: 150,
+    resizeMode: "cover",
+    borderRadius: 10,
+  },
+  clubImageButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  addClubImageButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#ffd700",
+    marginBottom: 20,
+  },
+  projectSkillsSection: {
+    marginBottom: 10,
+  },
+  projectSkillsTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  projectSkillInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  addProjectSkillButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#ffd700",
+    marginBottom: 10,
   },
 });

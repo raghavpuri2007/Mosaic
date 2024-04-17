@@ -12,6 +12,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebaseConfig";
 
 export default function Create2() {
   const router = useRouter();
@@ -20,6 +22,10 @@ export default function Create2() {
     { year: "", courses: [{ name: "", grade: "" }] },
   ]);
   const [academicAwards, setAcademicAwards] = useState([""]);
+  const [unweightedGPA, setUnweightedGPA] = useState("");
+  const [weightedGPA, setWeightedGPA] = useState("");
+  const [satScore, setSatScore] = useState("");
+  const [actScore, setActScore] = useState("");
 
   const handleAddApScore = () => {
     setApScores([...apScores, { subject: "", score: "" }]);
@@ -66,8 +72,34 @@ export default function Create2() {
     setAcademicAwards(updatedAwards);
   };
 
-  const handleGoBack = () => {
+  const saveDataToFirebase = async () => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(userRef, {
+        apScores,
+        transcript,
+        academicAwards,
+        unweightedGPA,
+        weightedGPA,
+        satScore,
+        actScore,
+      });
+    }
+  };
+
+  const handleGoBack = async () => {
+    await saveDataToFirebase();
     router.back();
+  };
+
+  const handleNextStep = async () => {
+    await saveDataToFirebase();
+    router.push("create3");
+  };
+
+  const handleSkip = async () => {
+    await saveDataToFirebase();
+    router.push("(tabs)");
   };
 
   return (
@@ -110,12 +142,16 @@ export default function Create2() {
                 placeholder="Unweighted GPA"
                 placeholderTextColor="#888"
                 keyboardType="numeric"
+                value={unweightedGPA}
+                onChangeText={setUnweightedGPA}
               />
               <TextInput
                 style={[styles.input, styles.inputHalf]}
                 placeholder="Weighted GPA"
                 placeholderTextColor="#888"
                 keyboardType="numeric"
+                value={weightedGPA}
+                onChangeText={setWeightedGPA}
               />
             </View>
             <View style={styles.inputRow}>
@@ -124,12 +160,16 @@ export default function Create2() {
                 placeholder="SAT Score"
                 placeholderTextColor="#888"
                 keyboardType="number-pad"
+                value={satScore}
+                onChangeText={setSatScore}
               />
               <TextInput
                 style={[styles.input, styles.inputHalf]}
                 placeholder="ACT Score"
                 placeholderTextColor="#888"
                 keyboardType="number-pad"
+                value={actScore}
+                onChangeText={setActScore}
               />
             </View>
             <Text style={styles.sectionTitle}>Transcript</Text>
@@ -239,16 +279,15 @@ export default function Create2() {
               <Ionicons name="add" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
-          <Link href="create3" asChild>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>NEXT STEP</Text>
-            </TouchableOpacity>
-          </Link>
-          <Link href="(tabs)" asChild>
-            <TouchableOpacity style={styles.skipButtonContainer}>
-              <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity style={styles.button} onPress={handleNextStep}>
+            <Text style={styles.buttonText}>NEXT STEP</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.skipButtonContainer}
+            onPress={handleSkip}
+          >
+            <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

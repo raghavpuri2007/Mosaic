@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,34 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebaseConfig";
 
 export default function Create1() {
+  const router = useRouter();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [highSchool, setHighSchool] = useState("");
+  const [graduationYear, setGraduationYear] = useState("");
+
+  const handleSubmit = async () => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      await setDoc(
+        userRef,
+        {
+          firstName,
+          lastName,
+          highSchool,
+          graduationYear,
+        },
+        { merge: true }
+      );
+      router.push("create2");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Back icon removed */}</View>
@@ -40,30 +65,36 @@ export default function Create1() {
               style={[styles.input, styles.inputHalf]}
               placeholder="First name"
               placeholderTextColor="#888"
+              value={firstName}
+              onChangeText={setFirstName}
             />
             <TextInput
               style={[styles.input, styles.inputHalf]}
               placeholder="Last name"
               placeholderTextColor="#888"
+              value={lastName}
+              onChangeText={setLastName}
             />
           </View>
           <TextInput
             style={styles.input}
             placeholder="High School"
             placeholderTextColor="#888"
+            value={highSchool}
+            onChangeText={setHighSchool}
           />
           <TextInput
             style={styles.input}
             placeholder="Graduation Year"
             placeholderTextColor="#888"
             keyboardType="number-pad"
+            value={graduationYear}
+            onChangeText={setGraduationYear}
           />
         </View>
-        <Link href="create2" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>NEXT STEP</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>NEXT STEP</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
       <Link href="(tabs)" asChild>
         <TouchableOpacity style={styles.skipButtonContainer}>
