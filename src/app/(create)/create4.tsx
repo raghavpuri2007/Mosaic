@@ -12,8 +12,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebaseConfig";
+import { Link } from "expo-router";
 
 export default function Create4() {
   const router = useRouter();
@@ -24,66 +27,61 @@ export default function Create4() {
   const [aboutMe, setAboutMe] = useState("");
 
   const handleSelectProfilePicture = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert(
-        "Sorry, we need camera roll permissions to select a profile picture."
-      );
-      return;
-    }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
+      quality: 0.5,
     });
 
-    if (!result.cancelled) {
-      setProfilePicture(result.uri);
+    if (!result.canceled) {
+      setProfilePicture(result.assets[0].uri);
     }
   };
 
   const handleSelectCoverImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to select a cover image.");
-      return;
-    }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [16, 9],
-      quality: 1,
+      quality: 0.5,
     });
 
-    if (!result.cancelled) {
-      setCoverImage(result.uri);
+    if (!result.canceled) {
+      setCoverImage(result.assets[0].uri);
     }
   };
 
   const handleSelectBannerImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to select a banner image.");
-      return;
-    }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [16, 9],
-      quality: 1,
+      quality: 0.5,
     });
 
-    if (!result.cancelled) {
-      setBannerImage(result.uri);
+    if (!result.canceled) {
+      setBannerImage(result.assets[0].uri);
     }
   };
 
   const handleGoBack = () => {
     router.back();
+  };
+
+  const handleFinishProfile = async () => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+
+      await updateDoc(userRef, {
+        profilePicture,
+        coverImage,
+        bannerImage,
+        headline,
+        aboutMe,
+      });
+    }
+
+    router.push("(tabs)");
   };
 
   return (
@@ -157,10 +155,7 @@ export default function Create4() {
               </TouchableOpacity>
             </TouchableOpacity>
             <Text style={styles.sectionTitle}>Cover Image</Text>
-            <TouchableOpacity
-              style={styles.coverImageContainer}
-              onPress={handleSelectCoverImage}
-            >
+            <View style={styles.coverImageContainer}>
               {coverImage ? (
                 <Image source={{ uri: coverImage }} style={styles.coverImage} />
               ) : (
@@ -171,12 +166,17 @@ export default function Create4() {
                   </Text>
                 </View>
               )}
+            </View>
+            <TouchableOpacity
+              style={styles.selectCoverImageButton}
+              onPress={handleSelectCoverImage}
+            >
+              <Text style={styles.selectCoverImageButtonText}>
+                Select Cover Image
+              </Text>
             </TouchableOpacity>
             <Text style={styles.sectionTitle}>Banner Image</Text>
-            <TouchableOpacity
-              style={styles.bannerImageContainer}
-              onPress={handleSelectBannerImage}
-            >
+            <View style={styles.bannerImageContainer}>
               {bannerImage ? (
                 <Image
                   source={{ uri: bannerImage }}
@@ -190,13 +190,19 @@ export default function Create4() {
                   </Text>
                 </View>
               )}
+            </View>
+            <TouchableOpacity
+              style={styles.selectBannerImageButton}
+              onPress={handleSelectBannerImage}
+            >
+              <Text style={styles.selectBannerImageButtonText}>
+                Select Banner Image
+              </Text>
             </TouchableOpacity>
           </View>
-          <Link href="/home" asChild>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Finish Profile</Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity style={styles.button} onPress={handleFinishProfile}>
+            <Text style={styles.buttonText}>Finish Profile</Text>
+          </TouchableOpacity>
           <Link href="(tabs)" asChild>
             <TouchableOpacity style={styles.skipButtonContainer}>
               <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
@@ -315,7 +321,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   coverImage: {
     width: "100%",
@@ -337,7 +343,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   bannerImage: {
     width: "100%",
@@ -381,5 +387,31 @@ const styles = StyleSheet.create({
   skipButtonText: {
     color: "#ffd700",
     fontSize: 16,
+  },
+  selectCoverImageButton: {
+    backgroundColor: "#ffd700",
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  selectCoverImageButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  selectBannerImageButton: {
+    backgroundColor: "#ffd700",
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  selectBannerImageButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
