@@ -45,13 +45,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="network"
-        options={{
-          title: 'My Network',
-          tabBarIcon: ({ color }) => <TabBarIcon name="group" color={color} />,
-        }}
-      />*/}
+
       <Tabs.Screen
         name="new-post"
         options={{
@@ -78,15 +72,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
-      {/* <Tabs.Screen
-        name="jobs"
-        options={{
-          title: "Jobs",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="briefcase" color={color} />
-          ),
-        }}
-      /> */}
+
     </Tabs>
   );
 }
