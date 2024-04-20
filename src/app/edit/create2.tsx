@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
-import { doc, updateDoc } from "firebase/firestore";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebaseConfig";
 
 export default function Create2() {
+  const { editing } = useLocalSearchParams();
   const router = useRouter();
   const [apScores, setApScores] = useState([{ subject: "", score: "" }]);
   const [transcript, setTranscript] = useState([
@@ -26,6 +27,30 @@ export default function Create2() {
   const [weightedGPA, setWeightedGPA] = useState("");
   const [satScore, setSatScore] = useState("");
   const [actScore, setActScore] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (editing === "true" && auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setApScores(userData.apScores || [{ subject: "", score: "" }]);
+          setTranscript(
+            userData.transcript || [
+              { year: "", courses: [{ name: "", grade: "" }] },
+            ]
+          );
+          setAcademicAwards(userData.academicAwards || [""]);
+          setUnweightedGPA(userData.unweightedGPA || "");
+          setWeightedGPA(userData.weightedGPA || "");
+          setSatScore(userData.satScore || "");
+          setActScore(userData.actScore || "");
+        }
+      }
+    };
+    fetchUserData();
+  }, [editing]);
 
   const handleAddApScore = () => {
     setApScores([...apScores, { subject: "", score: "" }]);
@@ -94,7 +119,12 @@ export default function Create2() {
 
   const handleNextStep = async () => {
     await saveDataToFirebase();
-    router.push("create3");
+    router.push({
+      pathname: "../edit/create3",
+      params: {
+        editing: true,
+      },
+    });
   };
 
   const handleSkip = async () => {
@@ -280,13 +310,17 @@ export default function Create2() {
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.button} onPress={handleNextStep}>
-            <Text style={styles.buttonText}>NEXT STEP</Text>
+            <Text style={styles.buttonText}>
+              {editing ? "NEXT UPDATE" : "NEXT STEP"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.skipButtonContainer}
             onPress={handleSkip}
           >
-            <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
+            <Text style={styles.skipButtonText}>
+              {editing ? "Update! Go to Home" : "Skip! Go to Home"}
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>

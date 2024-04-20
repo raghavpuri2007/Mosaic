@@ -31,7 +31,7 @@ export default function CreateProfile() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("User created:", user.uid);
-        router.push("/create1");
+        router.replace("../edit");
       })
       .catch((error) => {
         const errorMessage = error.message;

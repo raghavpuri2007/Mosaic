@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,16 +9,34 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, useRouter } from "expo-router";
-import { doc, setDoc } from "firebase/firestore";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebaseConfig";
 
 export default function Create1() {
+  const { editing } = useLocalSearchParams();
   const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [highSchool, setHighSchool] = useState("");
   const [graduationYear, setGraduationYear] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (editing && auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setFirstName(userData.firstName || "");
+          setLastName(userData.lastName || "");
+          setHighSchool(userData.highSchool || "");
+          setGraduationYear(userData.graduationYear || "");
+        }
+      }
+    };
+    fetchUserData();
+  }, [editing]);
 
   const handleSubmit = async () => {
     if (auth.currentUser) {
@@ -33,7 +51,12 @@ export default function Create1() {
         },
         { merge: true }
       );
-      router.push("create2");
+      router.push({
+        pathname: "../edit/create2",
+        params: {
+          editing: true,
+        },
+      });
     }
   };
 
@@ -46,7 +69,9 @@ export default function Create1() {
       >
         <View style={styles.titleContainer}>
           <Text style={styles.stepText}>Step 01</Text>
-          <Text style={styles.headerTitle}>Create your Profile</Text>
+          <Text style={styles.headerTitle}>
+            {editing ? "Edit your Profile" : "Create your Profile"}
+          </Text>
         </View>
         <View style={styles.timeline}>
           <View style={styles.timelineItems}>
@@ -93,12 +118,16 @@ export default function Create1() {
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>NEXT STEP</Text>
+          <Text style={styles.buttonText}>
+            {editing ? "NEXT UPDATE" : "NEXT STEP"}
+          </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       <Link href="(tabs)" asChild>
         <TouchableOpacity style={styles.skipButtonContainer}>
-          <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
+          <Text style={styles.skipButtonText}>
+            {editing ? "Update! Go to Home" : "Skip! Go to Home"}
+          </Text>
         </TouchableOpacity>
       </Link>
     </SafeAreaView>

@@ -99,7 +99,10 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName={loggedIn ? "(tabs)" : "(create)"}>
+      <Stack
+        initialRouteName={loggedIn ? "(tabs)" : "(create)"}
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="(create)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
