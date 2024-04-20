@@ -37,8 +37,7 @@ export default function Create1() {
     };
     fetchUserData();
   }, [editing]);
-
-  const handleSubmit = async () => {
+  const saveDataToFirebase = async () => {
     if (auth.currentUser) {
       const userRef = doc(db, "users", auth.currentUser.uid);
       await setDoc(
@@ -51,6 +50,10 @@ export default function Create1() {
         },
         { merge: true }
       );
+    }
+  }
+  const handleSubmit = async () => {
+      await saveDataToFirebase();
       router.push({
         pathname: "../edit/create2",
         params: {
@@ -59,7 +62,10 @@ export default function Create1() {
       });
     }
   };
-
+  const handleSkip = async () => {
+    await saveDataToFirebase();
+    router.push("(tabs)");
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Back icon removed */}</View>
@@ -123,13 +129,11 @@ export default function Create1() {
           </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-      <Link href="(tabs)" asChild>
-        <TouchableOpacity style={styles.skipButtonContainer}>
+        <TouchableOpacity style={styles.skipButtonContainer} onPress={handleSkip}>
           <Text style={styles.skipButtonText}>
             {editing ? "Update! Go to Home" : "Skip! Go to Home"}
           </Text>
         </TouchableOpacity>
-      </Link>
     </SafeAreaView>
   );
 }
