@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import Carousel from 'react-native-reanimated-carousel';
 import { Video } from 'expo-av';
 import { Athletic } from '@/types';
-import { ResizeMode } from 'expo-av'; // Add this line
-
+import { ResizeMode } from 'expo-av';
+import { themes } from '../constants/Themes';
 
 type AthleticsListItemProps = {
     athletics: Athletic;
     images: { [key: string]: any };
     videos: { [key: string]: any };
+    themeKey: string;
 };
 
-export default function AthleticsListItem({ athletics, images, videos }: AthleticsListItemProps) {
+export default function AthleticsListItem({ athletics, images, videos, themeKey }: AthleticsListItemProps) {
     const [isOpen, setIsOpen] = useState(false);
-
+    const theme = themes[themeKey] || themes.default;
+    const styles = getStyles(theme);
+    
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
@@ -25,16 +28,13 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
                 <Image source={images[athletics.logo]} style={styles.logo} />
                 <Text style={styles.clubName}>{athletics.name}</Text>
-                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color="black" style={styles.icon} />
+                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
             {isOpen && (
                 <ScrollView style={styles.details}>
                     <Text style={styles.sectionTitle}>Description</Text>
-
                     <Text style={styles.athleticDescription}>{athletics.description}</Text>
-
                     <Text style={styles.sectionTitle}>Highlights</Text>
-
                     <Carousel
                         loop
                         autoPlay
@@ -58,9 +58,7 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
                         width={0.87 * Dimensions.get('window').width} 
                         height={0.6 * Dimensions.get('window').width}
                     />
-
                     <Text style={styles.sectionTitle}>Images</Text>
-
                     <Carousel
                         loop
                         autoPlay
@@ -70,11 +68,11 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
                             <View style={styles.mediaContainer}>
                                 <Image source={images[item.key]} style={styles.sportsImage} />
                                 <Text style={styles.caption}>{item.caption}</Text>
-                            </View>                        )}
+                            </View>
+                        )}
                         width={0.87 * Dimensions.get('window').width}
                         height={0.6 * Dimensions.get('window').width}
                     />
-
                     {athletics.awards && athletics.awards.length > 0 && (
                         <View style={styles.awardsContainer}>
                             <Text style={styles.sectionTitle}>Awards</Text>
@@ -95,14 +93,12 @@ export default function AthleticsListItem({ athletics, images, videos }: Athleti
     );
 }
 
-
-const styles = StyleSheet.create({
-    // Similar styles to ClubListItem
+const getStyles = (theme) => StyleSheet.create({
     container: {
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: theme.sectionBackground,
         borderBottomWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.inactiveStrokeColor,
     },
     header: {
         flexDirection: 'row',
@@ -114,6 +110,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flex: 1,
         marginLeft: 10,
+        color: theme.text,
     },
     logo: {
         width: 50,
@@ -126,7 +123,6 @@ const styles = StyleSheet.create({
     details: {
         marginTop: 10,
     },
-    
     mediaContainer: {
         width: '100%',
         justifyContent: 'center',
@@ -135,15 +131,13 @@ const styles = StyleSheet.create({
         borderRadius: 10, 
         overflow: 'hidden', 
         borderWidth: 1,
-        borderColor: '#ddd', 
-        backgroundColor: 'rgba(135, 206, 235, 0.3)',
-
+        borderColor: theme.inactiveStrokeColor,
+        backgroundColor: theme.disabledButtonBackground,
     },
-    
     highlightVideo: {
         width: '100%',
         height: 200, 
-        backgroundColor: 'black',
+        backgroundColor: theme.background,
     },
     sportsImage: {
         width: '100%',
@@ -153,7 +147,7 @@ const styles = StyleSheet.create({
     caption: {
         marginTop: 5,
         fontSize: 12,
-        color: 'gray',
+        color: theme.text,
         textAlign: 'center'
     },
     awardsContainer: {
@@ -175,19 +169,22 @@ const styles = StyleSheet.create({
     },
     awardTitle: {
         fontWeight: 'bold',
+        color: theme.text,
     },
     awardDescription: {
         fontSize: 14,
+        color: theme.text,
     },
     sectionTitle: {
         fontSize: 18,
         fontWeight: "600",
         marginVertical: 5,
+        color: theme.text,
     },
-
     athleticDescription: {
         fontSize: 14,
         marginBottom: 10,
         fontStyle: 'italic',
+        color: theme.text,
     },
 });

@@ -11,6 +11,8 @@ import {
 import userJson from "../../../assets/data/user.json";
 import { useLayoutEffect, useState, useMemo, useRef } from "react";
 import { User, Score } from "../../types";
+import { themes } from '../../constants/Themes';
+
 import ProjectListItem from "../../components/ProjectListItem";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Table, Row, Rows } from "react-native-table-component";
@@ -65,6 +67,9 @@ const videos = {
 };
 
 
+const [user, setUser] = useState<User>(userJson);
+const theme = themes[user.theme] || themes.default;
+const themeKey = user.theme || "default";
 
 const ScoresSection = ({ scores }) => {
   return (
@@ -91,10 +96,10 @@ const ScoresSection = ({ scores }) => {
               <CircularProgress
                 value={apScore.percentile}
                 radius={20}
-                inActiveStrokeColor="#bcbcbc"
+                inActiveStrokeColor={theme.inactiveStrokeColor}
                 inActiveStrokeOpacity={0.8}
-                activeStrokeColor={"#00e676"}
-                progressValueColor={"#333333"}
+                activeStrokeColor={theme.activeStrokeColor}
+                progressValueColor={theme.text}
               />
             </View>
           ))}
@@ -126,7 +131,7 @@ const GradesSection = ({ grades }) => {
     course,
     grade,
   ]);
-  const widthArr = [70, 210, 70];
+  const widthArr = [70, 232, 70];
 
   return (
     <View>
@@ -201,17 +206,15 @@ const ScoreRow = ({
     <CircularProgress
       value={percentile}
       radius={20}
-      inActiveStrokeColor="#bcbcbc"
+      inActiveStrokeColor={theme.inactiveStrokeColor}
       inActiveStrokeOpacity={0.8}
-      activeStrokeColor={"#00e676"}
-      progressValueColor={"#333333"}
+      activeStrokeColor={theme.activeStrokeColor}
+      progressValueColor={theme.text}
     />
   </View>
 );
 
 export default function UserProfile() {
-  const [user, setUser] = useState<User>(userJson);
-
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
   const bottomSheetRef = useRef(null);
@@ -232,7 +235,7 @@ export default function UserProfile() {
       if (bottomSheetRef.current) {
         bottomSheetRef.current.snapToIndex(0);
       }
-    }, 4000);
+    }, 2000);
   }, [user?.name]);
 
   const renderContent = () => (
@@ -248,7 +251,7 @@ export default function UserProfile() {
 
           {/* Name and Position */}
           <Text style={styles.name}>{user.name}</Text>
-          <Text>{user.position}</Text>
+          <Text color={theme.accent1}>{user.position}</Text>
 
           {/*Connect & Message buttons*/}
           <View style={styles.buttonContainer}>
@@ -269,49 +272,49 @@ export default function UserProfile() {
       </View>
 
       {/* Grades */}
-      <CollapsibleSection title="Grades">
+      <CollapsibleSection title="Grades" themeKey={themeKey}>
         <GradesSection grades={user.grades} />
       </CollapsibleSection>
 
 
       {/* Scores */}
-      <CollapsibleSection title="Scores">
+      <CollapsibleSection title="Scores" themeKey={themeKey}>
         <ScoresSection scores={user.scores} />
       </CollapsibleSection>
 
 
       {/* Clubs */}
-      <CollapsibleSection title="Clubs">
+      <CollapsibleSection title="Clubs" themeKey={themeKey}>
         {user.clubs?.map((club) => (
-          <ClubListItem key={club.id} club={club} images={images} />
+          <ClubListItem key={club.id} club={club} images={images} themeKey={themeKey}/>
         ))}
       </CollapsibleSection>
 
       {/* Athletics */}
-      <CollapsibleSection title="Athletics">
+      <CollapsibleSection title="Athletics" themeKey={themeKey}>
         {user.athletics?.map((athletic) => (
-          <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} />
+          <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} themeKey={themeKey}/>
         ))}
       </CollapsibleSection>
 
       {/* Performing Arts */}
-      <CollapsibleSection title="Performing Arts">
+      <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
         {user.performingArts?.map((art) => (
-          <PerformingArtsListItem key={art.id} performingArt={art} images={images} videos={videos} />
+          <PerformingArtsListItem key={art.id} performingArt={art} images={images} videos={videos} themeKey={themeKey}/>
         ))}
       </CollapsibleSection>
 
       {/* Volunteering */}
-      <CollapsibleSection title="Volunteering">
+      <CollapsibleSection title="Volunteering" themeKey={themeKey}>
         {user.volunteering?.map((volunteering) => (
-          <VolunteeringListItem key={volunteering.id} volunteering={volunteering} images={images} />
+          <VolunteeringListItem key={volunteering.id} volunteering={volunteering} images={images} themeKey={themeKey}/>
         ))}
       </CollapsibleSection>
 
       {/* Projects */}
-      <CollapsibleSection title="Projects">
+      <CollapsibleSection title="Projects" themeKey={themeKey}>
         {user.projects?.map((project) => (
-          <ProjectListItem key={project.id} project={project} image={images[project.projectImage]}/>
+          <ProjectListItem key={project.id} project={project} image={images[project.projectImage]} themeKey={themeKey}/>
         ))}
       </CollapsibleSection>
 
@@ -352,7 +355,7 @@ export default function UserProfile() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: theme.sectionBackground,
     height: "100%",
   },
   header: {
@@ -363,7 +366,6 @@ const styles = StyleSheet.create({
     aspectRatio: 5 / 2,
     marginBottom: -60,
   },
-
   headerContent: {
     padding: 10,
     paddingTop: 0,
@@ -374,81 +376,53 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: "white",
+    borderColor: theme.background,
   },
   name: {
     fontSize: 24,
     fontWeight: "500",
+    color: theme.text,
   },
-
-  //Button
-
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 10
+    marginTop: 10,
   },
   buttonLarge: {
-    backgroundColor: "black",
+    backgroundColor: theme.primary, // Primary theme color for primary buttons
     width: '84.2%',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonText: {
-    color: "white",
+    color: theme.buttonText,
     fontWeight: "600",
-    fontSize: 16
+    fontSize: 16,
   },
   buttonSmall: {
-    backgroundColor: "royalblue",
+    backgroundColor: theme.accent1, // Accent color for smaller button
     width: '15%',
     padding: 10,
     borderRadius: 20,
     marginHorizontal: 2,
     alignItems: "center",
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-
   section: {
-    backgroundColor: "white",
+    backgroundColor: theme.sectionBackground,
     padding: 10,
-
   },
-
-  awardItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-    paddingLeft: 10,
-  },
-  awardImage: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
-  },
-  awardTextContainer: {
-    flex: 1,
-    flexDirection: 'column', 
-  },
-  
-  awardTitle: {
-    fontWeight: 'bold',
-  },
-  awardDescription: {
-    fontSize: 14,
-  },
-
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
     marginVertical: 5,
+    color: theme.text,
   },
-
   paragraph: {
     lineHeight: 20,
+    color: theme.text,
   },
-
   scoresContainer: {
     marginLeft: 10,
   },
@@ -461,7 +435,7 @@ const styles = StyleSheet.create({
   scoreText: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#333",
+    color: theme.text,
   },
   apScoreContainer: {
     paddingLeft: 20,
@@ -469,20 +443,18 @@ const styles = StyleSheet.create({
   apScoreText: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#333",
+    color: theme.text,
     paddingLeft: 10,
   },
-
   apScoresTitle: {
     fontSize: 17,
     fontWeight: "600",
     marginTop: 10,
     marginBottom: 5,
-    color: "#4A4A4A",
+    color: theme.text,
   },
-
-  head: { height: 40, backgroundColor: "#f1f8ff" },
-  text: { margin: 6 },
+  head: { height: 40, backgroundColor: theme.headerBackground },
+  text: { margin: 6, color: theme.text },
   navigationContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -490,25 +462,25 @@ const styles = StyleSheet.create({
   },
   navButton: {
     padding: 10,
-    color: "blue",
+    color: theme.navButtonColor, // Color for navigation buttons
   },
   disabledButton: {
-    color: "grey",
+    color: theme.disabledButtonBackground, // Color for disabled elements
   },
   sectionSubtitle: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
     marginTop: 10,
+    color: theme.text,
   },
-
   fullScreenImage: {
     width: "100%",
     height: "100%",
     position: "absolute",
   },
   bottomSheetBackground: {
-    backgroundColor: "white",
+    backgroundColor: theme.background,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -523,5 +495,28 @@ const styles = StyleSheet.create({
     height: 5,
     backgroundColor: "#ccc",
     borderRadius: 50,
+  },
+  awardItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+    paddingLeft: 10,
+  },
+  awardImage: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  awardTextContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  awardTitle: {
+    fontWeight: 'bold',
+    color: theme.text,
+  },
+  awardDescription: {
+    fontSize: 14,
+    color: theme.text,
   },
 });

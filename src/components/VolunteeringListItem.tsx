@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import Carousel from 'react-native-reanimated-carousel';
+import { themes } from '../constants/Themes';
 
 type VolunteeringListItemProps = {
     volunteering: {
@@ -11,13 +12,16 @@ type VolunteeringListItemProps = {
         impact?: string;
         images: Array<{ key: string; caption: string }>;
         events: Array<{ title: string; startYear: number; endYear: number; description: string }>;
+        themeKey: string;
     };
     images: { [key: string]: any };
 };
 
-export default function VolunteeringListItem({ volunteering, images }: VolunteeringListItemProps) {
+export default function VolunteeringListItem({ volunteering, images, themeKey }: VolunteeringListItemProps) {
     const [isOpen, setIsOpen] = useState(false);
-
+    const theme = themes[themeKey] || themes.default;
+    const styles = getStyles(theme);
+    
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
@@ -27,7 +31,7 @@ export default function VolunteeringListItem({ volunteering, images }: Volunteer
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
                 <Image source={images[volunteering.logo]} style={styles.logo} />
                 <Text style={styles.clubName}>{volunteering.name}</Text>
-                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color="black" style={styles.icon} />
+                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
             {isOpen && (
                 <ScrollView style={styles.details}>
@@ -74,13 +78,12 @@ export default function VolunteeringListItem({ volunteering, images }: Volunteer
     );
 }
 
-const styles = StyleSheet.create({
-    // Ensure styles are defined here
+const getStyles = (theme) => StyleSheet.create({
     container: {
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: theme.sectionBackground,
         borderBottomWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.inactiveStrokeColor,
     },
     header: {
         flexDirection: 'row',
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flex: 1,
         marginLeft: 10,
+        color: theme.text,
     },
     logo: {
         width: 50,
@@ -100,6 +104,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
+        color: theme.text, // Ensure icon color also uses the theme
     },
     details: {
         marginTop: 10,
@@ -109,33 +114,34 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         marginBottom: 5,
         marginTop: 10,
+        color: theme.text,
     },
     description: {
         fontSize: 14,
         marginBottom: 10,
         fontStyle: 'italic',
+        color: theme.text,
     },
     mediaContainer: {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 10,
-        borderRadius: 10, 
-        overflow: 'hidden', 
+        borderRadius: 10,
+        overflow: 'hidden',
         borderWidth: 1,
-        borderColor: '#ddd', 
-        backgroundColor: 'rgba(135, 206, 235, 0.3)',
+        borderColor: theme.inactiveStrokeColor,
+        backgroundColor: theme.disabledButtonBackground,
     },
     image: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
-        marginVertical: 5,
     },
     caption: {
         marginTop: 5,
         fontSize: 12,
-        color: 'gray',
+        color: theme.text,
         textAlign: 'center'
     },
     timeline: {
@@ -153,7 +159,7 @@ const styles = StyleSheet.create({
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: 'black',
+        backgroundColor: theme.primary, // Make sure the timeline dot uses the primary theme color
         position: 'absolute',
         left: 0,
         top: 4,
@@ -167,45 +173,25 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 4,
+        color: theme.text,
     },
     roleYears: {
         fontSize: 14,
         opacity: 0.6,
         marginBottom: 5,
+        color: theme.text,
     },
     roleDescription: {
         fontSize: 14,
+        color: theme.text,
     },
     timelineLine: {
         position: 'absolute',
-        left: 35, 
-        top: 15,
-        bottom: 20, 
+        left: 6, // Adjusted for dot position
+        top: 0,
+        bottom: 0,
         width: 2,
-        backgroundColor: 'lightgrey',
+        backgroundColor: theme.inactiveStrokeColor,
         zIndex: 0,
-    },
-    awardsContainer: {
-        marginTop: 10,
-    },
-    awardItem: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginBottom: 10,
-    },
-    awardImage: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-    },
-    awardTextContainer: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    awardTitle: {
-        fontWeight: 'bold',
-    },
-    awardDescription: {
-        fontSize: 14, // Make sure the description is clearly readable
     },
 });

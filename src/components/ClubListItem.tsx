@@ -4,14 +4,19 @@ import { Club } from '@/types';
 import { FontAwesome } from '@expo/vector-icons'; 
 import Carousel from 'react-native-reanimated-carousel';
 import { Animated, Easing } from 'react-native';
+import { themes } from '../constants/Themes';
+
 
 type ClubListItemProps = {
     club: Club;
     images: { [key: string]: any };
+    themeKey: string;
 };
 
-export default function ClubListItem({ club, images }: ClubListItemProps) {
+export default function ClubListItem({ club, images, themeKey }: ClubListItemProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const theme = themes[themeKey] || themes.default;
+    const styles = getStyles(theme);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
@@ -22,7 +27,7 @@ export default function ClubListItem({ club, images }: ClubListItemProps) {
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
                 <Image source={images[club.logo]} style={styles.logo} />
                 <Text style={styles.clubName}>{club.name}</Text>
-                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color="black" style={styles.icon} />
+                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
             {isOpen && (
                 <ScrollView style={styles.details}>
@@ -86,12 +91,12 @@ export default function ClubListItem({ club, images }: ClubListItemProps) {
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container: {
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: theme.sectionBackground,
         borderBottomWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.inactiveStrokeColor,
     },
     header: {
         flexDirection: 'row',
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flex: 1,
         marginLeft: 10,
+        color: theme.text,
     },
     logo: {
         width: 50,
@@ -115,7 +121,6 @@ const styles = StyleSheet.create({
     details: {
         marginTop: 10,
     },
-
     mediaContainer: {
         width: '100%',
         justifyContent: 'center',
@@ -124,25 +129,21 @@ const styles = StyleSheet.create({
         borderRadius: 10, 
         overflow: 'hidden', 
         borderWidth: 1,
-        borderColor: '#ddd', 
-        backgroundColor: 'rgba(135, 206, 235, 0.3)',
-
+        borderColor: theme.inactiveStrokeColor,
+        backgroundColor: theme.disabledButtonBackground,
     },
-     
     clubImage: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
         marginVertical: 5,
     },
-
     caption: {
         marginTop: 5,
         fontSize: 12,
-        color: 'gray',
-        textAlign: 'center'
+        color: theme.text,
+        textAlign: 'center',
     },
-
     timeline: {
         position: 'relative',
         paddingLeft: 30, // Enough space for the line and dot
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: 'black',
+        backgroundColor: theme.primary,
         position: 'absolute',
         left: 0,
         top: 4,
@@ -172,39 +173,41 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 4,
+        color: theme.text,
     },
     roleYears: {
         fontSize: 14,
         opacity: 0.6,
         marginBottom: 5,
+        color: theme.text,
     },
     roleDescription: {
         fontSize: 14,
+        color: theme.text,
     },
     timelineLine: {
         position: 'absolute',
-        left: 35, 
-        top: 15,
-        bottom: 20, 
+        left: 6, 
+        top: 0,
+        bottom: 0,
         width: 2,
-        backgroundColor: 'lightgrey',
+        backgroundColor: theme.inactiveStrokeColor,
         zIndex: 0,
     },
-
     sectionTitle: {
         fontSize: 18,
         fontWeight: "600",
-        marginBottom: 5,
-        marginTop: 10
-      },
-
-      clubDescription: {
+        marginVertical: 5,
+        color: theme.text,
+    },
+    clubDescription: {
         fontSize: 14,
         marginBottom: 10,
         fontStyle: 'italic',
+        color: theme.text,
     },
     awardsContainer: {
-        marginTop: 0,
+        marginTop: 10,
     },
     awardItem: {
         flexDirection: 'row',
@@ -218,13 +221,14 @@ const styles = StyleSheet.create({
     },
     awardTextContainer: {
         flex: 1,
+        flexDirection: 'column',
     },
     awardTitle: {
         fontWeight: 'bold',
+        color: theme.text,
     },
     awardDescription: {
-        fontSize: 14, // Make sure the description is clearly readable
+        fontSize: 14, 
+        color: theme.text,
     },
 });
-
-

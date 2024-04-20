@@ -1,35 +1,37 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import Carousel from 'react-native-reanimated-carousel';
 import { Video } from 'expo-av';
 import { PerformingArt } from '@/types';
 import { ResizeMode } from 'expo-av';
+import { themes } from '../constants/Themes';
 
 type PerformingArtsListItemProps = {
     performingArt: PerformingArt;
     images: { [key: string]: any };
     videos: { [key: string]: any };
+    themeKey: string;
 };
 
-export default function PerformingArtsListItem({ performingArt, images, videos }: PerformingArtsListItemProps) {
+export default function PerformingArtsListItem({ performingArt, images, videos, themeKey }: PerformingArtsListItemProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const theme = themes[themeKey] || themes.default;
+    const styles = getStyles(theme);
 
-    const toggleOpen = () => {
-        setIsOpen(!isOpen);
-    };
+    const toggleOpen = () => setIsOpen(!isOpen);
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
                 <Image source={images[performingArt.logo]} style={styles.logo} />
                 <Text style={styles.clubName}>{performingArt.name}</Text>
-                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color="black" style={styles.icon} />
+                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
             {isOpen && (
                 <ScrollView style={styles.details}>
                     <Text style={styles.sectionTitle}>Description</Text>
-                    <Text style={styles.athleticDescription}>{performingArt.description}</Text>
+                    <Text style={styles.artDescription}>{performingArt.description}</Text>
 
                     <Text style={styles.sectionTitle}>Videos</Text>
                     <Carousel
@@ -40,11 +42,11 @@ export default function PerformingArtsListItem({ performingArt, images, videos }
                         renderItem={({ item }) => (
                             <View style={styles.mediaContainer}>
                                 <Video
-                                    source={videos[item.key]} 
+                                    source={videos[item.key]}
                                     rate={1.0}
                                     volume={1.0}
                                     isMuted={false}
-                                    resizeMode={ResizeMode.COVER} 
+                                    resizeMode={ResizeMode.COVER}
                                     shouldPlay
                                     isLooping
                                     style={styles.highlightVideo}
@@ -52,7 +54,7 @@ export default function PerformingArtsListItem({ performingArt, images, videos }
                                 <Text style={styles.caption}>{item.caption}</Text>
                             </View>
                         )}
-                        width={0.87 * Dimensions.get('window').width} 
+                        width={0.87 * Dimensions.get('window').width}
                         height={0.6 * Dimensions.get('window').width}
                     />
 
@@ -92,12 +94,12 @@ export default function PerformingArtsListItem({ performingArt, images, videos }
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container: {
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: theme.sectionBackground,
         borderBottomWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.inactiveStrokeColor,
     },
     header: {
         flexDirection: 'row',
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flex: 1,
         marginLeft: 10,
+        color: theme.text,
     },
     logo: {
         width: 50,
@@ -126,16 +129,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 10,
-        borderRadius: 10, 
-        overflow: 'hidden', 
+        borderRadius: 10,
+        overflow: 'hidden',
         borderWidth: 1,
-        borderColor: '#ddd', 
-        backgroundColor: 'rgba(135, 206, 235, 0.3)',
+        borderColor: theme.inactiveStrokeColor,
+        backgroundColor: theme.disabledButtonBackground,
     },
     highlightVideo: {
         width: '100%',
-        height: 200, 
-        backgroundColor: 'black',
+        height: 200,
+        backgroundColor: theme.background,
     },
     artsImage: {
         width: '100%',
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
     caption: {
         marginTop: 5,
         fontSize: 12,
-        color: 'gray',
+        color: theme.text,
         textAlign: 'center'
     },
     awardsContainer: {
@@ -167,18 +170,22 @@ const styles = StyleSheet.create({
     },
     awardTitle: {
         fontWeight: 'bold',
+        color: theme.text,
     },
     awardDescription: {
         fontSize: 14,
+        color: theme.text,
     },
     sectionTitle: {
         fontSize: 18,
         fontWeight: "600",
         marginVertical: 5,
+        color: theme.text,
     },
-    athleticDescription: {
+    artDescription: {
         fontSize: 14,
         marginBottom: 10,
         fontStyle: 'italic',
+        color: theme.text,
     },
 });
