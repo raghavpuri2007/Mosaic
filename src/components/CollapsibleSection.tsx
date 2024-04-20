@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { themes } from '../constants/Themes';
 
-const CollapsibleSection = ({ title, children }) => {
+const CollapsibleSection = ({ title, children, themeKey }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const theme = themes[themeKey] || themes.default;
 
     const toggleOpen = () => setIsOpen(!isOpen);
+
+    const styles = getStyles(theme);
 
     return (
         <View style={styles.section}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
                 <Text style={styles.sectionTitle}>{title}</Text>
-                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color="black" />
+                <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} />
             </TouchableOpacity>
             {isOpen && (
                 <View style={styles.content}>
@@ -22,9 +26,9 @@ const CollapsibleSection = ({ title, children }) => {
     );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     section: {
-        backgroundColor: "white",
+        backgroundColor: theme.sectionBackground,
         padding: 10,
         marginBottom: 5,
     },
@@ -36,6 +40,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: "600",
+        color: theme.text,
     },
     content: {
         marginTop: 10,

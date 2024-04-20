@@ -13,6 +13,7 @@ export type User = {
   image?: string;
   backImage?: string;
   coverImage?: string;
+  theme: string;
   about?: string;
   scores: Score[];
   grades: grades;
