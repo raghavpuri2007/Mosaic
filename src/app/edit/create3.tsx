@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,14 +12,15 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebaseConfig";
 import * as FileSystem from "expo-file-system";
 
 export default function Create3() {
   const router = useRouter();
+  const { editing } = useLocalSearchParams();
   const [sports, setSports] = useState([
     { name: "", levels: [""], years: "", highlightVideos: [] },
   ]);
@@ -37,6 +38,46 @@ export default function Create3() {
   const [clubsAwards, setClubsAwards] = useState([""]);
   const [volunteering, setVolunteering] = useState([{ name: "", hours: "" }]);
   const [volunteeringAwards, setVolunteeringAwards] = useState([""]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (editing === "true" && auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setSports(
+            userData.sports || [
+              { name: "", levels: [""], years: "", highlightVideos: [] },
+            ]
+          );
+          setSportsAwards(userData.sportsAwards || [""]);
+          setPerformingArts(
+            userData.performingArts || [{ name: "", years: "", images: [] }]
+          );
+          setProjects(
+            userData.projects || [
+              {
+                name: "",
+                description: "",
+                link: "",
+                skills: [""],
+                image: null,
+              },
+            ]
+          );
+          setPerformingArtsAwards(userData.performingArtsAwards || [""]);
+          setClubs(
+            userData.clubs || [{ name: "", roles: [""], years: "", images: [] }]
+          );
+          setClubsAwards(userData.clubsAwards || [""]);
+          setVolunteering(userData.volunteering || [{ name: "", hours: "" }]);
+          setVolunteeringAwards(userData.volunteeringAwards || [""]);
+        }
+      }
+    };
+    fetchUserData();
+  }, [editing]);
 
   const handleAddActivity = (category) => {
     switch (category) {
@@ -308,7 +349,12 @@ export default function Create3() {
 
   const handleNextStep = async () => {
     await saveDataToFirebase();
-    router.push("create4");
+    router.push({
+      pathname: "../edit/create4",
+      params: {
+        editing: true,
+      },
+    });
   };
 
   const handleSkip = async () => {
@@ -782,13 +828,17 @@ export default function Create3() {
             <Ionicons name="add" size={24} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={handleNextStep}>
-            <Text style={styles.buttonText}>NEXT STEP</Text>
+            <Text style={styles.buttonText}>
+              {editing ? "NEXT UPDATE" : "NEXT STEP"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.skipButtonContainer}
             onPress={handleSkip}
           >
-            <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
+            <Text style={styles.skipButtonText}>
+              {editing ? "Update! Go to Home" : "Skip! Go to Home"}
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>

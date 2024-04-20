@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,20 +12,41 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebaseConfig";
 import { Link } from "expo-router";
 
 export default function Create4() {
   const router = useRouter();
+  const { editing } = useLocalSearchParams();
   const [profilePicture, setProfilePicture] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
   const [headline, setHeadline] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-
+  const [snapchat, setSnapchat] = useState("");
+  const [instagram, setInstagram] = useState("");
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setProfilePicture(userData.profilePicture || null);
+          setCoverImage(userData.coverImage || null);
+          setBannerImage(userData.bannerImage || null);
+          setHeadline(userData.headline || "");
+          setAboutMe(userData.aboutMe || "");
+          setSnapchat(userData.snapchat || "");
+          setInstagram(userData.instagram || "");
+        }
+      }
+    };
+    fetchUserData();
+  }, [editing]);
   const handleSelectProfilePicture = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -78,6 +99,8 @@ export default function Create4() {
         bannerImage,
         headline,
         aboutMe,
+        snapchat,
+        instagram,
       });
     }
 
@@ -134,6 +157,22 @@ export default function Create4() {
               placeholderTextColor="#888"
               value={aboutMe}
               onChangeText={(text) => setAboutMe(text)}
+            />
+            <Text style={styles.sectionTitle}>Snapchat</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your Snapchat username"
+              placeholderTextColor="#888"
+              value={snapchat}
+              onChangeText={(text) => setSnapchat(text)}
+            />
+            <Text style={styles.sectionTitle}>Instagram</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your Instagram username"
+              placeholderTextColor="#888"
+              value={instagram}
+              onChangeText={(text) => setInstagram(text)}
             />
             <Text style={styles.sectionTitle}>Profile Picture</Text>
             <TouchableOpacity
@@ -201,19 +240,15 @@ export default function Create4() {
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.button} onPress={handleFinishProfile}>
-            <Text style={styles.buttonText}>Finish Profile</Text>
+            <Text style={styles.buttonText}>
+              {editing ? "Update Profile" : "Finish Profile"}
+            </Text>
           </TouchableOpacity>
-          <Link href="(tabs)" asChild>
-            <TouchableOpacity style={styles.skipButtonContainer}>
-              <Text style={styles.skipButtonText}>SKIP! Go to Home</Text>
-            </TouchableOpacity>
-          </Link>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
