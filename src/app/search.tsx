@@ -14,7 +14,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import UserListItem from "../components/UserListItem";
 import { auth } from "../../firebaseConfig";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SearchScreen() {
   const [search, setSearch] = useState("");
@@ -26,19 +26,23 @@ export default function SearchScreen() {
     const fetchUsers = async () => {
       setIsLoading(true);
       setUsers([]); // Clear existing users
+
       const usersRef = collection(db, "users");
       const usersSnapshot = await getDocs(usersRef);
       const usersData = usersSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+
       setUsers(usersData);
       setIsLoading(false);
     };
+
     fetchUsers();
   }, []);
 
   const currentUserId = auth.currentUser.uid; // Get the current user's ID
+
   const filteredUsers = users.filter(
     (user) =>
       user.id !== currentUserId && // Exclude the current user
@@ -48,7 +52,7 @@ export default function SearchScreen() {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#ffd700" />
+        <ActivityIndicator size="large" color="#38a093" />
       </SafeAreaView>
     );
   }
@@ -57,7 +61,7 @@ export default function SearchScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesome name="chevron-left" size={24} color="#ffd700" />
+          <Ionicons name="arrow-back" size={24} color="#38a093" />
         </TouchableOpacity>
         <View style={styles.searchContainer}>
           <TextInput
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 40,
-    borderColor: "#ffd700",
+    borderColor: "#38a093",
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,

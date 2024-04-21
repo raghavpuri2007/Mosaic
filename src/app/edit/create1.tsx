@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   timelineItemActive: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
   },
   form: {
     marginBottom: 20,
@@ -208,14 +208,14 @@ const styles = StyleSheet.create({
     flex: 0.48,
   },
   button: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: "center",
     marginBottom: 15,
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   skipButtonText: {
-    color: "#ffd700",
+    color: "#38a093",
     fontSize: 16,
   },
 });

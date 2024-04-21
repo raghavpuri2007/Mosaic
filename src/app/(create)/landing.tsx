@@ -7,12 +7,10 @@ export default function LandingPage() {
     <View style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/13112/13112239.png",
-          }}
+          source={require("../../../assets/images/mosaicLogo.png")}
           style={styles.image}
         />
-        <Text style={styles.title}>Portfoli-U</Text>
+        <Text style={styles.title}>Mosaic</Text>
         <Text style={styles.subtitle}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginButton: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 100,
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
   createAccountButton: {
     backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: "#ffd700",
+    borderColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 60,
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   createAccountButtonText: {
-    color: "#ffd700",
+    color: "#38a093",
     fontSize: 16,
     fontWeight: "bold",
   },

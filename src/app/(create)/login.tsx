@@ -107,13 +107,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginButton: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: "center",
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   createAccountLinkText: {
-    color: "#ffd700",
+    color: "#38a093",
     fontSize: 16,
     textDecorationLine: "underline",
   },

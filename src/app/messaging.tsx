@@ -242,38 +242,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-  },
-  textInput: {
-    color: "#000",
-    fontSize: 16,
     paddingHorizontal: 20,
+    justifyContent: "space-between",
+    paddingVertical: 40,
   },
-  recipientUserInfoContainer: {
-    backgroundColor: "#222",
-    paddingVertical: 10,
+  buttonContainer: {
+    marginTop: 20,
+  },
+  button: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#38a093",
   },
-  backButton: {
-    marginLeft: 10,
-  },
-  recipientUserInfo: {
-    marginHorizontal: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: "#333",
-    alignItems: "center",
-    flex: 1,
-  },
-  recipientUserName: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  recipientUserHighSchool: {
+  buttonText: {
     color: "#fff",
     fontSize: 16,
+  },
+  logoutButton: {
+    backgroundColor: "#38a093",
+    borderRadius: 10,
+    paddingVertical: 15,
+    alignItems: "center",
+  },
+  logoutButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

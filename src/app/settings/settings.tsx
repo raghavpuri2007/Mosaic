@@ -37,15 +37,15 @@ export default function SettingsScreen() {
           onPress={navigateToChangePassword}
         >
           <Text style={styles.buttonText}>Change Password</Text>
-          <Ionicons name="chevron-forward" size={24} color="#ffd700" />
+          <Ionicons name="chevron-forward" size={24} color="#38a093" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={navigateToTerms}>
           <Text style={styles.buttonText}>Terms and Conditions</Text>
-          <Ionicons name="chevron-forward" size={24} color="#ffd700" />
+          <Ionicons name="chevron-forward" size={24} color="#38a093" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={navigateToReportBug}>
           <Text style={styles.buttonText}>Report a Bug</Text>
-          <Ionicons name="chevron-forward" size={24} color="#ffd700" />
+          <Ionicons name="chevron-forward" size={24} color="#38a093" />
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.logoutButton} onPress={onSignOut}>
@@ -72,20 +72,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#ffd700",
+    borderBottomColor: "#38a093",
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
   },
   logoutButton: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: "center",
   },
   logoutButtonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },

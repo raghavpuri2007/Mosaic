@@ -74,10 +74,9 @@ function RootLayoutNav() {
   const customHeaderSettingsButton = () => (
     <TouchableOpacity
       onPress={() => router.push("../settings")}
-  
       style={styles.settingsButtonStyle}
     >
-      <FontAwesome name="gear" size={20} color="#fff" /> 
+      <FontAwesome name="gear" size={20} color="#fff" />
     </TouchableOpacity>
   );
 
@@ -109,7 +108,7 @@ function RootLayoutNav() {
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,
-            headerRight: customHeaderSettingsButton,  // Add settings button here
+            headerRight: customHeaderSettingsButton, // Add settings button here
           }}
         />
       </Stack>
@@ -127,7 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  settingsButtonStyle: {  // New style for settings button
+  settingsButtonStyle: {
+    // New style for settings button
     marginRight: 3,
     width: 40,
     height: 40,
@@ -135,5 +135,5 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
