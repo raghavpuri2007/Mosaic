@@ -11,6 +11,8 @@ import { useColorScheme } from "react-native";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import Login from "../components/Login";
 import CreateProfile from "../components/CreateProfile";
+import { useRouter } from "expo-router";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -58,6 +60,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation(); // Get the navigation object
+  const router = useRouter();
 
   const customHeaderBackButton = () => (
     <TouchableOpacity
@@ -67,41 +70,34 @@ function RootLayoutNav() {
       <FontAwesome name="arrow-left" size={20} color="#fff" />
     </TouchableOpacity>
   );
+
+  const customHeaderSettingsButton = () => (
+    <TouchableOpacity
+      onPress={() => router.push("../settings")}
+  
+      style={styles.settingsButtonStyle}
+    >
+      <FontAwesome name="gear" size={20} color="#fff" /> 
+    </TouchableOpacity>
+  );
+
   const [loggedIn, setLoggedIn] = useState(false);
-  console.log(loggedIn);
   useEffect(() => {
-    // Check if user is already signed in
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("hey");
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
+      setLoggedIn(!!user);
     });
-
-    // No dependency array [], so it runs on every render
-
-    return () => {
-      unsubscribe(); // Unsubscribe the listener when component unmounts
-    };
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (loggedIn) {
-      // Navigate to a specific screen when user is logged in
-      navigation.navigate("(tabs)");
-    } else {
-      // Navigate to another screen when user is not logged in
-      navigation.navigate("(create)");
-    }
+    navigation.navigate(loggedIn ? "(tabs)" : "(create)");
   }, [loggedIn, navigation]);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
         initialRouteName={loggedIn ? "(tabs)" : "(create)"}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: true }}
       >
         <Stack.Screen name="(create)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -113,6 +109,7 @@ function RootLayoutNav() {
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,
+            headerRight: customHeaderSettingsButton,  // Add settings button here
           }}
         />
       </Stack>
@@ -122,12 +119,21 @@ function RootLayoutNav() {
 
 const styles = StyleSheet.create({
   backButtonStyle: {
-    marginLeft: 10,
+    marginLeft: 3,
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent black
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
+  settingsButtonStyle: {  // New style for settings button
+    marginRight: 3,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
