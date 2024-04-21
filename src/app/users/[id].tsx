@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
+  Linking
 } from "react-native";
 import userJson from "../../../assets/data/user.json";
 import { useLayoutEffect, useState, useMemo, useRef } from "react";
@@ -25,6 +26,12 @@ import AthleticsListItem from "../../components/AthleticsListItem";
 import PerformingArtsListItem from "../../components/PerformingArtsListItem";
 import VolunteeringListItem from "../../components/VolunteeringListItem";
 import CollapsibleSection from "../../components/CollapsibleSection";
+
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { Asset } from 'expo-asset';
+
+import { useRouter } from "expo-router";
 
 const images = {
   bart_pfp: require("../../../assets/images/Bart-Profile.png"),
@@ -70,6 +77,28 @@ const videos = {
 const [user, setUser] = useState<User>(userJson);
 const theme = themes[user.theme] || themes.default;
 const themeKey = user.theme || "default";
+const router = useRouter();
+
+
+const shareImage = async () => {
+  try {
+      // Ensure the asset is loaded
+      const asset = Asset.fromModule(images[user.coverImage]);
+      await asset.downloadAsync(); // This ensures the file is downloaded locally and cached
+
+      // Check if sharing is available
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+          alert('Sharing is not available on your device.');
+          return;
+      }
+
+      // Use the local URI from the loaded asset
+      await Sharing.shareAsync(asset.localUri);
+  } catch (error) {
+      console.error('Failed to share:', error);
+  }
+};
 
 const ScoresSection = ({ scores }) => {
   return (
@@ -219,6 +248,17 @@ export default function UserProfile() {
   const navigation = useNavigation();
   const bottomSheetRef = useRef(null);
 
+  const toggleBottomSheet = () => {
+    if (bottomSheetRef.current) {
+      const currentIndex = bottomSheetRef.current.currentIndex;
+      console.warn("Current BottomSheet Index:")
+      const targetIndex = currentIndex === -1 ? 0 : -1; // Toggle between closed (-1) and first snap point (0)
+      console.warn("Snapping to index: ", targetIndex);
+      bottomSheetRef.current.snapToIndex(3);
+    }
+  };
+
+  
   const onConnect = () => {
     console.warn("Connect");
   };
@@ -227,6 +267,21 @@ export default function UserProfile() {
     console.warn("Message");
     navigation.navigate("messages"); 
   };
+
+  const onEditProfile = () => {
+    console.warn("Edit Profile");
+    router.push({
+      pathname: "../edit/create1",
+      params: {
+        editing: true,
+      },
+    })
+  };
+
+  const onChangeTheme= () => {
+    console.warn("Change Theme");
+  };
+
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: user.name });
@@ -245,6 +300,7 @@ export default function UserProfile() {
         {/* BG Image */}
         <Image source={ images[user.backImage] } style={styles.bgImage} />
 
+
         <View style={styles.headerContent}>
           {/* Profile image */}
           <Image source={ images[user.image] } style={styles.image} />
@@ -262,7 +318,19 @@ export default function UserProfile() {
               <FontAwesome name="comment" size={20} color="white" />
             </Pressable>
           </View>
+
+          {/* Edit Profile & Theme buttons */}
+          <View style={styles.buttonContainer}>
+            <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
+              <FontAwesome name="pencil" size={20} color="white" style={{ marginRight: 10 }} />
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </Pressable>
+            <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
+              <FontAwesome name="paint-brush" size={20} color="white" />
+            </Pressable>
+          </View>
         </View>
+
       </View>
 
       {/* About */}
@@ -334,16 +402,35 @@ export default function UserProfile() {
     </ScrollView>
   );
 
-  const snapPoints = useMemo(() => ["10%", "20%", "30%", "50%", "60%", "70%", "90%"], []);
+  const snapPoints = useMemo(() => ["20%", "30%", "50%", "60%", "70%", "90%"], []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Image source={ images[user.coverImage] } style={styles.fullScreenImage} />
+      {/* Circular Buttons on Cover Image */}
+      <View style={styles.coverButtonContainer}>
+        
+        <Pressable onPress={toggleBottomSheet} style={styles.coverButton}>
+          <FontAwesome name="arrow-up" size={20} color="white" />
+        </Pressable>
+        
+        <Pressable style={styles.coverButton}><Text>Btn2</Text></Pressable>
+        
+        <Pressable onPress={shareImage} style={styles.coverButton}>
+          <FontAwesome name="share-alt" size={20} color="white" />
+        </Pressable>
+
+        
+        <Pressable style={styles.coverButton}>
+          <FontAwesome name="share" size={20} color="white" />
+        </Pressable>
+      </View>
+
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
         snapPoints={snapPoints}
-        enablePanDownToClose={false}
+        enablePanDownToClose={true}
         backgroundStyle={styles.bottomSheetBackground}
         handleIndicatorStyle={styles.handleIndicator}
       >
@@ -391,7 +478,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.primary, // Primary theme color for primary buttons
     width: '84.2%',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 2,
     borderRadius: 20,
     alignItems: "center",
   },
@@ -402,10 +489,10 @@ const styles = StyleSheet.create({
   },
   buttonSmall: {
     backgroundColor: theme.accent1, // Accent color for smaller button
-    width: '15%',
+    width: '14%',
     padding: 10,
     borderRadius: 20,
-    marginHorizontal: 2,
+    marginHorizontal: 2.5,
     alignItems: "center",
     justifyContent: 'center',
   },
@@ -519,4 +606,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: theme.text,
   },
+
+  coverButtonContainer: {
+    position: 'absolute',
+    top: '90%', 
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  coverButton: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    color: theme.buttonText,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
 });
