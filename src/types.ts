@@ -15,7 +15,7 @@ export type User = {
   coverImage?: string;
   theme: string;
   about?: string;
-  scores: Score[];
+  scores: Score;
   grades: grades;
   projects?: Project[];
   clubs?: Club[];
