@@ -7,19 +7,19 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
-  Linking
+  Linking,
 } from "react-native";
 import userJson from "../../../assets/data/user.json";
-import { useLayoutEffect, useState, useMemo, useRef } from "react";
+import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
 import { User, Score } from "../../types";
-import { themes } from '../../constants/Themes';
+import { themes } from "../../constants/Themes";
 
 import ProjectListItem from "../../components/ProjectListItem";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Table, Row, Rows } from "react-native-table-component";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ClubListItem from "../../components/ClubListItem";
 import { DefaultTheme } from "@react-navigation/native";
 import AthleticsListItem from "../../components/AthleticsListItem";
@@ -27,10 +27,12 @@ import PerformingArtsListItem from "../../components/PerformingArtsListItem";
 import VolunteeringListItem from "../../components/VolunteeringListItem";
 import CollapsibleSection from "../../components/CollapsibleSection";
 
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
-import { Asset } from 'expo-asset';
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import { Asset } from "expo-asset";
 
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 import { useRouter } from "expo-router";
 
 const images = {
@@ -62,9 +64,8 @@ const images = {
   basketball1: require("../../../assets/images/basketball1.jpeg"),
   basketball2: require("../../../assets/images/basketball2.jpeg"),
   piano: require("../../../assets/images/piano.jpeg"),
-  ballet: require("../../../assets/images/ballet.png")
+  ballet: require("../../../assets/images/ballet.png"),
 };
-  
 
 const videos = {
   clip1: require("../../../assets/videos/clip1.mp4"),
@@ -73,30 +74,28 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-
 const [user, setUser] = useState<User>(userJson);
 const theme = themes[user.theme] || themes.default;
 const themeKey = user.theme || "default";
 const router = useRouter();
 
-
 const shareImage = async () => {
   try {
-      // Ensure the asset is loaded
-      const asset = Asset.fromModule(images[user.coverImage]);
-      await asset.downloadAsync(); // This ensures the file is downloaded locally and cached
+    // Ensure the asset is loaded
+    const asset = Asset.fromModule(images[user.coverImage]);
+    await asset.downloadAsync(); // This ensures the file is downloaded locally and cached
 
-      // Check if sharing is available
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
-          alert('Sharing is not available on your device.');
-          return;
-      }
+    // Check if sharing is available
+    const isAvailable = await Sharing.isAvailableAsync();
+    if (!isAvailable) {
+      alert("Sharing is not available on your device.");
+      return;
+    }
 
-      // Use the local URI from the loaded asset
-      await Sharing.shareAsync(asset.localUri);
+    // Use the local URI from the loaded asset
+    await Sharing.shareAsync(asset.localUri);
   } catch (error) {
-      console.error('Failed to share:', error);
+    console.error("Failed to share:", error);
   }
 };
 
@@ -251,21 +250,20 @@ export default function UserProfile() {
   const toggleBottomSheet = () => {
     if (bottomSheetRef.current) {
       const currentIndex = bottomSheetRef.current.currentIndex;
-      console.warn("Current BottomSheet Index:")
+      console.warn("Current BottomSheet Index:");
       const targetIndex = currentIndex === -1 ? 0 : -1; // Toggle between closed (-1) and first snap point (0)
       console.warn("Snapping to index: ", targetIndex);
       bottomSheetRef.current.snapToIndex(3);
     }
   };
 
-  
   const onConnect = () => {
     console.warn("Connect");
   };
 
   const onMessage = () => {
     console.warn("Message");
-    navigation.navigate("messages"); 
+    navigation.navigate("messages");
   };
 
   const onEditProfile = () => {
@@ -275,13 +273,33 @@ export default function UserProfile() {
       params: {
         editing: true,
       },
-    })
+    });
   };
 
-  const onChangeTheme= () => {
+  const onChangeTheme = () => {
     console.warn("Change Theme");
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userRef = doc(db, "users", id);
+        const snapshot = await getDoc(userRef);
+
+        if (snapshot.exists()) {
+          const userData = snapshot.data();
+          console.log(userData);
+          setUser(userData);
+        } else {
+          console.log("User not found");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, [id]);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: user.name });
@@ -292,18 +310,16 @@ export default function UserProfile() {
       }
     }, 2000);
   }, [user?.name]);
-
   const renderContent = () => (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/*Header*/}
       <View style={styles.header}>
         {/* BG Image */}
-        <Image source={ images[user.backImage] } style={styles.bgImage} />
-
+        <Image source={images[user.backImage]} style={styles.bgImage} />
 
         <View style={styles.headerContent}>
           {/* Profile image */}
-          <Image source={ images[user.image] } style={styles.image} />
+          <Image source={images[user.image]} style={styles.image} />
 
           {/* Name and Position */}
           <Text style={styles.name}>{user.name}</Text>
@@ -322,7 +338,12 @@ export default function UserProfile() {
           {/* Edit Profile & Theme buttons */}
           <View style={styles.buttonContainer}>
             <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
-              <FontAwesome name="pencil" size={20} color="white" style={{ marginRight: 10 }} />
+              <FontAwesome
+                name="pencil"
+                size={20}
+                color="white"
+                style={{ marginRight: 10 }}
+              />
               <Text style={styles.buttonText}>Edit Profile</Text>
             </Pressable>
             <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
@@ -330,7 +351,6 @@ export default function UserProfile() {
             </Pressable>
           </View>
         </View>
-
       </View>
 
       {/* About */}
@@ -344,83 +364,113 @@ export default function UserProfile() {
         <GradesSection grades={user.grades} />
       </CollapsibleSection>
 
-
       {/* Scores */}
       <CollapsibleSection title="Scores" themeKey={themeKey}>
         <ScoresSection scores={user.scores} />
       </CollapsibleSection>
 
-
       {/* Clubs */}
       <CollapsibleSection title="Clubs" themeKey={themeKey}>
         {user.clubs?.map((club) => (
-          <ClubListItem key={club.id} club={club} images={images} themeKey={themeKey}/>
+          <ClubListItem
+            key={club.id}
+            club={club}
+            images={images}
+            themeKey={themeKey}
+          />
         ))}
       </CollapsibleSection>
 
       {/* Athletics */}
       <CollapsibleSection title="Athletics" themeKey={themeKey}>
         {user.athletics?.map((athletic) => (
-          <AthleticsListItem key={athletic.id} athletics={athletic} images={images} videos={videos} themeKey={themeKey}/>
+          <AthleticsListItem
+            key={athletic.id}
+            athletics={athletic}
+            images={images}
+            videos={videos}
+            themeKey={themeKey}
+          />
         ))}
       </CollapsibleSection>
 
       {/* Performing Arts */}
       <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
         {user.performingArts?.map((art) => (
-          <PerformingArtsListItem key={art.id} performingArt={art} images={images} videos={videos} themeKey={themeKey}/>
+          <PerformingArtsListItem
+            key={art.id}
+            performingArt={art}
+            images={images}
+            videos={videos}
+            themeKey={themeKey}
+          />
         ))}
       </CollapsibleSection>
 
       {/* Volunteering */}
       <CollapsibleSection title="Volunteering" themeKey={themeKey}>
         {user.volunteering?.map((volunteering) => (
-          <VolunteeringListItem key={volunteering.id} volunteering={volunteering} images={images} themeKey={themeKey}/>
+          <VolunteeringListItem
+            key={volunteering.id}
+            volunteering={volunteering}
+            images={images}
+            themeKey={themeKey}
+          />
         ))}
       </CollapsibleSection>
 
       {/* Projects */}
       <CollapsibleSection title="Projects" themeKey={themeKey}>
         {user.projects?.map((project) => (
-          <ProjectListItem key={project.id} project={project} image={images[project.projectImage]} themeKey={themeKey}/>
+          <ProjectListItem
+            key={project.id}
+            project={project}
+            image={images[project.projectImage]}
+            themeKey={themeKey}
+          />
         ))}
       </CollapsibleSection>
 
       {/* Accolades */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Accolades</Text>
-          {user.accolades?.map((accolade, index) => (
-            <View key={index} style={styles.awardItem}>
-              <Image source={images[accolade.image]} style={styles.awardImage} />
-              <View style={styles.awardTextContainer}>
-                <Text style={styles.awardTitle}>{accolade.title}:</Text>
-                <Text style={styles.awardDescription}>{accolade.description}</Text>
-              </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Accolades</Text>
+        {user.accolades?.map((accolade, index) => (
+          <View key={index} style={styles.awardItem}>
+            <Image source={images[accolade.image]} style={styles.awardImage} />
+            <View style={styles.awardTextContainer}>
+              <Text style={styles.awardTitle}>{accolade.title}:</Text>
+              <Text style={styles.awardDescription}>
+                {accolade.description}
+              </Text>
             </View>
-          ))}
-        </View>
+          </View>
+        ))}
+      </View>
     </ScrollView>
   );
 
-  const snapPoints = useMemo(() => ["20%", "30%", "50%", "60%", "70%", "90%"], []);
+  const snapPoints = useMemo(
+    () => ["20%", "30%", "50%", "60%", "70%", "90%"],
+    []
+  );
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Image source={ images[user.coverImage] } style={styles.fullScreenImage} />
+      <Image source={images[user.coverImage]} style={styles.fullScreenImage} />
       {/* Circular Buttons on Cover Image */}
       <View style={styles.coverButtonContainer}>
-        
         <Pressable onPress={toggleBottomSheet} style={styles.coverButton}>
           <FontAwesome name="arrow-up" size={20} color="white" />
         </Pressable>
-        
-        <Pressable style={styles.coverButton}><Text>Btn2</Text></Pressable>
-        
+
+        <Pressable style={styles.coverButton}>
+          <Text>Btn2</Text>
+        </Pressable>
+
         <Pressable onPress={shareImage} style={styles.coverButton}>
           <FontAwesome name="share-alt" size={20} color="white" />
         </Pressable>
 
-        
         <Pressable style={styles.coverButton}>
           <FontAwesome name="share" size={20} color="white" />
         </Pressable>
@@ -471,12 +521,12 @@ const styles = StyleSheet.create({
     color: theme.text,
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
   },
   buttonLarge: {
     backgroundColor: theme.primary, // Primary theme color for primary buttons
-    width: '84.2%',
+    width: "84.2%",
     paddingVertical: 10,
     paddingHorizontal: 2,
     borderRadius: 20,
@@ -489,12 +539,12 @@ const styles = StyleSheet.create({
   },
   buttonSmall: {
     backgroundColor: theme.accent1, // Accent color for smaller button
-    width: '14%',
+    width: "14%",
     padding: 10,
     borderRadius: 20,
     marginHorizontal: 2.5,
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   section: {
     backgroundColor: theme.sectionBackground,
@@ -584,8 +634,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   awardItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 10,
     paddingLeft: 10,
   },
@@ -596,10 +646,10 @@ const styles = StyleSheet.create({
   },
   awardTextContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   awardTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: theme.text,
   },
   awardDescription: {
@@ -608,13 +658,13 @@ const styles = StyleSheet.create({
   },
 
   coverButtonContainer: {
-    position: 'absolute',
-    top: '90%', 
+    position: "absolute",
+    top: "90%",
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   coverButton: {
     width: 70,
@@ -622,8 +672,7 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     color: theme.buttonText,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
-  
 });
