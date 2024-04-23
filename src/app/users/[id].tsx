@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Platform
 } from "react-native";
 import userJson from "../../../assets/data/user.json";
 import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
@@ -30,11 +31,18 @@ import CollapsibleSection from "../../components/CollapsibleSection";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Asset } from "expo-asset";
+import Constants, { ExecutionEnvironment } from 'expo-constants';
+
 
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { useRouter } from "expo-router";
 
+import { captureRef } from "react-native-view-shot";
+let Share: { open: (arg0: { url: string; }) => any; };
+if (Constants.executionEnvironment !== ExecutionEnvironment.StoreClient) {
+  Share = require('react-native-share').default;
+}
 const images = {
   bart_pfp: require("../../../assets/images/Bart-Profile.png"),
   bart_banner: require("../../../assets/images/Bart-Banner.png"),
@@ -78,8 +86,34 @@ const [user, setUser] = useState<User>(userJson);
 const theme = themes[user.theme] || themes.default;
 const themeKey = user.theme || "default";
 const router = useRouter();
+const viewRef = useRef();
+
 
 const shareImage = async () => {
+  try {
+      // Ensure the asset is loaded
+      const asset = Asset.fromModule(images[user.coverImage]);
+      await asset.downloadAsync();  // This ensures the file is downloaded locally and cached
+
+      // Check if sharing is available
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+          alert("Sharing is not available on your device.");
+          return;
+      }
+
+      // Use the local URI from the loaded asset
+      await Share.open({ url: asset.localUri });
+  } catch (error) {
+      console.error("Failed to share:", error);
+  }
+};
+
+
+
+
+
+const shareImage2 = async () => {
   try {
     // Ensure the asset is loaded
     const asset = Asset.fromModule(images[user.coverImage]);
@@ -244,8 +278,8 @@ const ScoreRow = ({
 
 export default function UserProfile() {
   const { id } = useLocalSearchParams();
-  const navigation = useNavigation();
   const bottomSheetRef = useRef(null);
+  const navigation = useNavigation();
 
   const toggleBottomSheet = () => {
     if (bottomSheetRef.current) {
@@ -264,6 +298,10 @@ export default function UserProfile() {
   const onMessage = () => {
     console.warn("Message");
     navigation.navigate("messages");
+  };
+
+  const shareImageInsta = () => {
+    navigation.navigate('share/ShareScreen');
   };
 
   const onEditProfile = () => {
@@ -289,7 +327,7 @@ export default function UserProfile() {
         if (snapshot.exists()) {
           const userData = snapshot.data();
           console.log(userData);
-          setUser(userData);
+          // setUser(userData);
         } else {
           console.log("User not found");
         }
@@ -323,7 +361,7 @@ export default function UserProfile() {
 
           {/* Name and Position */}
           <Text style={styles.name}>{user.name}</Text>
-          <Text color={theme.accent1}>{user.position}</Text>
+          <Text color={theme.primary}>{user.position}</Text>
 
           {/*Connect & Message buttons*/}
           <View style={styles.buttonContainer}>
@@ -336,7 +374,7 @@ export default function UserProfile() {
           </View>
 
           {/* Edit Profile & Theme buttons */}
-          <View style={styles.buttonContainer}>
+          {/* <View style={styles.buttonContainer}>
             <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
               <FontAwesome
                 name="pencil"
@@ -349,7 +387,7 @@ export default function UserProfile() {
             <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
               <FontAwesome name="paint-brush" size={20} color="white" />
             </Pressable>
-          </View>
+          </View> */}
         </View>
       </View>
 
@@ -458,20 +496,20 @@ export default function UserProfile() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Image source={images[user.coverImage]} style={styles.fullScreenImage} />
       {/* Circular Buttons on Cover Image */}
-      <View style={styles.coverButtonContainer}>
+      <View style={styles.coverButtonContainer} >
         <Pressable onPress={toggleBottomSheet} style={styles.coverButton}>
           <FontAwesome name="arrow-up" size={20} color="white" />
         </Pressable>
 
-        <Pressable style={styles.coverButton}>
-          <Text>Btn2</Text>
+        <Pressable onPress={shareImageInsta} style={styles.coverButton}>
+          <FontAwesome name="insta" size={20} color="white" />
         </Pressable>
 
         <Pressable onPress={shareImage} style={styles.coverButton}>
           <FontAwesome name="share-alt" size={20} color="white" />
         </Pressable>
 
-        <Pressable style={styles.coverButton}>
+        <Pressable onPress={shareImage2} style={styles.coverButton} ref={viewRef}>
           <FontAwesome name="share" size={20} color="white" />
         </Pressable>
       </View>
