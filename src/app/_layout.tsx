@@ -112,6 +112,16 @@ function RootLayoutNav() {
             headerRight: customHeaderSettingsButton,  // Add settings button here
           }}
         />
+
+        <Stack.Screen
+          name="share/ShareScreen"
+          options={{
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: customHeaderBackButton,
+            headerRight: customHeaderSettingsButton,  // Add settings button here
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
