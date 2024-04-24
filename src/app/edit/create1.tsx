@@ -57,7 +57,7 @@ export default function Create1() {
     router.push({
       pathname: "../edit/create2",
       params: {
-        editing: true,
+        editing: editing,
       },
     });
   };

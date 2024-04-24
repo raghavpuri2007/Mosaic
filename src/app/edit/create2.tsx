@@ -129,7 +129,7 @@ export default function Create2() {
     router.push({
       pathname: "../edit/create3",
       params: {
-        editing: true,
+        editing: editing,
       },
     });
   };
