@@ -367,29 +367,16 @@ export default function UserProfile() {
             </Pressable>
           </View>
 
-          {/* Edit Profile & Theme buttons */}
-          {/* <View style={styles.buttonContainer}>
-            <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
-              <FontAwesome
-                name="pencil"
-                size={20}
-                color="white"
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </Pressable>
-            <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
-              <FontAwesome name="paint-brush" size={20} color="white" />
-            </Pressable>
-          </View> */}
         </View>
       </View>
 
       {/* About */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
-        <Text style={styles.paragraph}>{user.about}</Text>
-      </View>
+      {user.about && user.about.trim() !== '' && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={styles.paragraph}>{user.about}</Text>
+        </View>
+      )}
 
       {/* Grades */}
       <CollapsibleSection title="Grades" themeKey={themeKey}>
@@ -397,87 +384,101 @@ export default function UserProfile() {
       </CollapsibleSection>
 
       {/* Scores */}
-      <CollapsibleSection title="Scores" themeKey={themeKey}>
-        <ScoresSection scores={user.scores} />
-      </CollapsibleSection>
+      {(user.scores.actScore !== '' || user.scores.satScore !== '' || user.scores.apScores !== [])  && (
+        <CollapsibleSection title="Scores" themeKey={themeKey}>
+          <ScoresSection scores={user.scores} />
+        </CollapsibleSection>
+      )}
 
       {/* Clubs */}
-      <CollapsibleSection title="Clubs" themeKey={themeKey}>
-        {user.clubs?.map((club) => (
-          <ClubListItem
-            key={club.id}
-            club={club}
-            images={images}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
+      {user.clubs[0].id !== '' && (
+        <CollapsibleSection title="Clubs" themeKey={themeKey}>
+          {user.clubs.map((club) => (
+            <ClubListItem
+              key={club.id}
+              club={club}
+              images={images}
+              themeKey={themeKey}
+            />
+          ))}
+        </CollapsibleSection>
+      )}
 
       {/* Athletics */}
-      <CollapsibleSection title="Athletics" themeKey={themeKey}>
-        {user.athletics?.map((athletic) => (
-          <AthleticsListItem
-            key={athletic.id}
-            athletics={athletic}
-            images={images}
-            videos={videos}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
+      {user.athletics[0].id !== '' && (
+        <CollapsibleSection title="Athletics" themeKey={themeKey}>
+          {user.athletics.map((athletic) => (
+            <AthleticsListItem
+              key={athletic.id}
+              athletics={athletic}
+              images={images}
+              videos={videos}
+              themeKey={themeKey}
+            />
+          ))}
+        </CollapsibleSection>
+      )}
 
       {/* Performing Arts */}
-      <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
-        {user.performingArts?.map((art) => (
-          <PerformingArtsListItem
-            key={art.id}
-            performingArt={art}
-            images={images}
-            videos={videos}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
+      {user.performingArts[0].id !== '' && (
+        <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
+          {user.performingArts.map((art) => (
+            <PerformingArtsListItem
+              key={art.id}
+              performingArt={art}
+              images={images}
+              videos={videos}
+              themeKey={themeKey}
+            />
+          ))}
+        </CollapsibleSection>
+      )}
 
       {/* Volunteering */}
-      <CollapsibleSection title="Volunteering" themeKey={themeKey}>
-        {user.volunteering?.map((volunteering) => (
-          <VolunteeringListItem
-            key={volunteering.id}
-            volunteering={volunteering}
-            images={images}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
+      {user.volunteering[0].id !== '' && (
+        <CollapsibleSection title="Volunteering" themeKey={themeKey}>
+          {user.volunteering.map((volunteering) => (
+            <VolunteeringListItem
+              key={volunteering.id}
+              volunteering={volunteering}
+              images={images}
+              themeKey={themeKey}
+            />
+          ))}
+        </CollapsibleSection>
+      )}
 
       {/* Projects */}
-      <CollapsibleSection title="Projects" themeKey={themeKey}>
-        {user.projects?.map((project) => (
-          <ProjectListItem
-            key={project.id}
-            project={project}
-            image={images[project.projectImage]}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
+      {user.projects[0].id !== '' && (
+        <CollapsibleSection title="Projects" themeKey={themeKey}>
+          {user.projects.map((project) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              image={images[project.projectImage]}
+              themeKey={themeKey}
+            />
+          ))}
+        </CollapsibleSection>
+      )}
 
       {/* Accolades */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Accolades</Text>
-        {user.accolades?.map((accolade, index) => (
-          <View key={index} style={styles.awardItem}>
-            <Image source={images[accolade.image]} style={styles.awardImage} />
-            <View style={styles.awardTextContainer}>
-              <Text style={styles.awardTitle}>{accolade.title}:</Text>
-              <Text style={styles.awardDescription}>
-                {accolade.description}
-              </Text>
+      {user.accolades !== [] && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Accolades</Text>
+          {user.accolades.map((accolade, index) => (
+            <View key={index} style={styles.awardItem}>
+              <Image source={images["badge4"]} style={styles.awardImage} />
+              <View style={styles.awardTextContainer}>
+                <Text style={styles.awardTitle}>{accolade.title}:</Text>
+                <Text style={styles.awardDescription}>
+                  {accolade.description}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
-      </View>
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 

@@ -25,7 +25,7 @@ export default function ClubListItem({ club, images, themeKey }: ClubListItemPro
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
-                <Image source={images[club.logo]} style={styles.logo} />
+                <Image source={images["fbla_logo"]} style={styles.logo} />
                 <Text style={styles.clubName}>{club.name}</Text>
                 <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
@@ -76,7 +76,7 @@ export default function ClubListItem({ club, images, themeKey }: ClubListItemPro
                             <Text style={styles.sectionTitle}>Awards</Text>
                             {club.awards.map((award, index) => (
                                 <View key={index} style={styles.awardItem}>
-                                    <Image source={images[award.image]} style={styles.awardImage} />
+                                    <Image source={images["badge4"]} style={styles.awardImage} />
                                     <View style={styles.awardTextContainer}>
                                         <Text style={styles.awardTitle}>{award.title}</Text>
                                         <Text style={styles.awardDescription}>{award.description}</Text>
