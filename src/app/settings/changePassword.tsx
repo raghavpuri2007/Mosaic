@@ -8,6 +8,7 @@ import {
   updatePassword,
   signOut,
 } from "firebase/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChangePasswordScreen() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function ChangePasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Change Password</Text>
       <TextInput
         style={styles.input}
@@ -73,7 +74,7 @@ export default function ChangePasswordScreen() {
       <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
         <Text style={styles.buttonText}>Change Password</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#ffd700",
+    color: "#38a093",
     marginBottom: 30,
   },
   input: {
@@ -104,13 +105,13 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: 50,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },

@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 15,
+    borderWidth: 2,
+    borderColor: "#38a093",
   },
   userInfo: {
     flex: 1,
@@ -127,6 +129,6 @@ const styles = StyleSheet.create({
   },
   highSchool: {
     fontSize: 16,
-    color: "#fff",
+    color: "#38a093",
   },
 });

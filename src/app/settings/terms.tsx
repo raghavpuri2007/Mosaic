@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { Text, View } from "../../components/Themed";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TermsScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -63,7 +64,7 @@ export default function TermsScreen() {
           agree to be bound by these terms and conditions.
         </Text>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#ffd700",
+    color: "#38a093",
     marginBottom: 20,
     textAlign: "center",
   },
   subheading: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#ffd700",
+    color: "#38a093",
     marginTop: 20,
     marginBottom: 10,
   },

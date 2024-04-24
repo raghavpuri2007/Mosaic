@@ -7,6 +7,7 @@ import {
   Linking,
 } from "react-native";
 import { Text, View } from "../../components/Themed";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ReportBugScreen() {
   const [email, setEmail] = useState("rapuri27@gmail.com");
@@ -31,7 +32,7 @@ export default function ReportBugScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Report a Bug</Text>
       <TextInput
         style={styles.input}
@@ -51,7 +52,7 @@ export default function ReportBugScreen() {
       <TouchableOpacity style={styles.button} onPress={sendEmail}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#ffd700",
+    color: "#38a093",
     marginBottom: 30,
   },
   input: {
@@ -87,14 +88,14 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: 50,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },

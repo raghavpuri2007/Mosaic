@@ -924,10 +924,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   timelineItemActive: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
   },
   timelineLineActive: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
   },
   timelineItemInactive: {
     backgroundColor: "#444",
@@ -1011,7 +1011,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
   },
   addActivityButton: {
     alignItems: "center",
@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 20,
   },
   addSportButton: {
@@ -1034,7 +1034,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 5,
@@ -1045,20 +1045,20 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 5,
   },
   button: {
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: "center",
     marginBottom: 15,
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -1067,7 +1067,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   skipButtonText: {
-    color: "#ffd700",
+    color: "#38a093",
     fontSize: 16,
   },
   projectSection: {
@@ -1110,7 +1110,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 20,
   },
   highlightVideosSection: {
@@ -1142,7 +1142,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 20,
   },
   performingArtImagesSection: {
@@ -1180,7 +1180,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 20,
   },
   clubImagesSection: {
@@ -1218,7 +1218,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 20,
   },
   projectSkillsSection: {
@@ -1240,7 +1240,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#ffd700",
+    backgroundColor: "#38a093",
     marginBottom: 10,
   },
 });
