@@ -21,7 +21,9 @@ import { Link } from "expo-router";
 export default function Create4() {
   const router = useRouter();
   const { editing } = useLocalSearchParams();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(
+    "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+  );
   const [coverImage, setCoverImage] = useState(null);
   const [backImage, setBackImage] = useState(null);
   const [about, setAbout] = useState("");
@@ -106,7 +108,7 @@ export default function Create4() {
       });
     }
 
-    router.push("(tabs)");
+    router.replace("(tabs)");
   };
 
   return (

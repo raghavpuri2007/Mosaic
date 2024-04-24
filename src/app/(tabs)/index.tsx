@@ -1,28 +1,57 @@
-import { StyleSheet, FlatList } from 'react-native';
-import { Text, View } from '../../components/Themed';
-import PostListItem from '../../components/PostListItem';
-import posts from '../../../assets/data/posts.json'
+import {
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Text,
+  View,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import PostListItem from "../../components/PostListItem";
+import posts from "../../../assets/data/posts.json";
 
-const firstPost = posts[0]
+const firstPost = posts[0];
 
 export default function HomeFeedScreen() {
+  const router = useRouter();
+
+  const handleSearchPress = () => {
+    router.push("/search");
+  };
+
   return (
-    <FlatList
-      data={posts}
-      renderItem={({ item }) => <PostListItem post={item} />}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ gap: 10 }}
-    />
+    <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <TouchableOpacity onPress={handleSearchPress}>
+          <Ionicons name="search-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => <PostListItem post={item} />}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.postListContainer}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 40,
     flex: 1,
+    backgroundColor: "#000",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  searchContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
-
+  postListContainer: {
+    gap: 10,
+    paddingTop: 10,
+  },
 });

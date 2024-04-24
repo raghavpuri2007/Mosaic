@@ -431,7 +431,7 @@ export default function Create3() {
 
   const handleSkip = async () => {
     await saveDataToFirebase();
-    router.push("(tabs)");
+    router.replace("(tabs)");
   };
 
   return (

@@ -136,7 +136,7 @@ export default function Create2() {
 
   const handleSkip = async () => {
     await saveDataToFirebase();
-    router.push("(tabs)");
+    router.replace("(tabs)");
   };
 
   return (

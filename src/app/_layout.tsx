@@ -12,7 +12,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import Login from "../components/Login";
 import CreateProfile from "../components/CreateProfile";
 import { useRouter } from "expo-router";
-
+import { LogBox } from "react-native";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -62,6 +62,8 @@ function RootLayoutNav() {
   const navigation = useNavigation(); // Get the navigation object
   const router = useRouter();
 
+  // LogBox.ignoreAllLogs();
+
   const customHeaderBackButton = () => (
     <TouchableOpacity
       onPress={() => navigation.goBack()}
@@ -108,7 +110,7 @@ function RootLayoutNav() {
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,
-            headerRight: customHeaderSettingsButton,  // Add settings button here
+            headerRight: customHeaderSettingsButton, // Add settings button here
           }}
         />
 
@@ -118,7 +120,7 @@ function RootLayoutNav() {
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,
-            headerRight: customHeaderSettingsButton,  // Add settings button here
+            headerRight: customHeaderSettingsButton, // Add settings button here
           }}
         />
       </Stack>
