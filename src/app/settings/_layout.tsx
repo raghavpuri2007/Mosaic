@@ -8,12 +8,12 @@ export default function StackLayout() {
 
   return (
     <Stack
-      initialRouteName="settings"
+      initialRouteName="home"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="settings" />
+      <Stack.Screen name="home" />
       <Stack.Screen name="changePassword" />
       <Stack.Screen name="reportBug" />
       <Stack.Screen name="terms" />
