@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text, View } from "../../components/Themed";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";

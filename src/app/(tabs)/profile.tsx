@@ -1,8 +1,7 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Text, View } from "../../components/Themed";
 
 export default function ProfileScreen() {
   const router = useRouter();

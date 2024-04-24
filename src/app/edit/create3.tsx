@@ -21,23 +21,38 @@ import * as FileSystem from "expo-file-system";
 export default function Create3() {
   const router = useRouter();
   const { editing } = useLocalSearchParams();
-  const [sports, setSports] = useState([
-    { name: "", levels: [""], years: "", highlightVideos: [] },
+  const [athletics, setAthletics] = useState([
+    {
+      id: "",
+      name: "",
+      description: "",
+      highlights: [],
+      images: [],
+      awards: [],
+    },
   ]);
-  const [sportsAwards, setSportsAwards] = useState([""]);
   const [performingArts, setPerformingArts] = useState([
-    { name: "", years: "", images: [] },
+    {
+      id: "",
+      name: "",
+      description: "",
+      videos: [],
+      images: [],
+      awards: [],
+    },
+  ]);
+  const [volunteering, setVolunteering] = useState([
+    {
+      id: "",
+      name: "",
+      impact: "",
+      images: [],
+      events: [],
+    },
   ]);
   const [projects, setProjects] = useState([
     { name: "", description: "", link: "", skills: [""], image: null },
   ]);
-  const [performingArtsAwards, setPerformingArtsAwards] = useState([""]);
-  const [clubs, setClubs] = useState([
-    { name: "", roles: [""], years: "", images: [] },
-  ]);
-  const [clubsAwards, setClubsAwards] = useState([""]);
-  const [volunteering, setVolunteering] = useState([{ name: "", hours: "" }]);
-  const [volunteeringAwards, setVolunteeringAwards] = useState([""]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,14 +61,40 @@ export default function Create3() {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setSports(
-            userData.sports || [
-              { name: "", levels: [""], years: "", highlightVideos: [] },
+          setAthletics(
+            userData.athletics || [
+              {
+                id: "",
+                name: "",
+                description: "",
+                highlights: [],
+                images: [],
+                awards: [],
+              },
             ]
           );
-          setSportsAwards(userData.sportsAwards || [""]);
           setPerformingArts(
-            userData.performingArts || [{ name: "", years: "", images: [] }]
+            userData.performingArts || [
+              {
+                id: "",
+                name: "",
+                description: "",
+                videos: [],
+                images: [],
+                awards: [],
+              },
+            ]
+          );
+          setVolunteering(
+            userData.volunteering || [
+              {
+                id: "",
+                name: "",
+                impact: "",
+                images: [],
+                events: [],
+              },
+            ]
           );
           setProjects(
             userData.projects || [
@@ -66,13 +107,6 @@ export default function Create3() {
               },
             ]
           );
-          setPerformingArtsAwards(userData.performingArtsAwards || [""]);
-          setClubs(
-            userData.clubs || [{ name: "", roles: [""], years: "", images: [] }]
-          );
-          setClubsAwards(userData.clubsAwards || [""]);
-          setVolunteering(userData.volunteering || [{ name: "", hours: "" }]);
-          setVolunteeringAwards(userData.volunteeringAwards || [""]);
         }
       }
     };
@@ -81,23 +115,43 @@ export default function Create3() {
 
   const handleAddActivity = (category) => {
     switch (category) {
-      case "sports":
-        setSports([
-          ...sports,
-          { name: "", levels: [""], years: "", highlightVideos: [] },
+      case "athletics":
+        setAthletics([
+          ...athletics,
+          {
+            id: "",
+            name: "",
+            description: "",
+            highlights: [],
+            images: [],
+            awards: [],
+          },
         ]);
         break;
       case "performingArts":
         setPerformingArts([
           ...performingArts,
-          { name: "", years: "", images: [] },
+          {
+            id: "",
+            name: "",
+            description: "",
+            videos: [],
+            images: [],
+            awards: [],
+          },
         ]);
         break;
-      case "clubs":
-        setClubs([...clubs, { name: "", roles: [""], years: "", images: [] }]);
-        break;
       case "volunteering":
-        setVolunteering([...volunteering, { name: "", hours: "" }]);
+        setVolunteering([
+          ...volunteering,
+          {
+            id: "",
+            name: "",
+            impact: "",
+            images: [],
+            events: [],
+          },
+        ]);
         break;
       default:
         break;
@@ -110,27 +164,24 @@ export default function Create3() {
       { name: "", description: "", link: "", skills: [""], image: null },
     ]);
   };
+
   const handleProjectChange = (index, field, value) => {
     const updatedProjects = [...projects];
     updatedProjects[index][field] = value;
     setProjects(updatedProjects);
   };
+
   const handleActivityChange = (category, index, field, value) => {
     switch (category) {
-      case "sports":
-        const updatedSports = [...sports];
-        updatedSports[index][field] = value;
-        setSports(updatedSports);
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[index][field] = value;
+        setAthletics(updatedAthletics);
         break;
       case "performingArts":
         const updatedPerformingArts = [...performingArts];
         updatedPerformingArts[index][field] = value;
         setPerformingArts(updatedPerformingArts);
-        break;
-      case "clubs":
-        const updatedClubs = [...clubs];
-        updatedClubs[index][field] = value;
-        setClubs(updatedClubs);
         break;
       case "volunteering":
         const updatedVolunteering = [...volunteering];
@@ -141,6 +192,7 @@ export default function Create3() {
         break;
     }
   };
+
   const handleImagePicker = async (index) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -162,13 +214,28 @@ export default function Create3() {
     }
   };
 
-  const handleAddHighlightVideo = (sportIndex) => {
-    const updatedSports = [...sports];
-    updatedSports[sportIndex].highlightVideos.push(null);
-    setSports(updatedSports);
+  const handleAddHighlight = (category, index) => {
+    switch (category) {
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[index].highlights.push({ key: "" });
+        setAthletics(updatedAthletics);
+        break;
+      case "performingArts":
+        const updatedPerformingArts = [...performingArts];
+        updatedPerformingArts[index].videos.push({ key: "" });
+        setPerformingArts(updatedPerformingArts);
+        break;
+      default:
+        break;
+    }
   };
 
-  const handleHighlightVideoChange = async (sportIndex, videoIndex) => {
+  const handleHighlightChange = async (
+    category,
+    activityIndex,
+    highlightIndex
+  ) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to select a video.");
@@ -182,19 +249,48 @@ export default function Create3() {
     });
 
     if (!result.cancelled && result.uri) {
-      const updatedSports = [...sports];
-      updatedSports[sportIndex].highlightVideos[videoIndex] = result.uri;
-      setSports(updatedSports);
+      switch (category) {
+        case "athletics":
+          const updatedAthletics = [...athletics];
+          updatedAthletics[activityIndex].highlights[highlightIndex].key =
+            result.uri;
+          setAthletics(updatedAthletics);
+          break;
+        case "performingArts":
+          const updatedPerformingArts = [...performingArts];
+          updatedPerformingArts[activityIndex].videos[highlightIndex].key =
+            result.uri;
+          setPerformingArts(updatedPerformingArts);
+          break;
+        default:
+          break;
+      }
     }
   };
 
-  const handleAddPerformingArtImage = (index) => {
-    const updatedPerformingArts = [...performingArts];
-    updatedPerformingArts[index].images.push(null);
-    setPerformingArts(updatedPerformingArts);
+  const handleAddImage = (category, index) => {
+    switch (category) {
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[index].images.push({ key: "" });
+        setAthletics(updatedAthletics);
+        break;
+      case "performingArts":
+        const updatedPerformingArts = [...performingArts];
+        updatedPerformingArts[index].images.push({ key: "" });
+        setPerformingArts(updatedPerformingArts);
+        break;
+      case "volunteering":
+        const updatedVolunteering = [...volunteering];
+        updatedVolunteering[index].images.push({ key: "" });
+        setVolunteering(updatedVolunteering);
+        break;
+      default:
+        break;
+    }
   };
 
-  const handlePerformingArtImageChange = async (artIndex, imageIndex) => {
+  const handleImageChange = async (category, activityIndex, imageIndex) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to select an image.");
@@ -209,37 +305,88 @@ export default function Create3() {
     });
 
     if (!result.cancelled && result.uri) {
-      const updatedPerformingArts = [...performingArts];
-      updatedPerformingArts[artIndex].images[imageIndex] = result.uri;
-      setPerformingArts(updatedPerformingArts);
+      switch (category) {
+        case "athletics":
+          const updatedAthletics = [...athletics];
+          updatedAthletics[activityIndex].images[imageIndex].key = result.uri;
+          setAthletics(updatedAthletics);
+          break;
+        case "performingArts":
+          const updatedPerformingArts = [...performingArts];
+          updatedPerformingArts[activityIndex].images[imageIndex].key =
+            result.uri;
+          setPerformingArts(updatedPerformingArts);
+          break;
+        case "volunteering":
+          const updatedVolunteering = [...volunteering];
+          updatedVolunteering[activityIndex].images[imageIndex].key =
+            result.uri;
+          setVolunteering(updatedVolunteering);
+          break;
+        default:
+          break;
+      }
     }
   };
 
-  const handleAddClubImage = (index) => {
-    const updatedClubs = [...clubs];
-    updatedClubs[index].images.push(null);
-    setClubs(updatedClubs);
+  const handleAddAward = (category, index) => {
+    switch (category) {
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[index].awards.push({ title: "", description: "" });
+        setAthletics(updatedAthletics);
+        break;
+      case "performingArts":
+        const updatedPerformingArts = [...performingArts];
+        updatedPerformingArts[index].awards.push({
+          title: "",
+          description: "",
+        });
+        setPerformingArts(updatedPerformingArts);
+        break;
+      default:
+        break;
+    }
   };
 
-  const handleClubImageChange = async (clubIndex, imageIndex) => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to select an image.");
-      return;
+  const handleAwardChange = (
+    category,
+    activityIndex,
+    awardIndex,
+    field,
+    value
+  ) => {
+    switch (category) {
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[activityIndex].awards[awardIndex][field] = value;
+        setAthletics(updatedAthletics);
+        break;
+      case "performingArts":
+        const updatedPerformingArts = [...performingArts];
+        updatedPerformingArts[activityIndex].awards[awardIndex][field] = value;
+        setPerformingArts(updatedPerformingArts);
+        break;
+      default:
+        break;
     }
+  };
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+  const handleAddEvent = (volunteeringIndex) => {
+    const updatedVolunteering = [...volunteering];
+    updatedVolunteering[volunteeringIndex].events.push({
+      title: "",
+      startYear: "",
+      endYear: "",
+      description: "",
     });
+    setVolunteering(updatedVolunteering);
+  };
 
-    if (!result.cancelled && result.uri) {
-      const updatedClubs = [...clubs];
-      updatedClubs[clubIndex].images[imageIndex] = result.uri;
-      setClubs(updatedClubs);
-    }
+  const handleEventChange = (volunteeringIndex, eventIndex, field, value) => {
+    const updatedVolunteering = [...volunteering];
+    updatedVolunteering[volunteeringIndex].events[eventIndex][field] = value;
+    setVolunteering(updatedVolunteering);
   };
 
   const handleAddSkill = (index) => {
@@ -254,90 +401,15 @@ export default function Create3() {
     setProjects(updatedProjects);
   };
 
-  const handleAddLevel = (index) => {
-    const updatedSports = [...sports];
-    updatedSports[index].levels.push({ level: "", years: "" });
-    setSports(updatedSports);
-  };
-
-  const handleLevelChange = (sportIndex, levelIndex, field, value) => {
-    const updatedSports = [...sports];
-    updatedSports[sportIndex].levels[levelIndex][field] = value;
-    setSports(updatedSports);
-  };
-
-  const handleAddRole = (index) => {
-    const updatedClubs = [...clubs];
-    updatedClubs[index].roles.push({ role: "", years: "" });
-    setClubs(updatedClubs);
-  };
-
-  const handleRoleChange = (clubIndex, roleIndex, field, value) => {
-    const updatedClubs = [...clubs];
-    updatedClubs[clubIndex].roles[roleIndex][field] = value;
-    setClubs(updatedClubs);
-  };
-
-  const handleAddAward = (category) => {
-    switch (category) {
-      case "sports":
-        setSportsAwards([...sportsAwards, ""]);
-        break;
-      case "performingArts":
-        setPerformingArtsAwards([...performingArtsAwards, ""]);
-        break;
-      case "clubs":
-        setClubsAwards([...clubsAwards, ""]);
-        break;
-      case "volunteering":
-        setVolunteeringAwards([...volunteeringAwards, ""]);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleAwardChange = (category, index, value) => {
-    switch (category) {
-      case "sports":
-        const updatedSportsAwards = [...sportsAwards];
-        updatedSportsAwards[index] = value;
-        setSportsAwards(updatedSportsAwards);
-        break;
-      case "performingArts":
-        const updatedPerformingArtsAwards = [...performingArtsAwards];
-        updatedPerformingArtsAwards[index] = value;
-        setPerformingArtsAwards(updatedPerformingArtsAwards);
-        break;
-      case "clubs":
-        const updatedClubsAwards = [...clubsAwards];
-        updatedClubsAwards[index] = value;
-        setClubsAwards(updatedClubsAwards);
-        break;
-      case "volunteering":
-        const updatedVolunteeringAwards = [...volunteeringAwards];
-        updatedVolunteeringAwards[index] = value;
-        setVolunteeringAwards(updatedVolunteeringAwards);
-        break;
-      default:
-        break;
-    }
-  };
-
   const saveDataToFirebase = async () => {
     if (auth.currentUser) {
       const userRef = doc(db, "users", auth.currentUser.uid);
 
       await updateDoc(userRef, {
-        sports,
+        athletics,
         performingArts,
-        projects,
-        clubs,
-        sportsAwards,
-        performingArtsAwards,
-        clubsAwards,
         volunteering,
-        volunteeringAwards,
+        projects,
       });
     }
   };
@@ -396,74 +468,54 @@ export default function Create3() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.form}>
-            <Text style={styles.sectionTitle}>Sports</Text>
-            {sports.map((sport, sportIndex) => (
-              <View key={sportIndex} style={styles.activitySection}>
+            <Text style={styles.sectionTitle}>Athletics</Text>
+            {athletics.map((athletic, athleticIndex) => (
+              <View key={athleticIndex} style={styles.activitySection}>
                 <TextInput
                   style={[styles.input, styles.activityNameInput]}
-                  placeholder="Sport Name"
+                  placeholder="Athletic Activity Name"
                   placeholderTextColor="#888"
-                  value={sport.name}
+                  value={athletic.name}
                   onChangeText={(value) =>
-                    handleActivityChange("sports", sportIndex, "name", value)
+                    handleActivityChange(
+                      "athletics",
+                      athleticIndex,
+                      "name",
+                      value
+                    )
                   }
                 />
-                {sport.levels.map((levelObj, levelIndex) => (
-                  <View key={levelIndex} style={styles.levelContainer}>
-                    <View style={styles.activityDetailsRow}>
-                      <TextInput
-                        style={[styles.input, styles.activityLevelInput]}
-                        placeholder="Level"
-                        placeholderTextColor="#888"
-                        value={levelObj.level}
-                        onChangeText={(value) =>
-                          handleLevelChange(
-                            sportIndex,
-                            levelIndex,
-                            "level",
-                            value
-                          )
-                        }
-                      />
-                      <TextInput
-                        style={[styles.input, styles.activityYearsInput]}
-                        placeholder="Years"
-                        placeholderTextColor="#888"
-                        value={levelObj.years}
-                        onChangeText={(value) =>
-                          handleLevelChange(
-                            sportIndex,
-                            levelIndex,
-                            "years",
-                            value
-                          )
-                        }
-                      />
-                    </View>
-                    {levelIndex === sport.levels.length - 1 && (
-                      <TouchableOpacity
-                        style={styles.addLevelButton}
-                        onPress={() => handleAddLevel(sportIndex)}
-                      >
-                        <Ionicons name="add" size={24} color="#fff" />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                ))}
-                <View style={styles.highlightVideosSection}>
-                  <Text style={styles.highlightVideosTitle}>
-                    Highlight Videos
-                  </Text>
-                  {sport.highlightVideos.map((video, videoIndex) => (
+                <TextInput
+                  style={[styles.input, styles.activityDescriptionInput]}
+                  placeholder="Description"
+                  placeholderTextColor="#888"
+                  value={athletic.description}
+                  onChangeText={(value) =>
+                    handleActivityChange(
+                      "athletics",
+                      athleticIndex,
+                      "description",
+                      value
+                    )
+                  }
+                />
+                <View style={styles.highlightsSection}>
+                  <Text style={styles.highlightsTitle}>Highlights</Text>
+                  {athletic.highlights.map((highlight, highlightIndex) => (
                     <TouchableOpacity
-                      style={styles.highlightVideoButton}
+                      key={highlightIndex}
+                      style={styles.highlightButton}
                       onPress={() =>
-                        handleHighlightVideoChange(sportIndex, videoIndex)
+                        handleHighlightChange(
+                          "athletics",
+                          athleticIndex,
+                          highlightIndex
+                        )
                       }
                     >
-                      {video ? (
+                      {highlight.key ? (
                         <Video
-                          source={{ uri: video }}
+                          source={{ uri: highlight.key }}
                           style={{ width: 50, height: 50 }}
                           resizeMode="cover"
                         />
@@ -477,82 +529,185 @@ export default function Create3() {
                     </TouchableOpacity>
                   ))}
                   <TouchableOpacity
-                    style={styles.addHighlightVideoButton}
-                    onPress={() => handleAddHighlightVideo(sportIndex)}
+                    style={styles.addHighlightButton}
+                    onPress={() =>
+                      handleAddHighlight("athletics", athleticIndex)
+                    }
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 </View>
-                {sportIndex === sports.length - 1 && (
+                <View style={styles.imagesSection}>
+                  <Text style={styles.imagesTitle}>Images</Text>
+                  {athletic.images.map((image, imageIndex) => (
+                    <TouchableOpacity
+                      key={imageIndex}
+                      style={styles.imageButton}
+                      onPress={() =>
+                        handleImageChange(
+                          "athletics",
+                          athleticIndex,
+                          imageIndex
+                        )
+                      }
+                    >
+                      {image.key ? (
+                        <Image
+                          source={{ uri: image.key }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons name="image-outline" size={24} color="#888" />
+                      )}
+                    </TouchableOpacity>
+                  ))}
                   <TouchableOpacity
-                    style={[styles.addActivityButton, styles.addSportButton]}
-                    onPress={() => handleAddActivity("sports")}
+                    style={styles.addImageButton}
+                    onPress={() => handleAddImage("athletics", athleticIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.awardsSection}>
+                  <Text style={styles.awardsTitle}>Awards</Text>
+                  {athletic.awards.map((award, awardIndex) => (
+                    <View key={awardIndex} style={styles.awardRow}>
+                      <TextInput
+                        style={[styles.input, styles.awardTitleInput]}
+                        placeholder="Award Title"
+                        placeholderTextColor="#888"
+                        value={award.title}
+                        onChangeText={(value) =>
+                          handleAwardChange(
+                            "athletics",
+                            athleticIndex,
+                            awardIndex,
+                            "title",
+                            value
+                          )
+                        }
+                      />
+                      <TextInput
+                        style={[styles.input, styles.awardDescriptionInput]}
+                        placeholder="Award Description"
+                        placeholderTextColor="#888"
+                        value={award.description}
+                        onChangeText={(value) =>
+                          handleAwardChange(
+                            "athletics",
+                            athleticIndex,
+                            awardIndex,
+                            "description",
+                            value
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addAwardButton}
+                    onPress={() => handleAddAward("athletics", athleticIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                {athleticIndex === athletics.length - 1 && (
+                  <TouchableOpacity
+                    style={[styles.addActivityButton, styles.addAthleticButton]}
+                    onPress={() => handleAddActivity("athletics")}
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 )}
               </View>
             ))}
-            <View style={styles.awardsSection}>
-              <Text style={styles.awardsTitle}>Sports Awards</Text>
-              {sportsAwards.map((award, index) => (
-                <View key={index} style={styles.awardRow}>
-                  <TextInput
-                    style={[styles.input, styles.awardInput]}
-                    placeholder="Award Name"
-                    placeholderTextColor="#888"
-                    value={award}
-                    onChangeText={(value) =>
-                      handleAwardChange("sports", index, value)
-                    }
-                  />
-                  <TouchableOpacity
-                    style={styles.addAwardButton}
-                    onPress={() => handleAddAward("sports")}
-                  >
-                    <Ionicons name="add" size={24} color="#fff" />
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
             <Text style={styles.sectionTitle}>Performing Arts</Text>
-            {performingArts.map((art, index) => (
-              <View key={index} style={styles.activitySection}>
+            {performingArts.map((performingArt, performingArtIndex) => (
+              <View key={performingArtIndex} style={styles.activitySection}>
                 <TextInput
                   style={[styles.input, styles.activityNameInput]}
                   placeholder="Performing Art Name"
                   placeholderTextColor="#888"
-                  value={art.name}
-                  onChangeText={(value) =>
-                    handleActivityChange("performingArts", index, "name", value)
-                  }
-                />
-                <TextInput
-                  style={[styles.input, styles.activityYearsInput]}
-                  placeholder="Years"
-                  placeholderTextColor="#888"
-                  value={art.years}
+                  value={performingArt.name}
                   onChangeText={(value) =>
                     handleActivityChange(
                       "performingArts",
-                      index,
-                      "years",
+                      performingArtIndex,
+                      "name",
                       value
                     )
                   }
                 />
-                <View style={styles.performingArtImagesSection}>
-                  <Text style={styles.performingArtImagesTitle}>Images</Text>
-                  {art.images.map((image, imageIndex) => (
+                <TextInput
+                  style={[styles.input, styles.activityDescriptionInput]}
+                  placeholder="Description"
+                  placeholderTextColor="#888"
+                  value={performingArt.description}
+                  onChangeText={(value) =>
+                    handleActivityChange(
+                      "performingArts",
+                      performingArtIndex,
+                      "description",
+                      value
+                    )
+                  }
+                />
+                <View style={styles.videosSection}>
+                  <Text style={styles.videosTitle}>Videos</Text>
+                  {performingArt.videos.map((video, videoIndex) => (
                     <TouchableOpacity
-                      style={styles.performingArtImageButton}
+                      key={videoIndex}
+                      style={styles.videoButton}
                       onPress={() =>
-                        handlePerformingArtImageChange(index, imageIndex)
+                        handleHighlightChange(
+                          "performingArts",
+                          performingArtIndex,
+                          videoIndex
+                        )
                       }
                     >
-                      {image ? (
+                      {video.key ? (
+                        <Video
+                          source={{ uri: video.key }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons
+                          name="videocam-outline"
+                          size={24}
+                          color="#888"
+                        />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addVideoButton}
+                    onPress={() =>
+                      handleAddHighlight("performingArts", performingArtIndex)
+                    }
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.imagesSection}>
+                  <Text style={styles.imagesTitle}>Images</Text>
+                  {performingArt.images.map((image, imageIndex) => (
+                    <TouchableOpacity
+                      key={imageIndex}
+                      style={styles.imageButton}
+                      onPress={() =>
+                        handleImageChange(
+                          "performingArts",
+                          performingArtIndex,
+                          imageIndex
+                        )
+                      }
+                    >
+                      {image.key ? (
                         <Image
-                          source={{ uri: image }}
+                          source={{ uri: image.key }}
                           style={{ width: 50, height: 50 }}
                           resizeMode="cover"
                         />
@@ -562,197 +717,223 @@ export default function Create3() {
                     </TouchableOpacity>
                   ))}
                   <TouchableOpacity
-                    style={styles.addPerformingArtImageButton}
-                    onPress={() => handleAddPerformingArtImage(index)}
-                  >
-                    <Ionicons name="add" size={24} color="#fff" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
-            <TouchableOpacity
-              style={styles.addActivityButton}
-              onPress={() => handleAddActivity("performingArts")}
-            >
-              <Ionicons name="add" size={24} color="#fff" />
-            </TouchableOpacity>
-            <View style={styles.awardsSection}>
-              <Text style={styles.awardsTitle}>Performing Arts Awards</Text>
-              {performingArtsAwards.map((award, index) => (
-                <View key={index} style={styles.awardRow}>
-                  <TextInput
-                    style={[styles.input, styles.awardInput]}
-                    placeholder="Award Name"
-                    placeholderTextColor="#888"
-                    value={award}
-                    onChangeText={(value) =>
-                      handleAwardChange("performingArts", index, value)
+                    style={styles.addImageButton}
+                    onPress={() =>
+                      handleAddImage("performingArts", performingArtIndex)
                     }
-                  />
-                  <TouchableOpacity
-                    style={styles.addAwardButton}
-                    onPress={() => handleAddAward("performingArts")}
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 </View>
-              ))}
-            </View>
-            <Text style={styles.sectionTitle}>Clubs</Text>
-            {clubs.map((club, clubIndex) => (
-              <View key={clubIndex} style={styles.activitySection}>
-                <TextInput
-                  style={[styles.input, styles.activityNameInput]}
-                  placeholder="Club Name"
-                  placeholderTextColor="#888"
-                  value={club.name}
-                  onChangeText={(value) =>
-                    handleActivityChange("clubs", clubIndex, "name", value)
-                  }
-                />
-                {club.roles.map((roleObj, roleIndex) => (
-                  <View key={roleIndex} style={styles.roleContainer}>
-                    <View style={styles.activityDetailsRow}>
+                <View style={styles.awardsSection}>
+                  <Text style={styles.awardsTitle}>Awards</Text>
+                  {performingArt.awards.map((award, awardIndex) => (
+                    <View key={awardIndex} style={styles.awardRow}>
                       <TextInput
-                        style={[styles.input, styles.activityRoleInput]}
-                        placeholder="Role"
+                        style={[styles.input, styles.awardTitleInput]}
+                        placeholder="Award Title"
                         placeholderTextColor="#888"
-                        value={roleObj.role}
+                        value={award.title}
                         onChangeText={(value) =>
-                          handleRoleChange(clubIndex, roleIndex, "role", value)
+                          handleAwardChange(
+                            "performingArts",
+                            performingArtIndex,
+                            awardIndex,
+                            "title",
+                            value
+                          )
                         }
                       />
                       <TextInput
-                        style={[styles.input, styles.activityYearsInput]}
-                        placeholder="Years"
+                        style={[styles.input, styles.awardDescriptionInput]}
+                        placeholder="Award Description"
                         placeholderTextColor="#888"
-                        value={roleObj.years}
+                        value={award.description}
                         onChangeText={(value) =>
-                          handleRoleChange(clubIndex, roleIndex, "years", value)
+                          handleAwardChange(
+                            "performingArts",
+                            performingArtIndex,
+                            awardIndex,
+                            "description",
+                            value
+                          )
                         }
                       />
                     </View>
-                    {roleIndex === club.roles.length - 1 && (
-                      <TouchableOpacity
-                        style={styles.addRoleButton}
-                        onPress={() => handleAddRole(clubIndex)}
-                      >
-                        <Ionicons name="add" size={24} color="#fff" />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                ))}
-                <View style={styles.clubImagesSection}>
-                  <Text style={styles.clubImagesTitle}>Images</Text>
-                  {club.images.map((image, imageIndex) => (
-                    <TouchableOpacity
-                      style={styles.clubImageButton}
-                      onPress={() =>
-                        handleClubImageChange(clubIndex, imageIndex)
-                      }
-                    >
-                      {image ? (
-                        <Image
-                          source={{ uri: image }}
-                          style={{ width: 50, height: 50 }}
-                          resizeMode="cover"
-                        />
-                      ) : (
-                        <Ionicons name="image-outline" size={24} color="#888" />
-                      )}
-                    </TouchableOpacity>
                   ))}
                   <TouchableOpacity
-                    style={styles.addClubImageButton}
-                    onPress={() => handleAddClubImage(clubIndex)}
+                    style={styles.addAwardButton}
+                    onPress={() =>
+                      handleAddAward("performingArts", performingArtIndex)
+                    }
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 </View>
-                {clubIndex === clubs.length - 1 && (
+                {performingArtIndex === performingArts.length - 1 && (
                   <TouchableOpacity
-                    style={[styles.addActivityButton, styles.addClubButton]}
-                    onPress={() => handleAddActivity("clubs")}
+                    style={[
+                      styles.addActivityButton,
+                      styles.addPerformingArtButton,
+                    ]}
+                    onPress={() => handleAddActivity("performingArts")}
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 )}
               </View>
             ))}
-            <View style={styles.awardsSection}>
-              <Text style={styles.awardsTitle}>Club Awards</Text>
-              {clubsAwards.map((award, index) => (
-                <View key={index} style={styles.awardRow}>
-                  <TextInput
-                    style={[styles.input, styles.awardInput]}
-                    placeholder="Award Name"
-                    placeholderTextColor="#888"
-                    value={award}
-                    onChangeText={(value) =>
-                      handleAwardChange("clubs", index, value)
-                    }
-                  />
-                  <TouchableOpacity
-                    style={styles.addAwardButton}
-                    onPress={() => handleAddAward("clubs")}
-                  >
-                    <Ionicons name="add" size={24} color="#fff" />
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
             <Text style={styles.sectionTitle}>Volunteering</Text>
-            {volunteering.map((volunteer, index) => (
-              <View key={index} style={styles.activitySection}>
+            {volunteering.map((volunteer, volunteeringIndex) => (
+              <View key={volunteeringIndex} style={styles.activitySection}>
                 <TextInput
                   style={[styles.input, styles.activityNameInput]}
                   placeholder="Volunteering Name"
                   placeholderTextColor="#888"
                   value={volunteer.name}
                   onChangeText={(value) =>
-                    handleActivityChange("volunteering", index, "name", value)
+                    handleActivityChange(
+                      "volunteering",
+                      volunteeringIndex,
+                      "name",
+                      value
+                    )
                   }
                 />
                 <TextInput
-                  style={[styles.input, styles.activityHoursInput]}
-                  placeholder="Hours"
+                  style={[styles.input, styles.activityImpactInput]}
+                  placeholder="Impact"
                   placeholderTextColor="#888"
-                  value={volunteer.hours}
+                  value={volunteer.impact}
                   onChangeText={(value) =>
-                    handleActivityChange("volunteering", index, "hours", value)
+                    handleActivityChange(
+                      "volunteering",
+                      volunteeringIndex,
+                      "impact",
+                      value
+                    )
                   }
-                  keyboardType="numeric"
                 />
-              </View>
-            ))}
-            <TouchableOpacity
-              style={styles.addActivityButton}
-              onPress={() => handleAddActivity("volunteering")}
-            >
-              <Ionicons name="add" size={24} color="#fff" />
-            </TouchableOpacity>
-            <View style={styles.awardsSection}>
-              <Text style={styles.awardsTitle}>Volunteering Awards</Text>
-              {volunteeringAwards.map((award, index) => (
-                <View key={index} style={styles.awardRow}>
-                  <TextInput
-                    style={[styles.input, styles.awardInput]}
-                    placeholder="Award Name"
-                    placeholderTextColor="#888"
-                    value={award}
-                    onChangeText={(value) =>
-                      handleAwardChange("volunteering", index, value)
-                    }
-                  />
+                <View style={styles.imagesSection}>
+                  <Text style={styles.imagesTitle}>Images</Text>
+                  {volunteer.images.map((image, imageIndex) => (
+                    <TouchableOpacity
+                      key={imageIndex}
+                      style={styles.imageButton}
+                      onPress={() =>
+                        handleImageChange(
+                          "volunteering",
+                          volunteeringIndex,
+                          imageIndex
+                        )
+                      }
+                    >
+                      {image.key ? (
+                        <Image
+                          source={{ uri: image.key }}
+                          style={{ width: 50, height: 50 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons name="image-outline" size={24} color="#888" />
+                      )}
+                    </TouchableOpacity>
+                  ))}
                   <TouchableOpacity
-                    style={styles.addAwardButton}
-                    onPress={() => handleAddAward("volunteering")}
+                    style={styles.addImageButton}
+                    onPress={() =>
+                      handleAddImage("volunteering", volunteeringIndex)
+                    }
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
                 </View>
-              ))}
-            </View>
+                <View style={styles.eventsSection}>
+                  <Text style={styles.eventsTitle}>Events</Text>
+                  {volunteer.events.map((event, eventIndex) => (
+                    <View key={eventIndex} style={styles.eventRow}>
+                      <TextInput
+                        style={[styles.input, styles.eventTitleInput]}
+                        placeholder="Event Title"
+                        placeholderTextColor="#888"
+                        value={event.title}
+                        onChangeText={(value) =>
+                          handleEventChange(
+                            volunteeringIndex,
+                            eventIndex,
+                            "title",
+                            value
+                          )
+                        }
+                      />
+                      <View style={styles.eventYearsRow}>
+                        <TextInput
+                          style={[styles.input, styles.eventStartYearInput]}
+                          placeholder="Start Year"
+                          placeholderTextColor="#888"
+                          value={event.startYear}
+                          onChangeText={(value) =>
+                            handleEventChange(
+                              volunteeringIndex,
+                              eventIndex,
+                              "startYear",
+                              value
+                            )
+                          }
+                          keyboardType="numeric"
+                        />
+                        <TextInput
+                          style={[styles.input, styles.eventEndYearInput]}
+                          placeholder="End Year"
+                          placeholderTextColor="#888"
+                          value={event.endYear}
+                          onChangeText={(value) =>
+                            handleEventChange(
+                              volunteeringIndex,
+                              eventIndex,
+                              "endYear",
+                              value
+                            )
+                          }
+                          keyboardType="numeric"
+                        />
+                      </View>
+                      <TextInput
+                        style={[styles.input, styles.eventDescriptionInput]}
+                        placeholder="Event Description"
+                        placeholderTextColor="#888"
+                        value={event.description}
+                        onChangeText={(value) =>
+                          handleEventChange(
+                            volunteeringIndex,
+                            eventIndex,
+                            "description",
+                            value
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addEventButton}
+                    onPress={() => handleAddEvent(volunteeringIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                {volunteeringIndex === volunteering.length - 1 && (
+                  <TouchableOpacity
+                    style={[
+                      styles.addActivityButton,
+                      styles.addVolunteeringButton,
+                    ]}
+                    onPress={() => handleAddActivity("volunteering")}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                )}
+              </View>
+            ))}
           </View>
           <Text style={styles.sectionTitle}>Projects</Text>
           {projects.map((project, index) => (
@@ -845,7 +1026,6 @@ export default function Create3() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -882,26 +1062,6 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 16,
     textAlign: "center",
-  },
-  highlightVideoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  performingArtImageRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  clubImageRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  projectImageRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
   },
   timeline: {
     alignItems: "center",
@@ -952,25 +1112,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
   },
-  activityDetailsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 5,
-  },
-  activityLevelInput: {
-    flex: 0.7,
-    marginRight: 10,
-  },
-  activityRoleInput: {
-    flex: 0.7,
-    marginRight: 10,
-  },
-  activityYearsInput: {
-    flex: 0.3,
-  },
-  activityHoursInput: {
+  activityDescriptionInput: {
     flex: 1,
+    marginBottom: 10,
   },
   input: {
     backgroundColor: "#222",
@@ -981,11 +1125,89 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
-  levelContainer: {
-    marginBottom: 5,
+  highlightsSection: {
+    marginTop: 20,
   },
-  roleContainer: {
-    marginBottom: 5,
+  highlightsTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  highlightButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  addHighlightButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#38a093",
+    marginBottom: 20,
+  },
+  imagesSection: {
+    marginTop: 20,
+  },
+  imagesTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  imageButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  addImageButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#38a093",
+    marginBottom: 20,
+  },
+  videosSection: {
+    marginTop: 20,
+  },
+  videosTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  videoButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  addVideoButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#38a093",
+    marginBottom: 20,
   },
   awardsSection: {
     marginTop: 20,
@@ -997,13 +1219,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   awardRow: {
-    flexDirection: "row",
-    alignItems: "center",
     marginBottom: 10,
   },
-  awardInput: {
+  awardTitleInput: {
     flex: 1,
-    marginRight: 10,
+    marginBottom: 5,
+  },
+  awardDescriptionInput: {
+    flex: 1,
   },
   addAwardButton: {
     alignItems: "center",
@@ -1012,6 +1235,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: "#38a093",
+    marginBottom: 20,
   },
   addActivityButton: {
     alignItems: "center",
@@ -1022,33 +1246,114 @@ const styles = StyleSheet.create({
     backgroundColor: "#38a093",
     marginBottom: 20,
   },
-  addSportButton: {
+  addAthleticButton: {
     marginTop: 30,
   },
-  addClubButton: {
+  addPerformingArtButton: {
     marginTop: 30,
   },
-  addLevelButton: {
+  activityImpactInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  eventsSection: {
+    marginTop: 20,
+  },
+  eventsTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  eventRow: {
+    marginBottom: 10,
+  },
+  eventTitleInput: {
+    flex: 1,
+    marginBottom: 5,
+  },
+  eventYearsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  eventStartYearInput: {
+    flex: 0.48,
+    marginRight: 10,
+  },
+  eventEndYearInput: {
+    flex: 0.48,
+  },
+  eventDescriptionInput: {
+    flex: 1,
+  },
+  addEventButton: {
     alignItems: "center",
     justifyContent: "center",
     width: 40,
     height: 40,
     borderRadius: 20,
     backgroundColor: "#38a093",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: 5,
+    marginBottom: 20,
   },
-  addRoleButton: {
+  addVolunteeringButton: {
+    marginTop: 30,
+  },
+  projectSection: {
+    marginBottom: 20,
+  },
+  projectNameInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  projectDescriptionInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  projectLinkInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  projectSkillsSection: {
+    marginTop: 20,
+  },
+  projectSkillsTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  projectSkillInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  addProjectSkillButton: {
     alignItems: "center",
     justifyContent: "center",
     width: 40,
     height: 40,
     borderRadius: 20,
     backgroundColor: "#38a093",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: 5,
+    marginBottom: 20,
+  },
+  projectImageButton: {
+    backgroundColor: "#222",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  addProjectButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#38a093",
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#38a093",
@@ -1069,178 +1374,5 @@ const styles = StyleSheet.create({
   skipButtonText: {
     color: "#38a093",
     fontSize: 16,
-  },
-  projectSection: {
-    marginBottom: 20,
-  },
-  projectNameInput: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  projectDescriptionInput: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  projectImageButton: {
-    backgroundColor: "#222",
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  projectImage: {
-    width: 200,
-    height: 150,
-    resizeMode: "cover",
-    borderRadius: 10,
-  },
-  projectImageButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  projectLinkInput: {
-    flex: 1,
-  },
-  addProjectButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#38a093",
-    marginBottom: 20,
-  },
-  highlightVideosSection: {
-    marginTop: 20,
-  },
-  highlightVideosTitle: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  highlightVideoButton: {
-    backgroundColor: "#222",
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  highlightVideoButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  addHighlightVideoButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#38a093",
-    marginBottom: 20,
-  },
-  performingArtImagesSection: {
-    marginTop: 20,
-  },
-  performingArtImagesTitle: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  performingArtImageButton: {
-    backgroundColor: "#222",
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  performingArtImage: {
-    width: 200,
-    height: 150,
-    resizeMode: "cover",
-    borderRadius: 10,
-  },
-  performingArtImageButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  addPerformingArtImageButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#38a093",
-    marginBottom: 20,
-  },
-  clubImagesSection: {
-    marginTop: 20,
-  },
-  clubImagesTitle: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  clubImageButton: {
-    backgroundColor: "#222",
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  clubImage: {
-    width: 200,
-    height: 150,
-    resizeMode: "cover",
-    borderRadius: 10,
-  },
-  clubImageButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  addClubImageButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#38a093",
-    marginBottom: 20,
-  },
-  projectSkillsSection: {
-    marginBottom: 10,
-  },
-  projectSkillsTitle: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  projectSkillInput: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  addProjectSkillButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#38a093",
-    marginBottom: 10,
   },
 });
