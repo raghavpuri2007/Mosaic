@@ -18,12 +18,10 @@ import { auth, db } from "../../../firebaseConfig";
 export default function Create2() {
   const { editing } = useLocalSearchParams();
   const router = useRouter();
-  const [apScores, setApScores] = useState([{ subject: "", score: "" }]);
-  const [transcript, setTranscript] = useState([
-    { year: "", courses: [{ name: "", grade: "" }] },
-  ]);
-  const [academicAwards, setAcademicAwards] = useState([""]);
-  const [unweightedGPA, setUnweightedGPA] = useState("");
+  const [apScores, setApScores] = useState([]);
+  const [transcript, setTranscript] = useState([]);
+  const [accolades, setAccolades] = useState([]);
+  const [gpa, setGPA] = useState("");
   const [weightedGPA, setWeightedGPA] = useState("");
   const [satScore, setSatScore] = useState("");
   const [actScore, setActScore] = useState("");
@@ -35,17 +33,13 @@ export default function Create2() {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setApScores(userData.apScores || [{ subject: "", score: "" }]);
-          setTranscript(
-            userData.transcript || [
-              { year: "", courses: [{ name: "", grade: "" }] },
-            ]
-          );
-          setAcademicAwards(userData.academicAwards || [""]);
-          setUnweightedGPA(userData.unweightedGPA || "");
-          setWeightedGPA(userData.weightedGPA || "");
-          setSatScore(userData.satScore || "");
-          setActScore(userData.actScore || "");
+          setApScores(userData.scores?.apScores || []);
+          setTranscript(userData.grades?.transcript || []);
+          setAccolades(userData.accolades || []);
+          setGPA(userData.grades?.gpa || "");
+          setWeightedGPA(userData.grades?.weightedGPA || "");
+          setSatScore(userData.scores?.satScore || "");
+          setActScore(userData.scores?.actScore || "");
         }
       }
     };
@@ -65,13 +59,22 @@ export default function Create2() {
   const handleAddYear = () => {
     setTranscript([
       ...transcript,
-      { year: "", courses: [{ name: "", grade: "" }] },
+      {
+        startYear: "",
+        endYear: "",
+        courses: [{ grade: "", AP: false, Period: "", Class: "" }],
+      },
     ]);
   };
 
   const handleAddCourse = (yearIndex) => {
     const updatedTranscript = [...transcript];
-    updatedTranscript[yearIndex].courses.push({ name: "", grade: "" });
+    updatedTranscript[yearIndex].courses.push({
+      grade: "",
+      AP: false,
+      Period: "",
+      Class: "",
+    });
     setTranscript(updatedTranscript);
   };
 
@@ -81,33 +84,37 @@ export default function Create2() {
     setTranscript(updatedTranscript);
   };
 
-  const handleYearChange = (yearIndex, value) => {
+  const handleYearChange = (yearIndex, field, value) => {
     const updatedTranscript = [...transcript];
-    updatedTranscript[yearIndex].year = value;
+    updatedTranscript[yearIndex][field] = value;
     setTranscript(updatedTranscript);
   };
 
-  const handleAddAcademicAward = () => {
-    setAcademicAwards([...academicAwards, ""]);
+  const handleAddAccolade = () => {
+    setAccolades([...accolades, { title: "", description: "" }]);
   };
 
-  const handleAcademicAwardChange = (index, value) => {
-    const updatedAwards = [...academicAwards];
-    updatedAwards[index] = value;
-    setAcademicAwards(updatedAwards);
+  const handleAccoladeChange = (index, field, value) => {
+    const updatedAccolades = [...accolades];
+    updatedAccolades[index][field] = value;
+    setAccolades(updatedAccolades);
   };
 
   const saveDataToFirebase = async () => {
     if (auth.currentUser) {
       const userRef = doc(db, "users", auth.currentUser.uid);
       await updateDoc(userRef, {
-        apScores,
-        transcript,
-        academicAwards,
-        unweightedGPA,
-        weightedGPA,
-        satScore,
-        actScore,
+        scores: {
+          apScores,
+          satScore,
+          actScore,
+        },
+        grades: {
+          gpa,
+          weightedGPA,
+          transcript,
+        },
+        accolades,
       });
     }
   };
@@ -168,15 +175,15 @@ export default function Create2() {
           <View style={styles.form}>
             <View style={styles.inputRow}>
               <TextInput
-                style={[styles.input, styles.inputHalf]}
-                placeholder="Unweighted GPA"
+                style={styles.input}
+                placeholder="GPA"
                 placeholderTextColor="#888"
                 keyboardType="numeric"
-                value={unweightedGPA}
-                onChangeText={setUnweightedGPA}
+                value={gpa}
+                onChangeText={setGPA}
               />
               <TextInput
-                style={[styles.input, styles.inputHalf]}
+                style={styles.input}
                 placeholder="Weighted GPA"
                 placeholderTextColor="#888"
                 keyboardType="numeric"
@@ -186,7 +193,7 @@ export default function Create2() {
             </View>
             <View style={styles.inputRow}>
               <TextInput
-                style={[styles.input, styles.inputHalf]}
+                style={styles.input}
                 placeholder="SAT Score"
                 placeholderTextColor="#888"
                 keyboardType="number-pad"
@@ -194,7 +201,7 @@ export default function Create2() {
                 onChangeText={setSatScore}
               />
               <TextInput
-                style={[styles.input, styles.inputHalf]}
+                style={styles.input}
                 placeholder="ACT Score"
                 placeholderTextColor="#888"
                 keyboardType="number-pad"
@@ -205,43 +212,91 @@ export default function Create2() {
             <Text style={styles.sectionTitle}>Transcript</Text>
             {transcript.map((year, yearIndex) => (
               <View key={yearIndex} style={styles.transcriptYear}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Year"
-                  placeholderTextColor="#888"
-                  value={year.year}
-                  onChangeText={(value) => handleYearChange(yearIndex, value)}
-                />
+                <View style={styles.inputRow}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Start Year"
+                    placeholderTextColor="#888"
+                    value={year.startYear}
+                    onChangeText={(value) =>
+                      handleYearChange(yearIndex, "startYear", value)
+                    }
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="End Year"
+                    placeholderTextColor="#888"
+                    value={year.endYear}
+                    onChangeText={(value) =>
+                      handleYearChange(yearIndex, "endYear", value)
+                    }
+                  />
+                </View>
                 {year.courses.map((course, courseIndex) => (
                   <View key={courseIndex} style={styles.courseRow}>
-                    <TextInput
-                      style={[styles.input, styles.courseNameInput]}
-                      placeholder="Course Name"
-                      placeholderTextColor="#888"
-                      value={course.name}
-                      onChangeText={(value) =>
-                        handleCourseChange(
-                          yearIndex,
-                          courseIndex,
-                          "name",
-                          value
-                        )
-                      }
-                    />
-                    <TextInput
-                      style={[styles.input, styles.courseGradeInput]}
-                      placeholder="Grade"
-                      placeholderTextColor="#888"
-                      value={course.grade}
-                      onChangeText={(value) =>
-                        handleCourseChange(
-                          yearIndex,
-                          courseIndex,
-                          "grade",
-                          value
-                        )
-                      }
-                    />
+                    <View style={styles.courseDetailsRow}>
+                      <TextInput
+                        style={styles.courseClassInput}
+                        placeholder="Class"
+                        placeholderTextColor="#888"
+                        value={course.Class}
+                        onChangeText={(value) =>
+                          handleCourseChange(
+                            yearIndex,
+                            courseIndex,
+                            "Class",
+                            value
+                          )
+                        }
+                      />
+                      <TextInput
+                        style={styles.coursePeriodInput}
+                        placeholder="Period"
+                        placeholderTextColor="#888"
+                        keyboardType="number-pad"
+                        value={course.Period.toString()}
+                        onChangeText={(value) =>
+                          handleCourseChange(
+                            yearIndex,
+                            courseIndex,
+                            "Period",
+                            value
+                          )
+                        }
+                      />
+                    </View>
+                    <View style={styles.courseDetailsRow}>
+                      <TextInput
+                        style={styles.courseGradeInput}
+                        placeholder="Grade"
+                        placeholderTextColor="#888"
+                        value={course.grade}
+                        onChangeText={(value) =>
+                          handleCourseChange(
+                            yearIndex,
+                            courseIndex,
+                            "grade",
+                            value
+                          )
+                        }
+                      />
+                      <TouchableOpacity
+                        style={[
+                          styles.courseAPInput,
+                          course.AP && styles.courseAPInputActive,
+                        ]}
+                        onPress={() =>
+                          handleCourseChange(
+                            yearIndex,
+                            courseIndex,
+                            "AP",
+                            !course.AP
+                          )
+                        }
+                      >
+                        <Text style={styles.courseAPText}>AP</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 ))}
                 <TouchableOpacity
@@ -262,7 +317,7 @@ export default function Create2() {
             {apScores.map((score, index) => (
               <View key={index} style={styles.apScoreRow}>
                 <TextInput
-                  style={[styles.input, styles.apSubjectInput]}
+                  style={styles.apSubjectInput}
                   placeholder="AP Subject"
                   placeholderTextColor="#888"
                   value={score.subject}
@@ -271,7 +326,7 @@ export default function Create2() {
                   }
                 />
                 <TextInput
-                  style={[styles.input, styles.apScoreInput]}
+                  style={styles.apScoreInput}
                   placeholder="Score"
                   placeholderTextColor="#888"
                   keyboardType="number-pad"
@@ -288,23 +343,32 @@ export default function Create2() {
             >
               <Ionicons name="add" size={24} color="#fff" />
             </TouchableOpacity>
-            <Text style={styles.sectionTitle}>Academic Awards</Text>
-            {academicAwards.map((award, index) => (
-              <View key={index} style={styles.awardRow}>
+            <Text style={styles.sectionTitle}>Accolades</Text>
+            {accolades.map((accolade, index) => (
+              <View key={index} style={styles.accoladeRow}>
                 <TextInput
-                  style={styles.input}
-                  placeholder="Award"
+                  style={styles.accoladeTitleInput}
+                  placeholder="Title"
                   placeholderTextColor="#888"
-                  value={award}
+                  value={accolade.title}
                   onChangeText={(value) =>
-                    handleAcademicAwardChange(index, value)
+                    handleAccoladeChange(index, "title", value)
+                  }
+                />
+                <TextInput
+                  style={styles.accoladeDescriptionInput}
+                  placeholder="Description"
+                  placeholderTextColor="#888"
+                  value={accolade.description}
+                  onChangeText={(value) =>
+                    handleAccoladeChange(index, "description", value)
                   }
                 />
               </View>
             ))}
             <TouchableOpacity
-              style={styles.addAcademicAwardButton}
-              onPress={handleAddAcademicAward}
+              style={styles.addAccoladeButton}
+              onPress={handleAddAccolade}
             >
               <Ionicons name="add" size={24} color="#fff" />
             </TouchableOpacity>
@@ -396,7 +460,7 @@ const styles = StyleSheet.create({
   inputRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginVertical: 10,
   },
   input: {
     backgroundColor: "#222",
@@ -405,10 +469,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     fontSize: 16,
-    marginBottom: 10,
-  },
-  inputHalf: {
-    flex: 0.48,
+    flex: 1,
+    marginHorizontal: 5,
   },
   sectionTitle: {
     color: "#fff",
@@ -421,15 +483,60 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   courseRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
     marginBottom: 10,
   },
-  courseNameInput: {
-    flex: 0.7,
+  courseDetailsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  courseClassInput: {
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginRight: 5,
+  },
+  coursePeriodInput: {
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginLeft: 5,
   },
   courseGradeInput: {
-    flex: 0.25,
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginRight: 5,
+  },
+  courseAPInput: {
+    flex: 0.4,
+    backgroundColor: "#444",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginLeft: 5,
+  },
+  courseAPInputActive: {
+    backgroundColor: "#38a093",
+  },
+  courseAPText: {
+    color: "#fff",
+    fontSize: 14,
   },
   addCourseButton: {
     alignItems: "center",
@@ -454,13 +561,28 @@ const styles = StyleSheet.create({
   apScoreRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   apSubjectInput: {
-    flex: 0.6,
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginRight: 5,
   },
   apScoreInput: {
-    flex: 0.35,
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginLeft: 5,
   },
   addApScoreButton: {
     alignItems: "center",
@@ -471,10 +593,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#38a093",
     marginBottom: 20,
   },
-  awardRow: {
+  accoladeRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
-  addAcademicAwardButton: {
+  accoladeTitleInput: {
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginRight: 5,
+  },
+  accoladeDescriptionInput: {
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flex: 1,
+    marginLeft: 5,
+  },
+  addAccoladeButton: {
     alignItems: "center",
     justifyContent: "center",
     width: 40,

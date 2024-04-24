@@ -5,10 +5,9 @@ import { useRouter } from "expo-router";
 type UserListItemProps = {
   user: {
     id: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     profilePicture: string | null;
-    highSchool: string;
+    position: string;
   };
 };
 
@@ -34,10 +33,8 @@ export default function UserListItem({ user }: UserListItemProps) {
         style={styles.userImage}
       />
       <View style={styles.userInfo}>
-        <Text
-          style={styles.userName}
-        >{`${user.firstName} ${user.lastName}`}</Text>
-        <Text style={styles.highSchool}>{user.highSchool}</Text>
+        <Text style={styles.userName}>{user.name}</Text>
+        <Text style={styles.highSchool}>{user.position}</Text>
       </View>
     </TouchableOpacity>
   );

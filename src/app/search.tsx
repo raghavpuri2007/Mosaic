@@ -46,7 +46,7 @@ export default function SearchScreen() {
   const filteredUsers = users.filter(
     (user) =>
       user.id !== currentUserId && // Exclude the current user
-      user.firstName.toLowerCase().includes(search.toLowerCase())
+      user.name.toLowerCase().includes(search.toLowerCase())
   );
 
   if (isLoading) {

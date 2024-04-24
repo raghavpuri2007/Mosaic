@@ -21,13 +21,14 @@ import { Link } from "expo-router";
 export default function Create4() {
   const router = useRouter();
   const { editing } = useLocalSearchParams();
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [image, setImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
-  const [bannerImage, setBannerImage] = useState(null);
-  const [headline, setHeadline] = useState("");
-  const [aboutMe, setAboutMe] = useState("");
+  const [backImage, setBackImage] = useState(null);
+  const [about, setAbout] = useState("");
+  const [theme, setTheme] = useState("");
   const [snapchat, setSnapchat] = useState("");
   const [instagram, setInstagram] = useState("");
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (auth.currentUser) {
@@ -35,11 +36,11 @@ export default function Create4() {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setProfilePicture(userData.profilePicture || null);
+          setImage(userData.image || null);
           setCoverImage(userData.coverImage || null);
-          setBannerImage(userData.bannerImage || null);
-          setHeadline(userData.headline || "");
-          setAboutMe(userData.aboutMe || "");
+          setBackImage(userData.backImage || null);
+          setAbout(userData.about || "");
+          setTheme(userData.theme || "");
           setSnapchat(userData.snapchat || "");
           setInstagram(userData.instagram || "");
         }
@@ -47,7 +48,8 @@ export default function Create4() {
     };
     fetchUserData();
   }, [editing]);
-  const handleSelectProfilePicture = async () => {
+
+  const handleSelectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -55,7 +57,7 @@ export default function Create4() {
     });
 
     if (!result.canceled) {
-      setProfilePicture(result.assets[0].uri);
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -72,7 +74,7 @@ export default function Create4() {
     }
   };
 
-  const handleSelectBannerImage = async () => {
+  const handleSelectBackImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -81,7 +83,7 @@ export default function Create4() {
     });
 
     if (!result.canceled) {
-      setBannerImage(result.assets[0].uri);
+      setBackImage(result.assets[0].uri);
     }
   };
 
@@ -94,11 +96,11 @@ export default function Create4() {
       const userRef = doc(db, "users", auth.currentUser.uid);
 
       await updateDoc(userRef, {
-        profilePicture,
+        image,
         coverImage,
-        bannerImage,
-        headline,
-        aboutMe,
+        backImage,
+        about,
+        theme,
         snapchat,
         instagram,
       });
@@ -122,8 +124,8 @@ export default function Create4() {
           <Text style={styles.stepText}>Step 04</Text>
           <Text style={styles.headerTitle}>Profile Details</Text>
           <Text style={styles.subtitleText}>
-            Add your profile picture, cover image, banner image, headline, and
-            about me description.
+            Add your profile picture, cover image, banner image, and about me
+            description.
           </Text>
         </View>
         <View style={styles.timeline}>
@@ -142,21 +144,13 @@ export default function Create4() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.form}>
-            <Text style={styles.sectionTitle}>Headline</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter a headline"
-              placeholderTextColor="#888"
-              value={headline}
-              onChangeText={(text) => setHeadline(text)}
-            />
             <Text style={styles.sectionTitle}>About Me</Text>
             <TextInput
               style={styles.input}
               placeholder="Write a short description about yourself"
               placeholderTextColor="#888"
-              value={aboutMe}
-              onChangeText={(text) => setAboutMe(text)}
+              value={about}
+              onChangeText={(text) => setAbout(text)}
             />
             <Text style={styles.sectionTitle}>Snapchat</Text>
             <TextInput
@@ -174,18 +168,23 @@ export default function Create4() {
               value={instagram}
               onChangeText={(text) => setInstagram(text)}
             />
+            <Text style={styles.sectionTitle}>Theme</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your preferred theme"
+              placeholderTextColor="#888"
+              value={theme}
+              onChangeText={(text) => setTheme(text)}
+            />
             <Text style={styles.sectionTitle}>Profile Picture</Text>
             <TouchableOpacity
-              style={styles.profilePictureContainer}
-              onPress={handleSelectProfilePicture}
+              style={styles.imageContainer}
+              onPress={handleSelectImage}
             >
-              {profilePicture ? (
-                <Image
-                  source={{ uri: profilePicture }}
-                  style={styles.profilePicture}
-                />
+              {image ? (
+                <Image source={{ uri: image }} style={styles.image} />
               ) : (
-                <View style={styles.defaultProfilePicture}>
+                <View style={styles.defaultImage}>
                   <Ionicons name="person" size={80} color="#888" />
                 </View>
               )}
@@ -215,26 +214,23 @@ export default function Create4() {
               </Text>
             </TouchableOpacity>
             <Text style={styles.sectionTitle}>Banner Image</Text>
-            <View style={styles.bannerImageContainer}>
-              {bannerImage ? (
-                <Image
-                  source={{ uri: bannerImage }}
-                  style={styles.bannerImage}
-                />
+            <View style={styles.backImageContainer}>
+              {backImage ? (
+                <Image source={{ uri: backImage }} style={styles.backImage} />
               ) : (
-                <View style={styles.defaultBannerImage}>
+                <View style={styles.defaultBackImage}>
                   <Ionicons name="image" size={60} color="#888" />
-                  <Text style={styles.defaultBannerImageText}>
+                  <Text style={styles.defaultBackImageText}>
                     Select Banner Image
                   </Text>
                 </View>
               )}
             </View>
             <TouchableOpacity
-              style={styles.selectBannerImageButton}
-              onPress={handleSelectBannerImage}
+              style={styles.selectBackImageButton}
+              onPress={handleSelectBackImage}
             >
-              <Text style={styles.selectBannerImageButtonText}>
+              <Text style={styles.selectBackImageButtonText}>
                 Select Banner Image
               </Text>
             </TouchableOpacity>
@@ -249,6 +245,7 @@ export default function Create4() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -322,16 +319,16 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 10,
   },
-  profilePictureContainer: {
+  imageContainer: {
     alignItems: "center",
     marginBottom: 20,
   },
-  profilePicture: {
+  image: {
     width: 150,
     height: 150,
     borderRadius: 75,
   },
-  defaultProfilePicture: {
+  defaultImage: {
     width: 150,
     height: 150,
     borderRadius: 75,
@@ -372,7 +369,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-  bannerImageContainer: {
+  backImageContainer: {
     height: 200,
     backgroundColor: "#222",
     borderRadius: 10,
@@ -380,16 +377,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 10,
   },
-  bannerImage: {
+  backImage: {
     width: "100%",
     height: "100%",
     borderRadius: 10,
   },
-  defaultBannerImage: {
+  defaultBackImage: {
     alignItems: "center",
     justifyContent: "center",
   },
-  defaultBannerImageText: {
+  defaultBackImageText: {
     color: "#888",
     fontSize: 16,
     marginTop: 10,
@@ -436,7 +433,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  selectBannerImageButton: {
+  selectBackImageButton: {
     backgroundColor: "#38a093",
     borderRadius: 25,
     paddingVertical: 10,
@@ -444,7 +441,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-  selectBannerImageButtonText: {
+  selectBackImageButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",

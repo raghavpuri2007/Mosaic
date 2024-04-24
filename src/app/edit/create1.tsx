@@ -37,21 +37,21 @@ export default function Create1() {
     };
     fetchUserData();
   }, [editing]);
+
   const saveDataToFirebase = async () => {
     if (auth.currentUser) {
       const userRef = doc(db, "users", auth.currentUser.uid);
       await setDoc(
         userRef,
         {
-          firstName,
-          lastName,
-          highSchool,
-          graduationYear,
+          name: `${firstName} ${lastName}`,
+          position: `${highSchool} - ${graduationYear}`,
         },
         { merge: true }
       );
     }
   };
+
   const handleSubmit = async () => {
     await saveDataToFirebase();
     router.push({
@@ -61,6 +61,7 @@ export default function Create1() {
       },
     });
   };
+
   const handleSkip = async () => {
     await saveDataToFirebase();
     router.push("(tabs)");

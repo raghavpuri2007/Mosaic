@@ -96,21 +96,13 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
         initialRouteName={loggedIn ? "(tabs)" : "(create)"}
-        screenOptions={{ headerShown: true }}
+        screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="(create)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
-        <Stack.Screen
-          name="users/[id]"
-          options={{
-            headerTransparent: true,
-            headerTitle: "",
-            headerLeft: customHeaderBackButton,
-            headerRight: customHeaderSettingsButton, // Add settings button here
-          }}
-        />
+        <Stack.Screen name="users/[id]" />
       </Stack>
     </ThemeProvider>
   );
