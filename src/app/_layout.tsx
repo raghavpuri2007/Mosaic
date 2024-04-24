@@ -102,7 +102,25 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
-        <Stack.Screen name="users/[id]" />
+        <Stack.Screen
+          name="users/[id]"
+          options={{
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: customHeaderBackButton,
+            headerRight: customHeaderSettingsButton,  // Add settings button here
+          }}
+        />
+
+        <Stack.Screen
+          name="share/ShareScreen"
+          options={{
+            headerTransparent: true,
+            headerTitle: "",
+            headerLeft: customHeaderBackButton,
+            headerRight: customHeaderSettingsButton,  // Add settings button here
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
