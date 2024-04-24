@@ -93,7 +93,6 @@
     {
       "id": "c1",
       "name": "FBLA",
-      "logo": "fbla_logo",
       "description": "My time in the Future Business Leaders of America club was a transformative experience that allowed me to develop my leadership and business skills. I was able to apply my technical knowledge to real-world scenarios, culminating in a 1st place finish at the 2018 National Leadership Conference for Mobile App Development.",
       "images": [{"key": "fbla1", "caption": "FBLA on gang."},
                  {"key": "fbla2", "caption": "Group picture from the 2018 National Leadership Conference."}
@@ -112,20 +111,17 @@
         {
           "title": "1st Place - Mobile App Development - 2018 National Leadership Conference",
           "description": "Developed a mobile application that revolutionized the way users interact with social media platforms, resulting in all of the brothas' phones being confiscated by the school administration.",
-          "image": "badge1"
         },
 
         {
           "title": "1st Place - Coding & Programming - 2019 National Leadership Conference",
           "description": "Developed a custom algorithm that optimized the efficiency of a local business's supply chain, resulting in a 30% increase in profits.",
-          "image": "default"
         }
       ]
     },
     {
       "id": "c2",
       "name": "Bart Club",
-      "logo": "bart_club_logo",
       "description": "The Bart Club is a prestigious organization dedicated to the celebration of all things Bart. As a founding member, I have been instrumental in shaping the club's culture and activities, including the annual Bart Day parade and Bart-themed charity events.",
       "images":  [{"key": "bart_club1", "caption": "Supreme"},
                   {"key": "bart_club2", "caption": "What a great day!"},
@@ -158,19 +154,16 @@
         {
           "title": "Bart of the Year - 2019",
           "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
-          "image": "badge4"
         },
 
         {
           "title": "Bart of the Year - 2018",
           "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
-          "image": "badge4"
         },
 
         {
           "title": "Most Improved Bart - 2017",
           "description": "I earned this award by showing the most improvement in my Bart skills over the course of the year.",
-          "image": "badge6"
         }
       ]
     }
@@ -196,19 +189,16 @@
     {
       "title": "Valadictorian",
       "description": "I had the highest GPA in the class of 2019, earning the title of Valadictorian.",
-      "image": "badge4"
     },
 
     {
       "title": "AP Scholar with Distinction",
       "description": "I earned this award by achieving a score of 3 or higher on five or more AP exams.",
-      "image": "badge4"
     },
 
     {
       "title": "Nobel Peace Prize",
       "description": "I won the Nobel Peace Prize for my work in promoting world peace and understanding.",
-      "image": "badge4"
     }
   ],
 
@@ -216,7 +206,6 @@
     {
       "id": "a1",
       "name": "Varsity Soccer",
-      "logo": "soccer",
       "description": "As a leading striker, I contributed to our team reaching the state finals three consecutive years, showcasing dedication and strategic play.",
       "highlights": [{"key": "clip1", "caption": "In this clip, I kick a soccer ball really really far."},
                      {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
@@ -229,19 +218,16 @@
         {
           "title": "Best Forward 2019",
           "description": "Awarded for leading the league in goals and assists during the 2019 season.",
-          "image": "badge4"
         },
         {
           "title": "Team MVP 2020",
           "description": "Received the MVP award for my crucial plays and consistent performance throughout the season.",
-          "image": "badge4"
         }
       ]
     },
     {
       "id": "a2",
       "name": "Basketball Team Captain",
-      "logo": "basketball",
       "description": "I captained the school basketball team, leading to a regional championship and fostering a strong team spirit.",
       "highlights": [{"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."},
                      {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
@@ -254,12 +240,10 @@
         {
           "title": "Best Defensive Player 2018",
           "description": "Recognized for exceptional defensive skills and leading the team's defense to the lowest points-against average.",
-          "image": "badge4"
         },
         {
           "title": "Conference All-Star 2019",
           "description": "Selected for the All-Star game due to outstanding performance throughout the season.",
-          "image": "badge4"
         }
       ]
     }
@@ -269,7 +253,6 @@
     {
       "id": "p1",
       "name": "Piano Prodigy",
-      "logo": "piano",
       "description": "As a classical pianist, I have performed in various national and international competitions, securing multiple awards for my performances of complex pieces from composers such as Chopin and Beethoven.",
       "videos": [
         {
@@ -299,19 +282,16 @@
         {
           "title": "First Place - Regional Piano Competition",
           "description": "Awarded the top prize for an outstanding performance of complex classical pieces.",
-          "image": "badge4"
         },
         {
           "title": "Audience Favorite Award - International Young Pianists' Showcase",
           "description": "Received for the most applauded performance at the showcase.",
-          "image": "badge4"
         }
       ]
     },
     {
       "id": "p2",
       "name": "Classical Ballet Star",
-      "logo": "ballet",
       "description": "As the lead dancer in our academy's productions, I have been pivotal in choreographing and performing ballets that have received acclaim for their creativity and emotional depth.",
       "videos": [
         {
@@ -339,12 +319,10 @@
         {
           "title": "Best Choreography - National Dance Awards",
           "description": "Awarded for innovative choreography in our latest production of Swan Lake.",
-          "image": "badge4"
         },
         {
           "title": "Dancer of the Year - Ballet Magazine",
           "description": "Honored for exceptional contributions to classical ballet performances throughout the year.",
-          "image": "badge4"
         }
       ]
     }
@@ -354,7 +332,6 @@
     {
       "id": "v1",
       "name": "National Honor Society",
-      "logo": "piano",
       "impact": "As a member of the National Honor Society, I participated in various community service projects that aimed to improve education and literacy in underprivileged areas.",
       "images": [
         {
@@ -384,7 +361,6 @@
     {
       "id": "v2",
       "name": "Red Cross",
-      "logo": "piano",
       "impact": "Volunteered with the Red Cross to assist in disaster response efforts, providing aid and support to affected communities.",
       "images": [
         {

@@ -8,15 +8,15 @@ export type Post = {
 
 export type User = {
   id: string;
-  name: string;
-  position: string;
+  name?: string;
+  position?: string;
   image?: string;
   backImage?: string;
   coverImage?: string;
-  theme: string;
+  theme?: string;
   about?: string;
-  scores: Score;
-  grades: grades;
+  scores?: Score;
+  grades?: grades;
   projects?: Project[];
   clubs?: Club[];
   accolades?: Award[];
@@ -69,7 +69,6 @@ export type courseGrade = {
 export type Club = {
   id: string;
   name: string;
-  logo: string;
   images: Array<{ key: string, caption: string }>;
   roles: ClubRole[];
   description?: string; 
@@ -87,13 +86,11 @@ export type ClubRole = {
 export type Award = {
   title: string; 
   description: string; 
-  image: string;
 };
 
 export type Athletic = {
   id: string;
   name: string;
-  logo: string;
   description?: string;
   highlights: Array<{ key: string, caption: string }>;
   images: Array<{ key: string, caption: string }>;
@@ -103,7 +100,6 @@ export type Athletic = {
 export type PerformingArt = {
   id: string;
   name: string;
-  logo: string;
   description?: string;
   videos: Array<{ key: string, caption: string }>; 
   images: Array<{ key: string, caption: string }>;
@@ -113,7 +109,6 @@ export type PerformingArt = {
 export type Volunteering = {
   id: string;
   name: string;
-  logo: string;
   impact?: string;
   images: Array<{ key: string, caption: string }>;
   events: Array<{

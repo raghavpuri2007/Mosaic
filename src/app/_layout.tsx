@@ -107,6 +107,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name="users/[id]"
           options={{
+            headerShown: true,
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,
@@ -117,6 +118,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name="share/ShareScreen"
           options={{
+            headerShown: true,
             headerTransparent: true,
             headerTitle: "",
             headerLeft: customHeaderBackButton,

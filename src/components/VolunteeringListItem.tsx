@@ -29,7 +29,7 @@ export default function VolunteeringListItem({ volunteering, images, themeKey }:
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
-                <Image source={images[volunteering.logo]} style={styles.logo} />
+                <Image source={images["piano"]} style={styles.logo} />
                 <Text style={styles.clubName}>{volunteering.name}</Text>
                 <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>

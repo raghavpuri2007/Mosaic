@@ -24,7 +24,7 @@ export default function PerformingArtsListItem({ performingArt, images, videos, 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
-                <Image source={images[performingArt.logo]} style={styles.logo} />
+                <Image source={images["piano"]} style={styles.logo} />
                 <Text style={styles.clubName}>{performingArt.name}</Text>
                 <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
@@ -79,7 +79,7 @@ export default function PerformingArtsListItem({ performingArt, images, videos, 
                             <Text style={styles.sectionTitle}>Awards</Text>
                             {performingArt.awards.map((award, index) => (
                                 <View key={index} style={styles.awardItem}>
-                                    <Image source={images[award.image]} style={styles.awardImage} />
+                                    <Image source={images["badge4"]} style={styles.awardImage} />
                                     <View style={styles.awardTextContainer}>
                                         <Text style={styles.awardTitle}>{award.title}:</Text>
                                         <Text style={styles.awardDescription}>{award.description}</Text>

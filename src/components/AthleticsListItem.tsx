@@ -26,7 +26,7 @@ export default function AthleticsListItem({ athletics, images, videos, themeKey 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.header} onPress={toggleOpen}>
-                <Image source={images[athletics.logo]} style={styles.logo} />
+                <Image source={images["soccer"]} style={styles.logo} />
                 <Text style={styles.clubName}>{athletics.name}</Text>
                 <FontAwesome name={isOpen ? 'angle-up' : 'angle-down'} size={24} color={theme.text} style={styles.icon} />
             </TouchableOpacity>
@@ -78,7 +78,7 @@ export default function AthleticsListItem({ athletics, images, videos, themeKey 
                             <Text style={styles.sectionTitle}>Awards</Text>
                             {athletics.awards.map((award, index) => (
                                 <View key={index} style={styles.awardItem}>
-                                    <Image source={images[award.image]} style={styles.awardImage} />
+                                    <Image source={images["badge4"]} style={styles.awardImage} />
                                     <View style={styles.awardTextContainer}>
                                         <Text style={styles.awardTitle}>{award.title}:</Text>
                                         <Text style={styles.awardDescription}>{award.description}</Text>
