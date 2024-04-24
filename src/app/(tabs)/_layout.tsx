@@ -1,75 +1,85 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link, Tabs, Stack } from "expo-router";
-import { Pressable, useColorScheme } from "react-native";
-
+import { Pressable, useColorScheme, Image } from "react-native";
 import Colors from "../../constants/Colors";
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />;
-}
+import { useEffect, useState } from "react";
+import { auth, db } from "../../../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setProfileImage(userData.image);
+        }
+      }
+    };
+    fetchProfileImage();
+  }, []);
 
   return (
     <Tabs
       initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: "#191919",
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#888",
+        tabBarStyle: {
+          backgroundColor: "#000",
+          borderTopColor: "#222",
+        },
+        tabBarShowLabel: false,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Link href="/search" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="search"
-                    size={18}
-                    color="gray"
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="new-post"
-        options={{
-          title: "Post",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="plus-square" color={color} />
+            <Ionicons name="home-outline" size={24} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="messages"
         options={{
-          title: "Messages",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="commenting" color={color} />
+            <Ionicons name="chatbubble-outline" size={24} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: "#000",
+          },
+          headerTintColor: "#fff",
         }}
       />
-
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({ color }) =>
+            profileImage ? (
+              <Image
+                source={{ uri: profileImage }}
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: color,
+                }}
+              />
+            ) : (
+              <Ionicons name="person-outline" size={24} color={color} />
+            ),
+          headerStyle: {
+            backgroundColor: "#000",
+          },
+          headerTintColor: "#fff",
         }}
       />
     </Tabs>
