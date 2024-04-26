@@ -6,6 +6,7 @@ import PostListItem from '../../components/PostListItem';
 import SuggestedConnection from '../../components/SuggestedConnection'; // New component for connections
 import posts from '../../../assets/data/posts.json';
 import React from 'react';
+import usersJson from '../../../assets/data/users.json';
 
 export default function HomeFeedScreen() {
   const router = useRouter();
@@ -14,8 +15,18 @@ export default function HomeFeedScreen() {
     router.push("/search");
   };
 
-  const suggestedConnections = Array.from({ length: 6 }, (_, index) => (
-    <SuggestedConnection key={`suggested-connection-${index}`} />
+  const users = [ 
+    usersJson["[Paste from firebase 20]"],
+    usersJson["[Paste from firebase 17]"],
+    usersJson["[Paste from firebase 12]"],
+    usersJson["[Paste from firebase 6]"],
+    usersJson["[Paste from firebase 2]"],
+    usersJson["[Paste from firebase 9]"],
+    usersJson["[Paste from firebase 14]"],
+  ]
+
+  const suggestedConnections = users.map((user, index) => (
+    <SuggestedConnection key={`suggested-connection-${index}`} user={user} />
   ));
 
   return (
