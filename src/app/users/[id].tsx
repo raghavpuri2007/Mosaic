@@ -82,8 +82,8 @@ const videos = {
 };
 
 const [user, setUser] = useState<User>(null);
-const theme = themes[user.theme] || themes.default;
-const themeKey = user.theme || "default";
+const [theme, setTheme] = useState(themes.default);
+const [themeKey, setThemeKey] = useState("default");
 const router = useRouter();
 const viewRef = useRef();
 
@@ -275,14 +275,16 @@ export default function UserProfile() {
   useEffect(() => {
     if (id) {
       setUser(usersJson[id]);
+      setTheme(themes[user.theme]);
+      setThemeKey(user.theme);
     }
   }, [id]);
 
   if (!user) {
     // Show a loading spinner or similar feedback here
     return <Text>Loading...</Text>;
-  }  
-  
+  }
+
   const bottomSheetRef = useRef(null);
   const navigation = useNavigation();
 
@@ -323,26 +325,26 @@ export default function UserProfile() {
     console.warn("Change Theme");
   };
 
-  useEffect(() => {
-    // const fetchUser = async () => {
-    //   try {
-    //     const userRef = doc(db, "users", id);
-    //     const snapshot = await getDoc(userRef);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const userRef = doc(db, "users", id);
+  //       const snapshot = await getDoc(userRef);
 
-    //     if (snapshot.exists()) {
-    //       const userData = snapshot.data();
-    //       console.log(userData);
-    //       setUser(userData);
-    //     } else {
-    //       console.log("User not found");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching user data:", error);
-    //   }
-    // };
+  //       if (snapshot.exists()) {
+  //         const userData = snapshot.data();
+  //         console.log(userData);
+  //         setUser(userData);
+  //       } else {
+  //         console.log("User not found");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, [id]);
+  //   fetchUser();
+  // }, [id]);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: user.name });
