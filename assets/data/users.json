@@ -1,29 +1,1013 @@
-[
-  {
-      "id": "u2",
-      "name": "Vadim Savin",
-      "position": "Founder at notJust.dev",
-      "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png"
-  },
-
-  {
-      "id": "u2",
-      "name": "StepZen, an IBM Company",
-      "position": "GraphQL server with unique architecture",
-      "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/stepzen.jpeg"
-  },
-
-  {
-      "id": "u1",
-      "name": "Jeff Bezos",
-      "position": "Intern @Amazon",
-      "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/jeff.jpeg"
+{
+  "sWgRBho8CZZDprsVFchX6MBzHl42": {
+    "name": "Raghav Puri",
+    "position": "The biggest of brothas",
+    "image": "bart_pfp",
+    "backImage": "bart_banner",
+    "coverImage": "bart_cover",
+    "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
+    "theme": "ruby",
+    "scores": {
+      "satScore": 1400,
+      "actScore": 35,
+      "apScores": [
+        {
+          "subject": "Physics C: Mechanics",
+          "score": "5",
+          "percentile": 85
+        },
+        {
+          "subject": "Calculus BC",
+          "score": "5",
+          "percentile": 90
+        }
+      ],
+      "percentiles": {
+        "satScore": 92,
+        "actScore": 97,
+        "gpa": 75,
+        "weightedGPA": 80
+      }
     },
-
+    "grades": {
+      "gpa": 3.85,
+      "weightedGPA": 4.2,
+      "gpaPercentile": 81,
+      "weightedGPAPercentile": 89,
+      "transcript": [
+        {
+          "startYear": "2016",
+          "endYear": "2017",
+          "courses": [
+            {"course": "English I", "grade": "A-", "AP": false, "Period": 1},
+            {"course": "Algebra I", "grade": "B+", "AP": false, "Period": 2},
+            {"course": "Biology", "grade": "A", "AP": false, "Period": 3},
+            {"course": "World History", "grade": "A-", "AP": false, "Period": 4},
+            {"course": "Spanish I", "grade": "B", "AP": false, "Period": 5},
+            {"course": "Art I", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "Physical Education", "grade": "A", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2017",
+          "endYear": "2018",
+          "courses": [
+            {"course": "English II", "grade": "B+", "AP": false, "Period": 1},
+            {"course": "Geometry", "grade": "A-", "AP": false, "Period": 2},
+            {"course": "Chemistry", "grade": "B+", "AP": false, "Period": 3},
+            {"course": "AP World History", "grade": "A-", "AP": true, "Period": 4},
+            {"course": "Spanish II", "grade": "B+", "AP": false, "Period": 5},
+            {"course": "Music Theory", "grade": "A", "AP": false, "Period": 6},
+            {"course": "Health Education", "grade": "A-", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2018",
+          "endYear": "2019",
+          "courses": [
+            {"course": "AP English Language and Composition", "grade": "A-", "AP": true, "Period": 1},
+            {"course": "Free Period", "grade": "N/A", "AP": false, "Period": 2},
+            {"course": "AP Calculus AB", "grade": "A", "AP": true, "Period": 3},
+            {"course": "AP US History", "grade": "B+", "AP": true, "Period": 4},
+            {"course": "Physics", "grade": "B", "AP": false, "Period": 5},
+            {"course": "Spanish III", "grade": "A-", "AP": false, "Period": 6},
+            {"course": "AP Biology", "grade": "B+", "AP": true, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2019",
+          "endYear": "2020",
+          "courses": [
+            {"course": "AP English Literature", "grade": "A", "AP": true, "Period": 1},
+            {"course": "AP Calculus BC", "grade": "A-", "AP": true, "Period": 2},
+            {"course": "AP Chemistry", "grade": "A-", "AP": true, "Period": 3},
+            {"course": "AP Government and Politics", "grade": "B+", "AP": true, "Period": 4},
+            {"course": "AP Physics C: Mechanics", "grade": "B", "AP": true, "Period": 5},
+            {"course": "Spanish IV", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "AP Studio Art: Drawing", "grade": "A-", "AP": true, "Period": 7}
+          ]
+        }
+      ]
+    },
+    "clubs": [
+      {
+        "id": "c1",
+        "name": "FBLA",
+        "description": "My time in the Future Business Leaders of America club was a transformative experience that allowed me to develop my leadership and business skills. I was able to apply my technical knowledge to real-world scenarios, culminating in a 1st place finish at the 2018 National Leadership Conference for Mobile App Development.",
+        "images": [{"key": "fbla1", "caption": "FBLA on gang."},
+                   {"key": "fbla2", "caption": "Group picture from the 2018 National Leadership Conference."}
+                  ],
+        "roles": [
+          {
+            "startYear": "2017",
+            "endYear": "2019",
+            "title": "Member",
+            "description": "1st place at nationals for Mobile App Development in 2018."
+          }
+  
+        ],
+  
+        "awards": [
+          {
+            "title": "1st Place - Mobile App Development - 2018 National Leadership Conference",
+            "description": "Developed a mobile application that revolutionized the way users interact with social media platforms, resulting in all of the brothas' phones being confiscated by the school administration.",
+          },
+  
+          {
+            "title": "1st Place - Coding & Programming - 2019 National Leadership Conference",
+            "description": "Developed a custom algorithm that optimized the efficiency of a local business's supply chain, resulting in a 30% increase in profits.",
+          }
+        ]
+      },
+      {
+        "id": "c2",
+        "name": "Bart Club",
+        "description": "The Bart Club is a prestigious organization dedicated to the celebration of all things Bart. As a founding member, I have been instrumental in shaping the club's culture and activities, including the annual Bart Day parade and Bart-themed charity events.",
+        "images":  [{"key": "bart_club1", "caption": "Supreme"},
+                    {"key": "bart_club2", "caption": "What a great day!"},
+                    {"key": "bart_club3", "caption": "Picture of a logo we designed to promote Bomboclat Awareness during our 2018 trip to Jamaica."}
+                   ],
+        "roles": [
+          {
+            "startYear": "2018",
+            "endYear": "2019",
+            "title": "President",
+            "description": "The biggest of brothas."
+          },
+  
+          {
+            "startYear": "2017",
+            "endYear": "2018",
+            "title": "Vice President",
+            "description": "During my time as VP, I launched the Bart newsletter and associated social media campaign, which directly correlated with a 297% year-on-year increase in club membership."
+          },
+  
+          {
+            "startYear": "2016",
+            "endYear": "2019",
+            "title": "Member",
+            "description": "Bart."
+          }
+        ],
+  
+        "awards": [
+          {
+            "title": "Bart of the Year - 2019",
+            "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
+          },
+  
+          {
+            "title": "Bart of the Year - 2018",
+            "description": "Awarded to the most outstanding Bart in the club, based on a combination of leadership, dedication, and Bart-ness.",
+          },
+  
+          {
+            "title": "Most Improved Bart - 2017",
+            "description": "I earned this award by showing the most improvement in my Bart skills over the course of the year.",
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "YouTube",
+        "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
+        "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
+        "projectImage": "yt_banner"
+    },
     {
-      "id": "u3",
-      "name": "Peter Johnson",
-      "position": "CTO at Facebook",
-      "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg"
+        "title": "Chat GPT",
+        "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
+        "skills": ["React Native", "Python", "Machine Learning", "API Development"],
+        "projectImage": "gpt_banner"
     }
-]
+    ],
+  
+    "accolades": [
+      {
+        "title": "Valadictorian",
+        "description": "I had the highest GPA in the class of 2019, earning the title of Valadictorian.",
+      },
+  
+      {
+        "title": "AP Scholar with Distinction",
+        "description": "I earned this award by achieving a score of 3 or higher on five or more AP exams.",
+      },
+  
+      {
+        "title": "Nobel Peace Prize",
+        "description": "I won the Nobel Peace Prize for my work in promoting world peace and understanding.",
+      }
+    ],
+  
+    "athletics": [
+      {
+        "id": "a1",
+        "name": "Varsity Soccer",
+        "description": "As a leading striker, I contributed to our team reaching the state finals three consecutive years, showcasing dedication and strategic play.",
+        "highlights": [{"key": "clip1", "caption": "In this clip, I kick a soccer ball really really far."},
+                       {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                       {"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."}
+                      ],
+        "images": [{"key": "soccer1", "caption": "I play soccer."},
+                  {"key": "soccer2", "caption": "I'm a soccer player."}
+                 ],
+          "awards": [
+          {
+            "title": "Best Forward 2019",
+            "description": "Awarded for leading the league in goals and assists during the 2019 season.",
+          },
+          {
+            "title": "Team MVP 2020",
+            "description": "Received the MVP award for my crucial plays and consistent performance throughout the season.",
+          }
+        ]
+      },
+      {
+        "id": "a2",
+        "name": "Basketball Team Captain",
+        "description": "I captained the school basketball team, leading to a regional championship and fostering a strong team spirit.",
+        "highlights": [{"key": "clip3", "caption": "In this clip, my friend and I bike across the frame.."},
+                       {"key": "clip2", "caption": "In this clip, I'm running along the beach"}, 
+                       
+                      ],
+        "images": [{"key": "basketball1", "caption": "I'm a basketball player."},
+                  {"key": "basketball2", "caption": "I play basketball."}
+                 ],
+        "awards": [
+          {
+            "title": "Best Defensive Player 2018",
+            "description": "Recognized for exceptional defensive skills and leading the team's defense to the lowest points-against average.",
+          },
+          {
+            "title": "Conference All-Star 2019",
+            "description": "Selected for the All-Star game due to outstanding performance throughout the season.",
+          }
+        ]
+      }
+    ],
+  
+    "performingArts": [
+      {
+        "id": "p1",
+        "name": "Piano Prodigy",
+        "description": "As a classical pianist, I have performed in various national and international competitions, securing multiple awards for my performances of complex pieces from composers such as Chopin and Beethoven.",
+        "videos": [
+          {
+            "key": "piano_clip",
+            "caption": "Performing Beethoven's Moonlight Sonata at the city concert hall."
+          },
+          {
+            "key": "clip2",
+            "caption": "A recital of Chopin's Nocturnes during the national music festival."
+          },
+          {
+            "key": "clip3",
+            "caption": "This clip features my performance at the International Young Pianists' Showcase."
+          }
+        ],
+        "images": [
+          { 
+            "key": "bart_club3",
+            "caption": "Receiving the first prize at the Regional Piano Competition."
+          },
+          {
+            "key": "piano",
+            "caption": "A moment captured during my practice session."
+          }
+        ],
+        "awards": [
+          {
+            "title": "First Place - Regional Piano Competition",
+            "description": "Awarded the top prize for an outstanding performance of complex classical pieces.",
+          },
+          {
+            "title": "Audience Favorite Award - International Young Pianists' Showcase",
+            "description": "Received for the most applauded performance at the showcase.",
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Classical Ballet Star",
+        "description": "As the lead dancer in our academy's productions, I have been pivotal in choreographing and performing ballets that have received acclaim for their creativity and emotional depth.",
+        "videos": [
+          {
+            "key": "clip1",
+            "caption": "Lead performance in The Nutcracker, captured during our winter season."
+          },
+          {
+            "key": "clip2",
+            "caption": "A behind-the-scenes look at the preparations for Swan Lake."
+          }
+        ],
+        "images": [
+          {
+            "key": "ballet",
+            "caption": "During a standing ovation after a performance of Giselle."
+          },
+          {
+            "key": "bart_club3",
+            "caption": "Rehearsing on stage before the grand premiere."
+          }
+        ],
+  
+  
+        "awards": [
+          {
+            "title": "Best Choreography - National Dance Awards",
+            "description": "Awarded for innovative choreography in our latest production of Swan Lake.",
+          },
+          {
+            "title": "Dancer of the Year - Ballet Magazine",
+            "description": "Honored for exceptional contributions to classical ballet performances throughout the year.",
+          }
+        ]
+      }
+    ],
+  
+    "volunteering": [
+      {
+        "id": "v1",
+        "name": "National Honor Society",
+        "impact": "As a member of the National Honor Society, I participated in various community service projects that aimed to improve education and literacy in underprivileged areas.",
+        "images": [
+          {
+            "key": "bart_banner",
+            "caption": "Organizing books during our annual book drive."
+          },
+          {
+            "key": "bart_profile",
+            "caption": "Tutoring students at a local middle school."
+          }
+        ],
+        "events": [
+          {
+            "title": "Book Drive Coordinator",
+            "startYear": 2018,
+            "endYear": 2020,
+            "description": "Led a team that collected over 5,000 books to help start local libraries in rural communities."
+          },
+          {
+            "title": "Weekly Tutoring",
+            "startYear": 2017,
+            "endYear": 2020,
+            "description": "Provided weekly tutoring sessions in math and science to students at under-resourced schools."
+          }
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Red Cross",
+        "impact": "Volunteered with the Red Cross to assist in disaster response efforts, providing aid and support to affected communities.",
+        "images": [
+          {
+            "key": "fbla2",
+            "caption": "Helping rebuild homes after the floods."
+          },
+          {
+            "key": "piano",
+            "caption": "Distributing emergency supplies to disaster victims."
+          }
+        ],
+        "events": [
+          {
+            "title": "Disaster Response Volunteer",
+            "startYear": 2019,
+            "endYear": 2020,
+            "description": "Worked on the ground to provide immediate relief in the aftermath of natural disasters."
+          },
+          {
+            "title": "Fundraising Ambassador",
+            "startYear": 2018,
+            "endYear": 2020,
+            "description": "Raised over $20,000 for disaster relief efforts through various fundraising activities."
+          }
+        ]
+      }
+    ]
+    
+    
+  },
+
+  "[Paste from firebase A]": {
+    "name": "Nikhil Venkat",
+    "position": "Ace Developer",
+    "image": "pfpa",
+    "backImage": "bga",
+    "coverImage": "covera",
+    "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
+    "theme": "sunshine",
+    "scores": {
+      "satScore": 1450,
+      "actScore": 33,
+      "apScores": [
+        {
+          "subject": "Computer Science A",
+          "score": "5",
+          "percentile": 95
+        },
+        {
+          "subject": "Statistics",
+          "score": "5",
+          "percentile": 88
+        }
+      ],
+      "percentiles": {
+        "satScore": 94,
+        "actScore": 95,
+        "gpa": 82,
+        "weightedGPA": 86
+      }
+    },
+    "grades": {
+      "gpa": 3.92,
+      "weightedGPA": 4.3,
+      "gpaPercentile": 84,
+      "weightedGPAPercentile": 91,
+      "transcript": [
+        {
+          "startYear": "2016",
+          "endYear": "2017",
+          "courses": [
+            {"course": "English I", "grade": "A", "AP": false, "Period": 1},
+            {"course": "Algebra II", "grade": "A-", "AP": false, "Period": 2},
+            {"course": "Biology", "grade": "A", "AP": false, "Period": 3},
+            {"course": "World History", "grade": "B+", "AP": false, "Period": 4},
+            {"course": "Spanish I", "grade": "A-", "AP": false, "Period": 5},
+            {"course": "Art I", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "Physical Education", "grade": "A", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2017",
+          "endYear": "2018",
+          "courses": [
+            {"course": "English II", "grade": "A", "AP": false, "Period": 1},
+            {"course": "Pre-Calculus", "grade": "A-", "AP": false, "Period": 2},
+            {"course": "Chemistry", "grade": "B+", "AP": false, "Period": 3},
+            {"course": "AP European History", "grade": "A-", "AP": true, "Period": 4},
+            {"course": "Spanish II", "grade": "A", "AP": false, "Period": 5},
+            {"course": "Music Theory", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "Health Education", "grade": "A-", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2018",
+          "endYear": "2019",
+          "courses": [
+            {"course": "AP English Language and Composition", "grade": "A", "AP": true, "Period": 1},
+            {"course": "AP Calculus AB", "grade": "A", "AP": true, "Period": 2},
+            {"course": "AP US History", "grade": "A-", "AP": true, "Period": 3},
+            {"course": "Physics", "grade": "B+", "AP": false, "Period": 4},
+            {"course": "Spanish III", "grade": "A", "AP": false, "Period": 5},
+            {"course": "AP Biology", "grade": "A-", "AP": true, "Period": 6}
+          ]
+        },
+        {
+          "startYear": "2019",
+          "endYear": "2020",
+          "courses": [
+            {"course": "AP English Literature", "grade": "A-", "AP": true, "Period": 1},
+            {"course": "AP Calculus BC", "grade": "A", "AP": true, "Period": 2},
+            {"course": "AP Chemistry", "grade": "A-", "AP": true, "Period": 3},
+            {"course": "AP Government and Politics", "grade": "B+", "AP": true, "Period": 4},
+            {"course": "AP Physics C: Mechanics", "grade": "A", "AP": true, "Period": 5},
+            {"course": "Spanish IV", "grade": "A-", "AP": false, "Period": 6},
+            {"course": "AP Studio Art: Drawing", "grade": "A", "AP": true, "Period": 7}
+          ]
+        }
+      ]
+    },
+    "clubs": [
+      {
+        "id": "c1",
+        "name": "Debate Club",
+        "description": "Leading the debate club allowed me to refine my public speaking and argumentation skills, participating in national competitions and consistently achieving high ranks.",
+        "images": [
+          {"key": "debate1", "caption": "At a national debate competition."},
+          {"key": "debate2", "caption": "Team preparation session."}
+        ],
+        "roles": [
+          {
+            "startYear": "2017",
+            "endYear": "2019",
+            "title": "President",
+            "description": "Led the team to multiple victories in regional and national debate competitions."
+          }
+        ],
+        "awards": [
+          {
+            "title": "National Debate Champion - 2019",
+            "description": "Awarded after leading my team to victory in the national finals."
+          },
+          {
+            "title": "Best Speaker - 2018 State Debates",
+            "description": "Recognized as the best speaker at the state-level debate competition."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "EcoTracker",
+        "description": "Developed an app to track and reduce personal carbon footprints, integrating with various smart home devices to provide real-time data and suggestions for improvement.",
+        "skills": ["React Native", "Node.js", "IoT", "Cloud Infrastructure"],
+        "projectImage": "eco_tracker_banner"
+      }
+    ],
+    "accolades": [
+      {
+        "title": "AP Scholar with Distinction",
+        "description": "I earned this award by achieving a score of 3 or higher on five or more AP exams."
+      },
+      {
+        "title": "National Merit Scholar",
+        "description": "Recognized for my exceptional performance on the PSAT/NMSQT, placing in the top 1% nationally."
+      }
+    ],
+    "athletics": [
+      {
+        "id": "a1",
+        "name": "Track and Field",
+        "description": "Competed in track and field events, focusing on sprinting and long-distance races, leading my team in various inter-school competitions.",
+        "highlights": [
+          {"key": "track1", "caption": "Winning the 100m dash at the district championships."},
+          {"key": "track2", "caption": "Celebrating a team win in the 4x400m relay."}
+        ],
+        "awards": [
+          {
+            "title": "Fastest Sprinter 2019",
+            "description": "Awarded for being the fastest sprinter in the regional sports meet."
+          },
+          {
+            "title": "Team MVP 2020",
+            "description": "Received the MVP award for my crucial role in leading the team to a championship win."
+          }
+        ]
+      }
+    ],
+    "performingArts": [
+      {
+        "id": "p1",
+        "name": "Theatre Performer",
+        "description": "Acted in several school and community theatre productions, receiving acclaim for my versatility and stage presence.",
+        "videos": [
+          {
+            "key": "theatre1",
+            "caption": "Performing in the school's production of 'Hamlet'."
+          },
+          {
+            "key": "theatre2",
+            "caption": "A scene from the community play 'The Crucible'."
+          }
+        ],
+        "awards": [
+          {
+            "title": "Best Actor - School Theatre Awards",
+            "description": "Received the best actor award for my role in 'Les Misérables'."
+          },
+          {
+            "title": "Audience Favorite - Community Theatre",
+            "description": "Awarded for my performance in 'A Streetcar Named Desire', voted by the audience."
+          }
+        ]
+      }
+    ],
+    "volunteering": [
+      {
+        "id": "v1",
+        "name": "Local Food Bank",
+        "description": "Volunteered at the local food bank, helping to organize food drives and distribute meals to those in need.",
+        "images": [
+          {
+            "key": "food_bank1",
+            "caption": "Sorting food donations during the annual city-wide food drive."
+          },
+          {
+            "key": "food_bank2",
+            "caption": "Distributing holiday meals to families."
+          }
+        ],
+        "events": [
+          {
+            "title": "Food Drive Coordinator",
+            "startYear": 2018,
+            "endYear": 2020,
+            "description": "Organized and led the city's largest annual food drive, collecting over 10,000 items."
+          },
+          {
+            "title": "Meal Distribution Volunteer",
+            "startYear": 2017,
+            "endYear": 2020,
+            "description": "Helped distribute thousands of meals to families during the holidays."
+          }
+        ]
+      }
+    ]
+  },
+
+  "[Paste from firebase B]": {
+    "id": "[Paste from firebase B]",
+    "name": "Tom Jacob",
+    "position": "Innovative Creator",
+    "image": "pfpb",
+    "backImage": "bgb",
+    "coverImage": "coverb",
+    "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
+    "theme": "cotton_candy",
+    "scores": {
+      "satScore": 1380,
+      "actScore": 34,
+      "apScores": [
+        {
+          "subject": "Environmental Science",
+          "score": "4",
+          "percentile": 78
+        },
+        {
+          "subject": "U.S. History",
+          "score": "5",
+          "percentile": 92
+        }
+      ],
+      "percentiles": {
+        "satScore": 90,
+        "actScore": 98,
+        "gpa": 79,
+        "weightedGPA": 83
+      }
+    },
+    "grades": {
+      "gpa": 3.75,
+      "weightedGPA": 4.1,
+      "gpaPercentile": 78,
+      "weightedGPAPercentile": 86,
+      "transcript": [
+        {
+          "startYear": "2016",
+          "endYear": "2017",
+          "courses": [
+            {"course": "English I", "grade": "B+", "AP": false, "Period": 1},
+            {"course": "Algebra I", "grade": "A", "AP": false, "Period": 2},
+            {"course": "Biology", "grade": "B", "AP": false, "Period": 3},
+            {"course": "World History", "grade": "A-", "AP": false, "Period": 4},
+            {"course": "Spanish I", "grade": "A-", "AP": false, "Period": 5},
+            {"course": "Art I", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "Physical Education", "grade": "A", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2017",
+          "endYear": "2018",
+          "courses": [
+            {"course": "English II", "grade": "A-", "AP": false, "Period": 1},
+            {"course": "Geometry", "grade": "A", "AP": false, "Period": 2},
+            {"course": "Chemistry", "grade": "B+", "AP": false, "Period": 3},
+            {"course": "AP U.S. History", "grade": "A", "AP": true, "Period": 4},
+            {"course": "Spanish II", "grade": "B+", "AP": false, "Period": 5},
+            {"course": "Music Theory", "grade": "A-", "AP": false, "Period": 6},
+            {"course": "Health Education", "grade": "A", "AP": false, "Period": 7}
+          ]
+        },
+        {
+          "startYear": "2018",
+          "endYear": "2019",
+          "courses": [
+            {"course": "AP English Language and Composition", "grade": "B+", "AP": true, "Period": 1},
+            {"course": "AP Calculus AB", "grade": "A", "AP": true, "Period": 2},
+            {"course": "AP U.S. Government and Politics", "grade": "A-", "AP": true, "Period": 3},
+            {"course": "Physics", "grade": "B+", "AP": false, "Period": 4},
+            {"course": "Spanish III", "grade": "B", "AP": false, "Period": 5},
+            {"course": "AP Biology", "grade": "A-", "AP": true, "Period": 6}
+          ]
+        },
+        {
+          "startYear": "2019",
+          "endYear": "2020",
+          "courses": [
+            {"course": "AP English Literature", "grade": "A-", "AP": true, "Period": 1},
+            {"course": "AP Calculus BC", "grade": "B+", "AP": true, "Period": 2},
+            {"course": "AP Chemistry", "grade": "A", "AP": true, "Period": 3},
+            {"course": "AP European History", "grade": "B", "AP": true, "Period": 4},
+            {"course": "AP Physics C: Mechanics", "grade": "A-", "AP": true, "Period": 5},
+            {"course": "Spanish IV", "grade": "B+", "AP": false, "Period": 6},
+            {"course": "AP Studio Art: Drawing", "grade": "A", "AP": true, "Period": 7}
+          ]
+        }
+      ]
+    },
+    "clubs": [
+      {
+        "id": "c2",
+        "name": "Robotics Club",
+        "description": "As a member and later president of the robotics club, I spearheaded projects that competed at national levels, integrating complex designs and programming.",
+        "images": [
+          {"key": "robotics1", "caption": "At the national robotics competition."},
+          {"key": "robotics2", "caption": "Our team working late on our robot."}
+        ],
+        "roles": [
+          {
+            "startYear": "2017",
+            "endYear": "2019",
+            "title": "President",
+            "description": "Led the team to a top three finish at the national robotics championships."
+          }
+        ],
+        "awards": [
+          {
+            "title": "Top Robot Design Award - 2019 National Robotics Competition",
+            "description": "Awarded for designing the most efficient and innovative robot at the competition."
+          },
+          {
+            "title": "Best Teamwork - 2018 Regional Robotics Challenge",
+            "description": "Awarded to our team for exceptional collaboration and strategy during the regional challenge."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "SmartFarm",
+        "description": "An IoT-based solution designed to automate and optimize agricultural processes, using sensors and data analytics to enhance crop yields.",
+        "skills": ["React Native", "Python", "IoT", "Cloud Computing"],
+        "projectImage": "smartfarm_banner"
+      }
+    ],
+    "accolades": [
+      {
+        "title": "Eagle Scout",
+        "description": "Achieved the rank of Eagle Scout through dedicated community service and leadership in various scouting projects."
+      },
+      {
+        "title": "AP Scholar with Honor",
+        "description": "Awarded for scoring 4 or higher on four AP exams."
+      }
+    ],
+    "athletics": [
+      {
+        "id": "a2",
+        "name": "Cross Country Team",
+        "description": "A key runner on the cross country team, contributing significantly to our team's success in regional and state championships.",
+        "highlights": [
+          {"key": "cross_country1", "caption": "Crossing the finish line at the state meet."},
+          {"key": "cross_country2", "caption": "Our team after a victorious regional championship."}
+        ],
+        "awards": [
+          {
+            "title": "Most Valuable Runner 2019",
+            "description": "Awarded for leading the team in most races and maintaining the best seasonal times."
+          },
+          {
+            "title": "Team Captain 2020",
+            "description": "Served as the team captain, leading training sessions and strategy discussions."
+          }
+        ]
+      }
+    ],
+    "performingArts": [
+      {
+        "id": "p2",
+        "name": "Jazz Band",
+        "description": "Played the saxophone in the school jazz band, performing at various school events and regional jazz festivals.",
+        "videos": [
+          {
+            "key": "jazz_band1",
+            "caption": "Solo performance at the annual school jazz night."
+          },
+          {
+            "key": "jazz_band2",
+            "caption": "Our band at the regional jazz festival."
+          }
+        ],
+        "awards": [
+          {
+            "title": "Best Solo Performance - School Jazz Night",
+            "description": "Recognized for the best solo performance of the evening."
+          },
+          {
+            "title": "Outstanding Musician - Regional Jazz Festival",
+            "description": "Awarded for exceptional performance and contribution to the festival's success."
+          }
+        ]
+      }
+    ],
+    "volunteering": [
+      {
+        "id": "v2",
+        "name": "Habitat for Humanity",
+        "description": "Contributed to building homes for low-income families, improving living conditions and community development.",
+        "images": [
+          {
+            "key": "habitat1",
+            "caption": "Building a new home in our community project."
+          },
+          {
+            "key": "habitat2",
+            "caption": "Volunteer group photo after a successful build."
+          }
+        ],
+        "events": [
+          {
+            "title": "Project Leader",
+            "startYear": 2018,
+            "endYear": 2020,
+            "description": "Led a team of volunteers in constructing three homes over two years, providing essential housing for families in need."
+          },
+          {
+            "title": "Construction Volunteer",
+            "startYear": 2017,
+            "endYear": 2020,
+            "description": "Actively participated in weekly builds, learning construction skills and aiding in various construction phases."
+          }
+        ]
+      }
+    ]
+    
+  },
+
+
+  "[Paste from firebase 1]": {
+    "name": "Alejandro Vásquez",
+    "position": "Student at WHS",
+    "image": "pfp1",
+    "backImage": "bg3",
+    "coverImage": "cover2",
+    "about": "Exploring the nuances of cultural history and the beauty of language.",
+    "theme": "oceanic"
+  },
+  "[Paste from firebase 2]": {
+    "name": "Rajiv Sharma",
+    "position": "Student at NCHS",
+    "image": "pfp2",
+    "backImage": "bg1",
+    "coverImage": "cover5",
+    "about": "Passionate about technology and its potential to change the world.",
+    "theme": "ruby"
+  },
+  "[Paste from firebase 3]": {
+    "name": "Chen Wei",
+    "position": "Student at BHS",
+    "image": "pfp3",
+    "backImage": "bg4",
+    "coverImage": "cover1",
+    "about": "Avid reader and aspiring writer.",
+    "theme": "forest"
+  },
+  "[Paste from firebase 4]": {
+    "name": "Emma Johnson",
+    "position": "Student at WHS",
+    "image": "pfp4",
+    "backImage": "bg2",
+    "coverImage": "cover4",
+    "about": "Science enthusiast with a love for environmental advocacy.",
+    "theme": "neon"
+  },
+  "[Paste from firebase 5]": {
+    "name": "Olivia Smith",
+    "position": "Student at WHS",
+    "image": "pfp5",
+    "backImage": "bg5",
+    "coverImage": "cover3",
+    "about": "Exploring the intersection of art and technology.",
+    "theme": "dark"
+  },
+  "[Paste from firebase 6]": {
+    "name": "Fatima Al-Mansouri",
+    "position": "Student at IHS",
+    "image": "pfp6",
+    "backImage": "bg3",
+    "coverImage": "cover2",
+    "about": "Aspiring to make a difference in the field of medicine.",
+    "theme": "sunshine"
+  },
+  "[Paste from firebase 7]": {
+    "name": "Sophie Taylor",
+    "position": "Student at WHS",
+    "image": "pfp7",
+    "backImage": "bg1",
+    "coverImage": "cover5",
+    "about": "Debater with a keen interest in politics and global issues.",
+    "theme": "cotton_candy"
+  },
+  "[Paste from firebase 8]": {
+    "name": "Mia Gonzalez",
+    "position": "Student at NCHS",
+    "image": "pfp8",
+    "backImage": "bg4",
+    "coverImage": "cover1",
+    "about": "Passionate about dance and the expression of movement.",
+    "theme": "desert"
+  },
+  "[Paste from firebase 9]": {
+    "name": "Lucas Brown",
+    "position": "Student at WHS",
+    "image": "pfp9",
+    "backImage": "bg2",
+    "coverImage": "cover4",
+    "about": "Exploring the mysteries of the cosmos and the thrill of discovery.",
+    "theme": "ruby"
+  },
+  "[Paste from firebase 10]": {
+    "name": "Charlotte Martinez",
+    "position": "Student at BHS",
+    "image": "pfp10",
+    "backImage": "bg5",
+    "coverImage": "cover3",
+    "about": "Aspiring biologist focused on conservation efforts.",
+    "theme": "forest"
+  },
+  "[Paste from firebase 11]": {
+    "name": "Levi Robinson",
+    "position": "Student at IHS",
+    "image": "pfp11",
+    "backImage": "bg3",
+    "coverImage": "cover2",
+    "about": "Tech innovator and future software engineer.",
+    "theme": "neon"
+  },
+  "[Paste from firebase 12]": {
+    "name": "Isabella García",
+    "position": "Student at KHS",
+    "image": "pfp12",
+    "backImage": "bg1",
+    "coverImage": "cover5",
+    "about": "Dedicated to studying the impacts of climate change globally.",
+    "theme": "desert"
+  },
+  "[Paste from firebase 13]": {
+    "name": "Mohammed Ali",
+    "position": "Student at CHS",
+    "image": "pfp13",
+    "backImage": "bg4",
+    "coverImage": "cover1",
+    "about": "Future economist interested in market dynamics and fiscal policies.",
+    "theme": "sunshine"
+  },
+  "[Paste from firebase 14]": {
+    "name": "Zara Patel",
+    "position": "Student at NCHS",
+    "image": "pfp14",
+    "backImage": "bg2",
+    "coverImage": "cover4",
+    "about": "Aspiring chemical engineer, ready to tackle the next big energy challenge.",
+    "theme": "ruby"
+  },
+  "[Paste from firebase 15]": {
+    "name": "James Wilson",
+    "position": "Student at JHS",
+    "image": "pfp15",
+    "backImage": "bg5",
+    "coverImage": "cover3",
+    "about": "Passionate about historical research and ancient civilizations.",
+    "theme": "dark"
+  },
+  "[Paste from firebase 16]": {
+    "name": "Lily Evans",
+    "position": "Student at WHS",
+    "image": "pfp16",
+    "backImage": "bg3",
+    "coverImage": "cover2",
+    "about": "Aspiring astronaut with a passion for space exploration.",
+    "theme": "oceanic"
+  },
+  "[Paste from firebase 17]": {
+    "name": "Ayaan Khan",
+    "position": "Student at MHS",
+    "image": "pfp17",
+    "backImage": "bg1",
+    "coverImage": "cover5",
+    "about": "Future leader dedicated to social justice and equitable policy.",
+    "theme": "neon"
+  },
+  "[Paste from firebase 18]": {
+    "name": "Grace Lee",
+    "position": "Student at WHS",
+    "image": "pfp18",
+    "backImage": "bg4",
+    "coverImage": "cover1",
+    "about": "Environmental advocate and lover of the natural world.",
+    "theme": "forest"
+  },
+  "[Paste from firebase 19]": {
+    "name": "Noah Hernandez",
+    "position": "Student at THS",
+    "image": "pfp19",
+    "backImage": "bg2",
+    "coverImage": "cover4",
+    "about": "Cybersecurity enthusiast, aiming to make the digital world safer.",
+    "theme": "desert"
+  },
+  "[Paste from firebase 20]": {
+    "name": "Tyrone Robertson",
+    "position": "Student at WHS",
+    "image": "pfp20",
+    "backImage": "bg5",
+    "coverImage": "cover3",
+    "about": "Dreaming of becoming a veterinarian and helping animals worldwide.",
+    "theme": "cotton_candy"
+  }
+  
+}
+
+

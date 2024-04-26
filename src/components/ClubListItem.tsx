@@ -71,7 +71,7 @@ export default function ClubListItem({ club, images, themeKey }: ClubListItemPro
                         ))}
                     </View>
 
-                    {club.awards && club.awards.length > 0 && (
+                    {club.awards && club.awards?.length > 0 && (
                         <View style={styles.awardsContainer}>
                             <Text style={styles.sectionTitle}>Awards</Text>
                             {club.awards.map((award, index) => (

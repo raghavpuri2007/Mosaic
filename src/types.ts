@@ -2,8 +2,8 @@ export type Post = {
   id: string;
   content: string;
   image?: string;
-  likes: number;
-  author: User;
+  user: User;
+  type: String;
 };
 
 export type User = {

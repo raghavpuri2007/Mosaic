@@ -10,7 +10,7 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import userJson from "../../../assets/data/user.json";
+import usersJson from "../../../assets/data/users.json";
 import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
 import { User, Score } from "../../types";
 import { themes } from "../../constants/Themes";
@@ -81,7 +81,7 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-const [user, setUser] = useState<User>(userJson);
+const [user, setUser] = useState<User>(usersJson["[Paste from firebase B]"]);
 const theme = themes[user.theme] || themes.default;
 const themeKey = user.theme || "default";
 const router = useRouter();
@@ -272,6 +272,17 @@ const ScoreRow = ({
 
 export default function UserProfile() {
   const { id } = useLocalSearchParams();
+  useEffect(() => {
+    if (id) {
+      setUser(usersJson[id]);
+    }
+  }, [id]);
+
+  if (!user) {
+    // Show a loading spinner or similar feedback here
+    return <Text>Loading...</Text>;
+  }  
+  
   const bottomSheetRef = useRef(null);
   const navigation = useNavigation();
 
@@ -312,26 +323,26 @@ export default function UserProfile() {
     console.warn("Change Theme");
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userRef = doc(db, "users", id);
-        const snapshot = await getDoc(userRef);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const userRef = doc(db, "users", id);
+  //       const snapshot = await getDoc(userRef);
 
-        if (snapshot.exists()) {
-          const userData = snapshot.data();
-          console.log(userData);
-          setUser(userData);
-        } else {
-          console.log("User not found");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  //       if (snapshot.exists()) {
+  //         const userData = snapshot.data();
+  //         console.log(userData);
+  //         setUser(userData);
+  //       } else {
+  //         console.log("User not found");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, [id]);
+  //   fetchUser();
+  // }, [id]);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: user.name });
@@ -355,7 +366,7 @@ export default function UserProfile() {
 
           {/* Name and Position */}
           <Text style={styles.name}>{user.name}</Text>
-          <Text color={theme.primary}>{user.position}</Text>
+          <Text style={{ color: theme.text }}>{user?.position}</Text>
 
           {/*Connect & Message buttons*/}
           <View style={styles.buttonContainer}>
