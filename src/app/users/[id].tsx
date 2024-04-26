@@ -272,6 +272,17 @@ const ScoreRow = ({
 
 export default function UserProfile() {
   const { id } = useLocalSearchParams();
+  useEffect(() => {
+    if (id) {
+      setUser(usersJson[id]);
+    }
+  }, [id]);
+
+  if (!user) {
+    // Show a loading spinner or similar feedback here
+    return <Text>Loading...</Text>;
+  }  
+  
   const bottomSheetRef = useRef(null);
   const navigation = useNavigation();
 
