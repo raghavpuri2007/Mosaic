@@ -10,7 +10,7 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import userJson from "../../../assets/data/user.json";
+import usersJson from "../../../assets/data/users.json";
 import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
 import { User, Score } from "../../types";
 import { themes } from "../../constants/Themes";
@@ -81,7 +81,7 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-const [user, setUser] = useState<User>(userJson);
+const [user, setUser] = useState<User>(null);
 const theme = themes[user.theme] || themes.default;
 const themeKey = user.theme || "default";
 const router = useRouter();
@@ -272,6 +272,7 @@ const ScoreRow = ({
 
 export default function UserProfile() {
   const { id } = useLocalSearchParams();
+  setUser(usersJson[id]);
   const bottomSheetRef = useRef(null);
   const navigation = useNavigation();
 
@@ -313,22 +314,22 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userRef = doc(db, "users", id);
-        const snapshot = await getDoc(userRef);
+    // const fetchUser = async () => {
+    //   try {
+    //     const userRef = doc(db, "users", id);
+    //     const snapshot = await getDoc(userRef);
 
-        if (snapshot.exists()) {
-          const userData = snapshot.data();
-          console.log(userData);
-          setUser(userData);
-        } else {
-          console.log("User not found");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+    //     if (snapshot.exists()) {
+    //       const userData = snapshot.data();
+    //       console.log(userData);
+    //       setUser(userData);
+    //     } else {
+    //       console.log("User not found");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching user data:", error);
+    //   }
+    // };
 
     fetchUser();
   }, [id]);
@@ -366,12 +367,11 @@ export default function UserProfile() {
               <FontAwesome name="comment" size={20} color="white" />
             </Pressable>
           </View>
-
         </View>
       </View>
 
       {/* About */}
-      {user.about && user.about.trim() !== '' && (
+      {user.about && user.about.trim() !== "" && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.paragraph}>{user.about}</Text>
@@ -384,14 +384,16 @@ export default function UserProfile() {
       </CollapsibleSection>
 
       {/* Scores */}
-      {(user.scores.actScore !== '' || user.scores.satScore !== '' || user.scores.apScores !== [])  && (
+      {(user.scores.actScore !== "" ||
+        user.scores.satScore !== "" ||
+        user.scores.apScores !== []) && (
         <CollapsibleSection title="Scores" themeKey={themeKey}>
           <ScoresSection scores={user.scores} />
         </CollapsibleSection>
       )}
 
       {/* Clubs */}
-      {user.clubs[0].id !== '' && (
+      {user.clubs[0].id !== "" && (
         <CollapsibleSection title="Clubs" themeKey={themeKey}>
           {user.clubs.map((club) => (
             <ClubListItem
@@ -405,7 +407,7 @@ export default function UserProfile() {
       )}
 
       {/* Athletics */}
-      {user.athletics[0].id !== '' && (
+      {user.athletics[0].id !== "" && (
         <CollapsibleSection title="Athletics" themeKey={themeKey}>
           {user.athletics.map((athletic) => (
             <AthleticsListItem
@@ -420,7 +422,7 @@ export default function UserProfile() {
       )}
 
       {/* Performing Arts */}
-      {user.performingArts[0].id !== '' && (
+      {user.performingArts[0].id !== "" && (
         <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
           {user.performingArts.map((art) => (
             <PerformingArtsListItem
@@ -435,7 +437,7 @@ export default function UserProfile() {
       )}
 
       {/* Volunteering */}
-      {user.volunteering[0].id !== '' && (
+      {user.volunteering[0].id !== "" && (
         <CollapsibleSection title="Volunteering" themeKey={themeKey}>
           {user.volunteering.map((volunteering) => (
             <VolunteeringListItem
@@ -449,7 +451,7 @@ export default function UserProfile() {
       )}
 
       {/* Projects */}
-      {user.projects[0].id !== '' && (
+      {user.projects[0].id !== "" && (
         <CollapsibleSection title="Projects" themeKey={themeKey}>
           {user.projects.map((project) => (
             <ProjectListItem
