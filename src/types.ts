@@ -7,7 +7,6 @@ export type Post = {
 };
 
 export type User = {
-  id: string;
   name?: string;
   position?: string;
   image?: string;
@@ -38,7 +37,6 @@ export type ApScore = {
 };
 
 export type Project = {
-  id: string;
   title: string;
   description: string;
   skills: string[];
@@ -69,10 +67,10 @@ export type courseGrade = {
 export type Club = {
   id: string;
   name: string;
-  images: Array<{ key: string, caption: string }>;
+  images: Array<{ key: string; caption: string }>;
   roles: ClubRole[];
-  description?: string; 
-  awards: Award[]; 
+  description?: string;
+  awards: Award[];
 };
 
 export type ClubRole = {
@@ -82,27 +80,26 @@ export type ClubRole = {
   description: string;
 };
 
-
 export type Award = {
-  title: string; 
-  description: string; 
+  title: string;
+  description: string;
 };
 
 export type Athletic = {
   id: string;
   name: string;
   description?: string;
-  highlights: Array<{ key: string, caption: string }>;
-  images: Array<{ key: string, caption: string }>;
-  awards: Award[]; 
+  highlights: Array<{ key: string; caption: string }>;
+  images: Array<{ key: string; caption: string }>;
+  awards: Award[];
 };
 
 export type PerformingArt = {
   id: string;
   name: string;
   description?: string;
-  videos: Array<{ key: string, caption: string }>; 
-  images: Array<{ key: string, caption: string }>;
+  videos: Array<{ key: string; caption: string }>;
+  images: Array<{ key: string; caption: string }>;
   awards: Award[];
 };
 
@@ -110,7 +107,7 @@ export type Volunteering = {
   id: string;
   name: string;
   impact?: string;
-  images: Array<{ key: string, caption: string }>;
+  images: Array<{ key: string; caption: string }>;
   events: Array<{
     title: string;
     startYear: number;

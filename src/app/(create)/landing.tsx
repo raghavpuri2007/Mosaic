@@ -11,10 +11,7 @@ export default function LandingPage() {
           style={styles.image}
         />
         <Text style={styles.title}>Mosaic</Text>
-        <Text style={styles.subtitle}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod
-        </Text>
+        <Text style={styles.subtitle}>Piecing together your unique path</Text>
         <View style={styles.buttonContainer}>
           <Link href="/login" asChild>
             <TouchableOpacity style={styles.loginButton}>
@@ -52,14 +49,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 28,
+    fontSize: 40,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
   },
   subtitle: {
     color: "#888",
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: 40,
     textAlign: "center",
   },

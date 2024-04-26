@@ -50,6 +50,16 @@ export default function Create3() {
       events: [],
     },
   ]);
+  const [clubs, setClubs] = useState([
+    {
+      id: "",
+      name: "",
+      images: [],
+      roles: [],
+      description: "",
+      awards: [],
+    },
+  ]);
   const [projects, setProjects] = useState([
     { name: "", description: "", link: "", skills: [""], image: null },
   ]);
@@ -93,6 +103,18 @@ export default function Create3() {
                 impact: "",
                 images: [],
                 events: [],
+              },
+            ]
+          );
+          setClubs(
+            userData.clubs || [
+              {
+                id: "",
+                name: "",
+                images: [],
+                roles: [],
+                description: "",
+                awards: [],
               },
             ]
           );
@@ -153,6 +175,19 @@ export default function Create3() {
           },
         ]);
         break;
+      case "clubs":
+        setClubs([
+          ...clubs,
+          {
+            id: "",
+            name: "",
+            images: [],
+            roles: [],
+            description: "",
+            awards: [],
+          },
+        ]);
+        break;
       default:
         break;
     }
@@ -187,6 +222,11 @@ export default function Create3() {
         const updatedVolunteering = [...volunteering];
         updatedVolunteering[index][field] = value;
         setVolunteering(updatedVolunteering);
+        break;
+      case "clubs":
+        const updatedClubs = [...clubs];
+        updatedClubs[index][field] = value;
+        setClubs(updatedClubs);
         break;
       default:
         break;
@@ -272,18 +312,23 @@ export default function Create3() {
     switch (category) {
       case "athletics":
         const updatedAthletics = [...athletics];
-        updatedAthletics[index].images.push({ key: "" });
+        updatedAthletics[index].images.push({ key: "", caption: "" });
         setAthletics(updatedAthletics);
         break;
       case "performingArts":
         const updatedPerformingArts = [...performingArts];
-        updatedPerformingArts[index].images.push({ key: "" });
+        updatedPerformingArts[index].images.push({ key: "", caption: "" });
         setPerformingArts(updatedPerformingArts);
         break;
       case "volunteering":
         const updatedVolunteering = [...volunteering];
-        updatedVolunteering[index].images.push({ key: "" });
+        updatedVolunteering[index].images.push({ key: "", caption: "" });
         setVolunteering(updatedVolunteering);
+        break;
+      case "clubs":
+        const updatedClubs = [...clubs];
+        updatedClubs[index].images.push({ key: "", caption: "" });
+        setClubs(updatedClubs);
         break;
       default:
         break;
@@ -323,9 +368,47 @@ export default function Create3() {
             result.uri;
           setVolunteering(updatedVolunteering);
           break;
+        case "clubs":
+          const updatedClubs = [...clubs];
+          updatedClubs[activityIndex].images[imageIndex].key = result.uri;
+          setClubs(updatedClubs);
+          break;
         default:
           break;
       }
+    }
+  };
+
+  const handleImageCaptionChange = (
+    category,
+    activityIndex,
+    imageIndex,
+    caption
+  ) => {
+    switch (category) {
+      case "athletics":
+        const updatedAthletics = [...athletics];
+        updatedAthletics[activityIndex].images[imageIndex].caption = caption;
+        setAthletics(updatedAthletics);
+        break;
+      case "performingArts":
+        const updatedPerformingArts = [...performingArts];
+        updatedPerformingArts[activityIndex].images[imageIndex].caption =
+          caption;
+        setPerformingArts(updatedPerformingArts);
+        break;
+      case "volunteering":
+        const updatedVolunteering = [...volunteering];
+        updatedVolunteering[activityIndex].images[imageIndex].caption = caption;
+        setVolunteering(updatedVolunteering);
+        break;
+      case "clubs":
+        const updatedClubs = [...clubs];
+        updatedClubs[activityIndex].images[imageIndex].caption = caption;
+        setClubs(updatedClubs);
+        break;
+      default:
+        break;
     }
   };
 
@@ -343,6 +426,11 @@ export default function Create3() {
           description: "",
         });
         setPerformingArts(updatedPerformingArts);
+        break;
+      case "clubs":
+        const updatedClubs = [...clubs];
+        updatedClubs[index].awards.push({ title: "", description: "" });
+        setClubs(updatedClubs);
         break;
       default:
         break;
@@ -367,6 +455,11 @@ export default function Create3() {
         updatedPerformingArts[activityIndex].awards[awardIndex][field] = value;
         setPerformingArts(updatedPerformingArts);
         break;
+      case "clubs":
+        const updatedClubs = [...clubs];
+        updatedClubs[activityIndex].awards[awardIndex][field] = value;
+        setClubs(updatedClubs);
+        break;
       default:
         break;
     }
@@ -389,6 +482,23 @@ export default function Create3() {
     setVolunteering(updatedVolunteering);
   };
 
+  const handleAddRole = (clubIndex) => {
+    const updatedClubs = [...clubs];
+    updatedClubs[clubIndex].roles.push({
+      title: "",
+      startYear: "",
+      endYear: "",
+      description: "",
+    });
+    setClubs(updatedClubs);
+  };
+
+  const handleRoleChange = (clubIndex, roleIndex, field, value) => {
+    const updatedClubs = [...clubs];
+    updatedClubs[clubIndex].roles[roleIndex][field] = value;
+    setClubs(updatedClubs);
+  };
+
   const handleAddSkill = (index) => {
     const updatedProjects = [...projects];
     updatedProjects[index].skills.push("");
@@ -409,6 +519,7 @@ export default function Create3() {
         athletics,
         performingArts,
         volunteering,
+        clubs,
         projects,
       });
     }
@@ -540,27 +651,46 @@ export default function Create3() {
                 <View style={styles.imagesSection}>
                   <Text style={styles.imagesTitle}>Images</Text>
                   {athletic.images.map((image, imageIndex) => (
-                    <TouchableOpacity
-                      key={imageIndex}
-                      style={styles.imageButton}
-                      onPress={() =>
-                        handleImageChange(
-                          "athletics",
-                          athleticIndex,
-                          imageIndex
-                        )
-                      }
-                    >
-                      {image.key ? (
-                        <Image
-                          source={{ uri: image.key }}
-                          style={{ width: 50, height: 50 }}
-                          resizeMode="cover"
-                        />
-                      ) : (
-                        <Ionicons name="image-outline" size={24} color="#888" />
-                      )}
-                    </TouchableOpacity>
+                    <View key={imageIndex} style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={styles.imageButton}
+                        onPress={() =>
+                          handleImageChange(
+                            "athletics",
+                            athleticIndex,
+                            imageIndex
+                          )
+                        }
+                      >
+                        {image.key ? (
+                          <Image
+                            source={{ uri: image.key }}
+                            style={{ width: 50, height: 50 }}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <Ionicons
+                            name="image-outline"
+                            size={24}
+                            color="#888"
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <TextInput
+                        style={[styles.input, styles.imageCaptionInput]}
+                        placeholder="Caption"
+                        placeholderTextColor="#888"
+                        value={image.caption}
+                        onChangeText={(caption) =>
+                          handleImageCaptionChange(
+                            "athletics",
+                            athleticIndex,
+                            imageIndex,
+                            caption
+                          )
+                        }
+                      />
+                    </View>
                   ))}
                   <TouchableOpacity
                     style={styles.addImageButton}
@@ -694,27 +824,46 @@ export default function Create3() {
                 <View style={styles.imagesSection}>
                   <Text style={styles.imagesTitle}>Images</Text>
                   {performingArt.images.map((image, imageIndex) => (
-                    <TouchableOpacity
-                      key={imageIndex}
-                      style={styles.imageButton}
-                      onPress={() =>
-                        handleImageChange(
-                          "performingArts",
-                          performingArtIndex,
-                          imageIndex
-                        )
-                      }
-                    >
-                      {image.key ? (
-                        <Image
-                          source={{ uri: image.key }}
-                          style={{ width: 50, height: 50 }}
-                          resizeMode="cover"
-                        />
-                      ) : (
-                        <Ionicons name="image-outline" size={24} color="#888" />
-                      )}
-                    </TouchableOpacity>
+                    <View key={imageIndex} style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={styles.imageButton}
+                        onPress={() =>
+                          handleImageChange(
+                            "performingArts",
+                            performingArtIndex,
+                            imageIndex
+                          )
+                        }
+                      >
+                        {image.key ? (
+                          <Image
+                            source={{ uri: image.key }}
+                            style={{ width: 50, height: 50 }}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <Ionicons
+                            name="image-outline"
+                            size={24}
+                            color="#888"
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <TextInput
+                        style={[styles.input, styles.imageCaptionInput]}
+                        placeholder="Caption"
+                        placeholderTextColor="#888"
+                        value={image.caption}
+                        onChangeText={(caption) =>
+                          handleImageCaptionChange(
+                            "performingArts",
+                            performingArtIndex,
+                            imageIndex,
+                            caption
+                          )
+                        }
+                      />
+                    </View>
                   ))}
                   <TouchableOpacity
                     style={styles.addImageButton}
@@ -817,27 +966,46 @@ export default function Create3() {
                 <View style={styles.imagesSection}>
                   <Text style={styles.imagesTitle}>Images</Text>
                   {volunteer.images.map((image, imageIndex) => (
-                    <TouchableOpacity
-                      key={imageIndex}
-                      style={styles.imageButton}
-                      onPress={() =>
-                        handleImageChange(
-                          "volunteering",
-                          volunteeringIndex,
-                          imageIndex
-                        )
-                      }
-                    >
-                      {image.key ? (
-                        <Image
-                          source={{ uri: image.key }}
-                          style={{ width: 50, height: 50 }}
-                          resizeMode="cover"
-                        />
-                      ) : (
-                        <Ionicons name="image-outline" size={24} color="#888" />
-                      )}
-                    </TouchableOpacity>
+                    <View key={imageIndex} style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={styles.imageButton}
+                        onPress={() =>
+                          handleImageChange(
+                            "volunteering",
+                            volunteeringIndex,
+                            imageIndex
+                          )
+                        }
+                      >
+                        {image.key ? (
+                          <Image
+                            source={{ uri: image.key }}
+                            style={{ width: 50, height: 50 }}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <Ionicons
+                            name="image-outline"
+                            size={24}
+                            color="#888"
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <TextInput
+                        style={[styles.input, styles.imageCaptionInput]}
+                        placeholder="Caption"
+                        placeholderTextColor="#888"
+                        value={image.caption}
+                        onChangeText={(caption) =>
+                          handleImageCaptionChange(
+                            "volunteering",
+                            volunteeringIndex,
+                            imageIndex,
+                            caption
+                          )
+                        }
+                      />
+                    </View>
                   ))}
                   <TouchableOpacity
                     style={styles.addImageButton}
@@ -928,6 +1096,200 @@ export default function Create3() {
                       styles.addVolunteeringButton,
                     ]}
                     onPress={() => handleAddActivity("volunteering")}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                )}
+              </View>
+            ))}
+            <Text style={styles.sectionTitle}>Clubs</Text>
+            {clubs.map((club, clubIndex) => (
+              <View key={clubIndex} style={styles.activitySection}>
+                <TextInput
+                  style={[styles.input, styles.activityNameInput]}
+                  placeholder="Club Name"
+                  placeholderTextColor="#888"
+                  value={club.name}
+                  onChangeText={(value) =>
+                    handleActivityChange("clubs", clubIndex, "name", value)
+                  }
+                />
+                <View style={styles.imagesSection}>
+                  <Text style={styles.imagesTitle}>Images</Text>
+                  {club.images.map((image, imageIndex) => (
+                    <View key={imageIndex} style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={styles.imageButton}
+                        onPress={() =>
+                          handleImageChange("clubs", clubIndex, imageIndex)
+                        }
+                      >
+                        {image.key ? (
+                          <Image
+                            source={{ uri: image.key }}
+                            style={{ width: 50, height: 50 }}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <Ionicons
+                            name="image-outline"
+                            size={24}
+                            color="#888"
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <TextInput
+                        style={[styles.input, styles.imageCaptionInput]}
+                        placeholder="Caption"
+                        placeholderTextColor="#888"
+                        value={image.caption}
+                        onChangeText={(caption) =>
+                          handleImageCaptionChange(
+                            "clubs",
+                            clubIndex,
+                            imageIndex,
+                            caption
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addImageButton}
+                    onPress={() => handleAddImage("clubs", clubIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.rolesSection}>
+                  <Text style={styles.rolesTitle}>Roles</Text>
+                  {club.roles.map((role, roleIndex) => (
+                    <View key={roleIndex} style={styles.roleRow}>
+                      <TextInput
+                        style={[styles.input, styles.roleTitleInput]}
+                        placeholder="Role Title"
+                        placeholderTextColor="#888"
+                        value={role.title}
+                        onChangeText={(value) =>
+                          handleRoleChange(clubIndex, roleIndex, "title", value)
+                        }
+                      />
+                      <View style={styles.roleYearsRow}>
+                        <TextInput
+                          style={[styles.input, styles.roleStartYearInput]}
+                          placeholder="Start Year"
+                          placeholderTextColor="#888"
+                          value={role.startYear}
+                          onChangeText={(value) =>
+                            handleRoleChange(
+                              clubIndex,
+                              roleIndex,
+                              "startYear",
+                              value
+                            )
+                          }
+                          keyboardType="numeric"
+                        />
+                        <TextInput
+                          style={[styles.input, styles.roleEndYearInput]}
+                          placeholder="End Year"
+                          placeholderTextColor="#888"
+                          value={role.endYear}
+                          onChangeText={(value) =>
+                            handleRoleChange(
+                              clubIndex,
+                              roleIndex,
+                              "endYear",
+                              value
+                            )
+                          }
+                          keyboardType="numeric"
+                        />
+                      </View>
+                      <TextInput
+                        style={[styles.input, styles.roleDescriptionInput]}
+                        placeholder="Role Description"
+                        placeholderTextColor="#888"
+                        value={role.description}
+                        onChangeText={(value) =>
+                          handleRoleChange(
+                            clubIndex,
+                            roleIndex,
+                            "description",
+                            value
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addRoleButton}
+                    onPress={() => handleAddRole(clubIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                <TextInput
+                  style={[styles.input, styles.clubDescriptionInput]}
+                  placeholder="Club Description"
+                  placeholderTextColor="#888"
+                  value={club.description}
+                  onChangeText={(value) =>
+                    handleActivityChange(
+                      "clubs",
+                      clubIndex,
+                      "description",
+                      value
+                    )
+                  }
+                />
+                <View style={styles.awardsSection}>
+                  <Text style={styles.awardsTitle}>Awards</Text>
+                  {club.awards.map((award, awardIndex) => (
+                    <View key={awardIndex} style={styles.awardRow}>
+                      <TextInput
+                        style={[styles.input, styles.awardTitleInput]}
+                        placeholder="Award Title"
+                        placeholderTextColor="#888"
+                        value={award.title}
+                        onChangeText={(value) =>
+                          handleAwardChange(
+                            "clubs",
+                            clubIndex,
+                            awardIndex,
+                            "title",
+                            value
+                          )
+                        }
+                      />
+                      <TextInput
+                        style={[styles.input, styles.awardDescriptionInput]}
+                        placeholder="Award Description"
+                        placeholderTextColor="#888"
+                        value={award.description}
+                        onChangeText={(value) =>
+                          handleAwardChange(
+                            "clubs",
+                            clubIndex,
+                            awardIndex,
+                            "description",
+                            value
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
+                  <TouchableOpacity
+                    style={styles.addAwardButton}
+                    onPress={() => handleAddAward("clubs", clubIndex)}
+                  >
+                    <Ionicons name="add" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                {clubIndex === clubs.length - 1 && (
+                  <TouchableOpacity
+                    style={[styles.addActivityButton, styles.addClubButton]}
+                    onPress={() => handleAddActivity("clubs")}
                   >
                     <Ionicons name="add" size={24} color="#fff" />
                   </TouchableOpacity>
@@ -1162,15 +1524,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  imageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   imageButton: {
     backgroundColor: "#222",
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
+    marginRight: 10,
+  },
+  imageCaptionInput: {
+    flex: 1,
   },
   addImageButton: {
     alignItems: "center",
@@ -1297,6 +1664,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addVolunteeringButton: {
+    marginTop: 30,
+  },
+  clubDescriptionInput: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  rolesSection: {
+    marginTop: 20,
+  },
+  rolesTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  roleRow: {
+    marginBottom: 10,
+  },
+  roleTitleInput: {
+    flex: 1,
+    marginBottom: 5,
+  },
+  roleYearsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  roleStartYearInput: {
+    flex: 0.48,
+    marginRight: 10,
+  },
+  roleEndYearInput: {
+    flex: 0.48,
+  },
+  roleDescriptionInput: {
+    flex: 1,
+  },
+  addRoleButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#38a093",
+    marginBottom: 20,
+  },
+  addClubButton: {
     marginTop: 30,
   },
   projectSection: {

@@ -14,7 +14,7 @@ import userJson from "../../../assets/data/user.json";
 import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
 import { User, Score } from "../../types";
 import { themes } from "../../constants/Themes";
-
+import { ActivityIndicator } from "react-native";
 import ProjectListItem from "../../components/ProjectListItem";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Table, Row, Rows } from "react-native-table-component";
@@ -34,7 +34,7 @@ import { Asset } from "expo-asset";
 import Constants, { ExecutionEnvironment } from "expo-constants";
 
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { db, auth } from "../../../firebaseConfig";
 import { useRouter } from "expo-router";
 
 import { captureRef } from "react-native-view-shot";
@@ -81,16 +81,17 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-const [user, setUser] = useState<User>(userJson);
-const theme = themes[user.theme] || themes.default;
-const themeKey = user.theme || "default";
+const [user, setUser] = useState(null);
+const [loading, setLoading] = useState(true);
+const [theme, setTheme] = useState(themes.default);
+const [themeKey, setThemeKey] = useState("default");
 const router = useRouter();
 const viewRef = useRef();
 
 const shareImage = async () => {
   try {
     // Ensure the asset is loaded
-    const asset = Asset.fromModule(images[user.coverImage]);
+    const asset = Asset.fromModule(images[user?.coverImage]);
     await asset.downloadAsync(); // This ensures the file is downloaded locally and cached
 
     // Check if sharing is available
@@ -110,7 +111,7 @@ const shareImage = async () => {
 const shareImage2 = async () => {
   try {
     // Ensure the asset is loaded
-    const asset = Asset.fromModule(images[user.coverImage]);
+    const asset = Asset.fromModule(images[user?.coverImage]);
     await asset.downloadAsync(); // This ensures the file is downloaded locally and cached
 
     // Check if sharing is available
@@ -271,7 +272,6 @@ const ScoreRow = ({
 );
 
 export default function ProfileScreen() {
-  const { id } = useLocalSearchParams();
   const bottomSheetRef = useRef(null);
   const navigation = useNavigation();
 
@@ -315,26 +315,32 @@ export default function ProfileScreen() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userRef = doc(db, "users", id);
-        const snapshot = await getDoc(userRef);
-
-        if (snapshot.exists()) {
-          const userData = snapshot.data();
-          console.log(userData);
-          setUser(userData);
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          const userRef = doc(db, "users", currentUser.uid);
+          const snapshot = await getDoc(userRef);
+          if (snapshot.exists()) {
+            const userData = snapshot.data();
+            console.log(userData);
+            setUser(userData);
+          } else {
+            console.log("User not found");
+          }
         } else {
-          console.log("User not found");
+          console.log("No authenticated user");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
-  }, [id]);
+  }, []);
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: user.name });
+    navigation.setOptions({ title: user?.name });
 
     setTimeout(() => {
       if (bottomSheetRef.current) {
@@ -342,134 +348,159 @@ export default function ProfileScreen() {
       }
     }, 2000);
   }, [user?.name]);
-  const renderContent = () => (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/*Header*/}
-      <View style={styles.header}>
-        {/* BG Image */}
-        <Image source={images[user.backImage]} style={styles.bgImage} />
-
-        <View style={styles.headerContent}>
-          {/* Profile image */}
-          <Image source={images[user.image]} style={styles.image} />
-
-          {/* Name and Position */}
-          <Text style={styles.name}>{user.name}</Text>
-          <Text color={theme.primary}>{user.position}</Text>
-
-          {/*Edit & Theme buttons*/}
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
-              <FontAwesome
-                name="pencil"
-                size={20}
-                color="white"
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </Pressable>
-            <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
-              <FontAwesome name="paint-brush" size={20} color="white" />
-            </Pressable>
-          </View>
-        </View>
+  const renderContent = () =>
+    loading ? (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={theme.primary} />
       </View>
+    ) : (
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        {/*Header*/}
+        <View style={styles.header}>
+          {/* BG Image */}
+          <Image source={images[user?.backImage]} style={styles.bgImage} />
 
-      {/* About */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
-        <Text style={styles.paragraph}>{user.about}</Text>
-      </View>
+          <View style={styles.headerContent}>
+            {/* Profile image */}
+            <Image source={images[user?.image]} style={styles.image} />
 
-      {/* Grades */}
-      <CollapsibleSection title="Grades" themeKey={themeKey}>
-        <GradesSection grades={user.grades} />
-      </CollapsibleSection>
+            {/* Name and Position */}
+            <Text style={styles.name}>{user?.name}</Text>
+            <Text color={theme.primary}>{user?.position}</Text>
 
-      {/* Scores */}
-      <CollapsibleSection title="Scores" themeKey={themeKey}>
-        <ScoresSection scores={user.scores} />
-      </CollapsibleSection>
-
-      {/* Clubs */}
-      <CollapsibleSection title="Clubs" themeKey={themeKey}>
-        {user.clubs?.map((club) => (
-          <ClubListItem
-            key={club.id}
-            club={club}
-            images={images}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
-
-      {/* Athletics */}
-      <CollapsibleSection title="Athletics" themeKey={themeKey}>
-        {user.athletics?.map((athletic) => (
-          <AthleticsListItem
-            key={athletic.id}
-            athletics={athletic}
-            images={images}
-            videos={videos}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
-
-      {/* Performing Arts */}
-      <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
-        {user.performingArts?.map((art) => (
-          <PerformingArtsListItem
-            key={art.id}
-            performingArt={art}
-            images={images}
-            videos={videos}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
-
-      {/* Volunteering */}
-      <CollapsibleSection title="Volunteering" themeKey={themeKey}>
-        {user.volunteering?.map((volunteering) => (
-          <VolunteeringListItem
-            key={volunteering.id}
-            volunteering={volunteering}
-            images={images}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
-
-      {/* Projects */}
-      <CollapsibleSection title="Projects" themeKey={themeKey}>
-        {user.projects?.map((project) => (
-          <ProjectListItem
-            key={project.id}
-            project={project}
-            image={images[project.projectImage]}
-            themeKey={themeKey}
-          />
-        ))}
-      </CollapsibleSection>
-
-      {/* Accolades */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Accolades</Text>
-        {user.accolades?.map((accolade, index) => (
-          <View key={index} style={styles.awardItem}>
-            <Image source={images[accolade.image]} style={styles.awardImage} />
-            <View style={styles.awardTextContainer}>
-              <Text style={styles.awardTitle}>{accolade.title}:</Text>
-              <Text style={styles.awardDescription}>
-                {accolade.description}
-              </Text>
+            {/*Edit & Theme buttons*/}
+            <View style={styles.buttonContainer}>
+              <Pressable onPress={onEditProfile} style={styles.buttonLarge}>
+                <FontAwesome
+                  name="pencil"
+                  size={20}
+                  color="white"
+                  style={{ marginRight: 10 }}
+                />
+                <Text style={styles.buttonText}>Edit Profile</Text>
+              </Pressable>
+              <Pressable onPress={onChangeTheme} style={styles.buttonSmall}>
+                <FontAwesome name="paint-brush" size={20} color="white" />
+              </Pressable>
             </View>
           </View>
-        ))}
-      </View>
-    </ScrollView>
-  );
+        </View>
+
+        {/* About */}
+        {/* About */}
+        {user.about && user.about.trim() !== "" && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>About</Text>
+            <Text style={styles.paragraph}>{user.about}</Text>
+          </View>
+        )}
+
+        {/* Grades */}
+        <CollapsibleSection title="Grades" themeKey={themeKey}>
+          <GradesSection grades={user.grades} />
+        </CollapsibleSection>
+
+        {/* Scores */}
+        {(user.scores.actScore !== "" ||
+          user.scores.satScore !== "" ||
+          user.scores.apScores !== []) && (
+          <CollapsibleSection title="Scores" themeKey={themeKey}>
+            <ScoresSection scores={user.scores} />
+          </CollapsibleSection>
+        )}
+
+        {/* Clubs */}
+        {user.clubs[0].id !== "" && (
+          <CollapsibleSection title="Clubs" themeKey={themeKey}>
+            {user.clubs.map((club) => (
+              <ClubListItem
+                key={club.id}
+                club={club}
+                images={images}
+                themeKey={themeKey}
+              />
+            ))}
+          </CollapsibleSection>
+        )}
+
+        {/* Athletics */}
+        {user.athletics.length > 0 && user.athletics[0]?.id !== "" && (
+          <CollapsibleSection title="Athletics" themeKey={themeKey}>
+            {user.athletics.map((athletic) => (
+              <AthleticsListItem
+                key={athletic.id}
+                athletics={athletic}
+                images={images}
+                videos={videos}
+                themeKey={themeKey}
+              />
+            ))}
+          </CollapsibleSection>
+        )}
+
+        {/* Performing Arts */}
+        {user.performingArts.length > 0 &&
+          user.performingArts[0]?.id !== "" && (
+            <CollapsibleSection title="Performing Arts" themeKey={themeKey}>
+              {user.performingArts.map((art) => (
+                <PerformingArtsListItem
+                  key={art.id}
+                  performingArt={art}
+                  images={images}
+                  videos={videos}
+                  themeKey={themeKey}
+                />
+              ))}
+            </CollapsibleSection>
+          )}
+
+        {/* Volunteering */}
+        {user.volunteering.length > 0 && user.volunteering[0]?.id !== "" && (
+          <CollapsibleSection title="Volunteering" themeKey={themeKey}>
+            {user.volunteering.map((volunteering) => (
+              <VolunteeringListItem
+                key={volunteering.id}
+                volunteering={volunteering}
+                images={images}
+                themeKey={themeKey}
+              />
+            ))}
+          </CollapsibleSection>
+        )}
+
+        {/* Projects */}
+        {user.projects[0].description !== "" && (
+          <CollapsibleSection title="Projects" themeKey={themeKey}>
+            {user.projects.map((project) => (
+              <ProjectListItem
+                key={project.id}
+                project={project}
+                image={images[project.projectImage]}
+                themeKey={themeKey}
+              />
+            ))}
+          </CollapsibleSection>
+        )}
+
+        {/* Accolades */}
+        {user.accolades !== [] && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Accolades</Text>
+            {user.accolades.map((accolade, index) => (
+              <View key={index} style={styles.awardItem}>
+                <Image source={images["badge4"]} style={styles.awardImage} />
+                <View style={styles.awardTextContainer}>
+                  <Text style={styles.awardTitle}>{accolade.title}:</Text>
+                  <Text style={styles.awardDescription}>
+                    {accolade.description}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    );
 
   const snapPoints = useMemo(
     () => ["20%", "30%", "50%", "60%", "70%", "90%"],
@@ -478,7 +509,7 @@ export default function ProfileScreen() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Image source={images[user.coverImage]} style={styles.fullScreenImage} />
+      <Image source={images[user?.coverImage]} style={styles.fullScreenImage} />
       {/* Circular Buttons on Cover Image */}
       <View style={styles.coverButtonContainer}>
         <Pressable onPress={toggleBottomSheet} style={styles.coverButton}>
@@ -549,6 +580,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     marginTop: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: theme.background,
   },
   buttonLarge: {
     backgroundColor: theme.primary, // Primary theme color for primary buttons

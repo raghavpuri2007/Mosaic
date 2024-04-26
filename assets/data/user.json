@@ -1,5 +1,4 @@
 {
-  "id": "u2",
   "name": "Bart Simpson",
   "position": "The biggest of brothas",
   "image": "bart_pfp",
@@ -170,14 +169,12 @@
   ],
   "projects": [
     {
-      "id": "1",
       "title": "YouTube",
       "description": "An innovative video streaming platform built from scratch, featuring advanced video processing and adaptive streaming algorithms to optimize content delivery and user engagement.",
       "skills": ["React Native", "Node.js", "WebRTC", "Cloud Infrastructure"],
       "projectImage": "yt_banner"
   },
   {
-      "id": "2",
       "title": "Chat GPT",
       "description": "A pioneering mobile application that utilizes my custom-developed GPT model, designed to offer real-time conversational AI experiences. This project emphasizes natural language understanding and seamless integration with mobile technology.",
       "skills": ["React Native", "Python", "Machine Learning", "API Development"],
