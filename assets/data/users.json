@@ -1,15 +1,15 @@
 {
-  "sWgRBho8CZZDprsVFchX6MBzHl42": {
+  "Tdd6j7b0G7gYD2MzF6v9U88A2di2": {
     "name": "Raghav Puri",
-    "position": "The biggest of brothas",
+    "position": "Woodinville High School - 2025",
     "image": "bart_pfp",
     "backImage": "bart_banner",
     "coverImage": "bart_cover",
-    "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
+    "about": "Raghav Puri is a driven student with an unwavering passion for computer science. From a young age, he has been captivated by the intricacies of technology and the boundless potential it holds. His inquisitive mind constantly seeks to unravel the complexities of programming languages, algorithms, and data structures.",
     "theme": "ruby",
     "scores": {
-      "satScore": 1400,
-      "actScore": 35,
+      "satScore": 1500,
+      "actScore": 34,
       "apScores": [
         {
           "subject": "Physics C: Mechanics",

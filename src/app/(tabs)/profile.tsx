@@ -81,7 +81,7 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-const [user, setUser] = useState(usersJson["sWgRBho8CZZDprsVFchX6MBzHl42"]);
+const [user, setUser] = useState(usersJson["Tdd6j7b0G7gYD2MzF6v9U88A2di2"]);
 const [loading, setLoading] = useState(false);
 const [theme, setTheme] = useState(themes.default);
 const [themeKey, setThemeKey] = useState("default");
@@ -517,7 +517,7 @@ export default function ProfileScreen() {
         </Pressable>
 
         <Pressable onPress={shareImageInsta} style={styles.coverButton}>
-          <FontAwesome name="insta" size={20} color="white" />
+          <FontAwesome name="instagram" size={30} color="white" />
         </Pressable>
 
         <Pressable onPress={shareImage} style={styles.coverButton}>

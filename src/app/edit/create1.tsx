@@ -24,14 +24,24 @@ export default function Create1() {
   useEffect(() => {
     const fetchUserData = async () => {
       if (editing && auth.currentUser) {
+        console.log("here");
         const userRef = doc(db, "users", auth.currentUser.uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
+          console.log("here");
           const userData = userDoc.data();
-          setFirstName(userData.firstName || "");
-          setLastName(userData.lastName || "");
-          setHighSchool(userData.highSchool || "");
-          setGraduationYear(userData.graduationYear || "");
+          console.log(userData.name);
+          const fullName = userData.name || "";
+          const spaceIndex = fullName.indexOf(" ");
+          if (spaceIndex !== -1) {
+            setFirstName(fullName.substring(0, spaceIndex));
+            setLastName(fullName.substring(spaceIndex + 1));
+          } else {
+            setFirstName(fullName);
+          }
+          const positionParts = (userData.position || "").split(" - ");
+          setHighSchool(positionParts[0] || "");
+          setGraduationYear(positionParts[1] || "");
         }
       }
     };
