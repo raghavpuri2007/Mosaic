@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { User } from '../types';
+import usersJson from "../../../assets/data/users.json";
 
-const SuggestedConnection = () => {
+const SuggestedConnection = ({ user }: { user: User }) => {
   // Static data for John Doe as there's no import data yet
-  const user = {
-    name: 'John Doe',
-    image: 'https://via.placeholder.com/80', // Placeholder image URL
-  };
+  console.log(user);
 
   return (
     <View style={styles.container}>
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: 'bold',
     fontSize: 14,
+    color: 'white',
     marginBottom: 5,
   },
   button: {
