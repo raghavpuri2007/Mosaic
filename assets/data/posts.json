@@ -1,7 +1,7 @@
 [
   {
     "id": "2",
-    "author": {
+    "user": {
       "id": "u2",
       "name": "Vadim Savin",
       "position": "Founder at notJust.dev",
@@ -14,7 +14,7 @@
   },
   {
     "id": "stepzen",
-    "author": {
+    "user": {
       "id": "u2",
       "name": "StepZen, an IBM Company",
       "position": "GraphQL server with unique architecture",
@@ -27,43 +27,22 @@
   },
   {
     "id": "1",
-    "author": {
+    "user": {
       "id": "u1",
       "name": "Jeff Bezos",
       "position": "Intern @Amazon",
       "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/jeff.jpeg"
     },
     "content": "Exciting news! Just landed an internship at Amazon. I figured it's about time I try out this whole e-commerce thing. 😄 #NewBeginnings #FromCEOtoIntern",
-    "likes": 254,
-    "comments": [
-      {
-        "user": {
-          "name": "Elon Musk",
-          "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png"
-        },
-        "comment": "Fight me",
-        "timestamp": "2023-07-16T17:15:00Z"
-      },
-      {
-        "user": {
-          "name": "Peter Johnson",
-          "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/11.png"
-        },
-        "comment": "Great job!",
-        "timestamp": "2023-07-16T18:00:00Z"
-      }
-    ]
   },
   {
     "id": "3",
-    "author": {
+    "user": {
       "id": "u3",
       "name": "Peter Johnson",
       "position": "CTO at Facebook",
       "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg"
     },
     "content": "Join me for a talk on scaling technology in startups",
-    "likes": 432,
-    "comments": []
   }
 ]

@@ -10,7 +10,7 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import userJson from "../../../assets/data/user.json";
+import usersJson from "../../../assets/data/users.json";
 import { useLayoutEffect, useState, useMemo, useRef, useEffect } from "react";
 import { User, Score } from "../../types";
 import { themes } from "../../constants/Themes";
@@ -81,8 +81,8 @@ const videos = {
   piano_clip: require("../../../assets/videos/piano_clip.mp4"),
 };
 
-const [user, setUser] = useState(null);
-const [loading, setLoading] = useState(true);
+const [user, setUser] = useState(usersJson["sWgRBho8CZZDprsVFchX6MBzHl42"]);
+const [loading, setLoading] = useState(false);
 const [theme, setTheme] = useState(themes.default);
 const [themeKey, setThemeKey] = useState("default");
 const router = useRouter();
@@ -312,32 +312,32 @@ export default function ProfileScreen() {
     console.warn("Change Theme");
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-          const userRef = doc(db, "users", currentUser.uid);
-          const snapshot = await getDoc(userRef);
-          if (snapshot.exists()) {
-            const userData = snapshot.data();
-            console.log(userData);
-            setUser(userData);
-          } else {
-            console.log("User not found");
-          }
-        } else {
-          console.log("No authenticated user");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const currentUser = auth.currentUser;
+  //       if (currentUser) {
+  //         const userRef = doc(db, "users", currentUser.uid);
+  //         const snapshot = await getDoc(userRef);
+  //         if (snapshot.exists()) {
+  //           const userData = snapshot.data();
+  //           console.log(userData);
+  //           setUser(userData);
+  //         } else {
+  //           console.log("User not found");
+  //         }
+  //       } else {
+  //         console.log("No authenticated user");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: user?.name });
@@ -366,7 +366,7 @@ export default function ProfileScreen() {
 
             {/* Name and Position */}
             <Text style={styles.name}>{user?.name}</Text>
-            <Text color={theme.primary}>{user?.position}</Text>
+            <Text style={{ color: theme.text }}>{user?.position}</Text>
 
             {/*Edit & Theme buttons*/}
             <View style={styles.buttonContainer}>

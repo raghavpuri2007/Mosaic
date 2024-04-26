@@ -7,54 +7,21 @@ type PostListItemProps = {
     post: Post;
 }
 
-type FooterButtonProps = {
-    text: string;
-    icon: React.ComponentProps<typeof FontAwesome>['name'];
-  };
-  
-function FooterButton({ text, icon }: FooterButtonProps) {
-    return (
-        <View style={{flexDirection: 'row'}}>
-            <FontAwesome name={icon} size={16} color='gray'/>
-            <Text style = {{ marginLeft: 5, color:'gray', fontWeight: '500' }}>{text}</Text>
-        </View>
-    )
-}
-
 export default function PostListItem({ post }: PostListItemProps) {
     return (
-        <Link href={`/posts/${post.id}`} asChild>
-            <Pressable style={styles.container}>
-                {/*Header*/}
-                <Link href={`/users/${post.author.id}`}>
-                    <View style={styles.header}>
-                        <Image source={{uri: post.author.image}} style={styles.userImage}/>
-                        <View>
-                            <Text style={styles.userName}>{post.author.name}</Text>
-                            <Text>{post.author.position}</Text>
-                        </View>
-                    </View>
-                </Link>
-
-                {/*Text content*/}
-                <Text style={styles.content}>{post.content}</Text>
-
-                {/*Image content*/}
-                {post.image && (
-                <Image source={{ uri: post.image }} style={styles.postImage}/>
-                )}
-
-
-                {/*Footer*/}
-                <View style={styles.footer}>
-                    <FooterButton text='Likes' icon='thumbs-o-up'/>
-                    <FooterButton text='Comment' icon='comment-o'/>
-                    <FooterButton text='Share' icon='share'/>
-
-                </View>
-            </Pressable>
-        </Link>
-    )
+        <Pressable style={styles.container}>
+            <View style={styles.header}>
+                <Image source={{uri: post.user.image}} style={styles.userImage}/>
+                <Text style={styles.userName}>{post.user.name}</Text>
+            </View>
+            <Text style={styles.content}>{post.content}</Text>
+            <View style={styles.footer}>
+                <Text style={styles.button}>Reply</Text>
+                <Text style={styles.button}>Share</Text>
+                <Text style={styles.button}>Add to Story</Text>
+            </View>
+        </Pressable>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -63,9 +30,10 @@ const styles = StyleSheet.create({
         width: '100%',
         maxWidth: 500,
         alignSelf: 'center',
+        marginBottom: 10,
+        borderRadius: 10,
+        overflow: 'hidden',
     },
-
-    // Header
     header: { 
         flexDirection: 'row',
         alignItems: 'center',
@@ -74,31 +42,24 @@ const styles = StyleSheet.create({
     userName: {
         fontWeight: 'bold',
         fontSize: 16,
-        marginBottom: 5,
+        marginLeft: 10,
     },
     userImage: {
         width: 50,
         height: 50,
         borderRadius: 25,
-        marginRight: 10,
     },
-
-    // Body
     content: {
         margin: 10,
-        marginTop: 0,
     },
-    postImage: {
-        width: '100%',
-        aspectRatio: 1,
-    },
-    
-    // footer
     footer: {
         flexDirection: 'row',
-        paddingVertical: 10,
         justifyContent: 'space-around',
         borderTopWidth: 0.5,
         borderColor: 'lightgray',
+        paddingVertical: 10,
+    },
+    button: {
+        color: 'blue',
     }
 });
